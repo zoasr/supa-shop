@@ -7,7 +7,7 @@ interface CartStore {
 	refreshCart: () => Promise<void>;
 	setCart: (cart: any[]) => void;
 	setCount: (count: number) => void;
-	addToCart: (productId: number) => void;
+	addToCart: (productId: number, quantity: number) => void;
 	removeFromCart: (productId: number) => void;
 }
 
@@ -27,9 +27,9 @@ export const useCartStore = create<CartStore>((set, get) => ({
 	setCount: (count: number) => {
 		set({ count: count });
 	},
-	addToCart: async (productId: number) => {
+	addToCart: async (productId: number, quantity: number = 1) => {
 		set({ cart: [...(get().cart || []), { product_id: productId }] });
-		const res = await addToCart(productId);
+		const res = await addToCart(productId, quantity);
 		if (res instanceof Error) {
 			set({
 				cart: (get().cart || []).filter(

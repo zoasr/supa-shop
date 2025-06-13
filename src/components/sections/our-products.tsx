@@ -27,7 +27,7 @@ const OurProducts = () => {
 	return (
 		<>
 			<section dir={t("dir")}>
-				<div className="container py-8 my-8 space-y-8 border-y-2 border-skin-secondary">
+				<div className="container mx-auto py-8 my-8 space-y-8 border-y-2 border-skin-secondary">
 					<SectionLabel title={t("products.label")} />
 					<div className="flex flex-col gap-4 justify-between items-center w-full md:flex-row">
 						<h1 className="text-3xl font-semibold">

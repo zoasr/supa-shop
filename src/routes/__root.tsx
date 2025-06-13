@@ -34,7 +34,10 @@ const Root = () => {
 				)}
 			>
 				<Header />
-				<main className="flex-1 py-8 px-8 [view-transition-name:main-content]">
+				<main
+					className="flex-1 py-8 px-8 [view-transition-name:main-content]"
+					dir={i18n.language === "ar" ? "rtl" : "ltr"}
+				>
 					<Outlet />
 				</main>
 				<Footer />

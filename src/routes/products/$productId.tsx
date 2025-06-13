@@ -1,4 +1,4 @@
-import { supabase } from "@/utils/supabase";
+import { getCartItem, getProductBySlug } from "@/utils/supabase";
 import { createFileRoute, useLoaderData } from "@tanstack/react-router";
 
 import smallHeart from "@/assets/heart small.svg";
@@ -9,17 +9,47 @@ import deliveryIcon from "@/assets/icon-delivery.svg";
 import returnIcon from "@/assets/Icon-return.svg";
 import { useState } from "react";
 import { cn } from "$/lib/utils";
-import type { Product } from "@/utils/utils";
+import type { CartItem, Product } from "@/utils/utils";
 import { WishlistButton } from "@/components/wishlist-button";
+import CartButton from "@/components/cart-button";
+import { useTranslation } from "react-i18next";
 
-const getProductbyId: (id: string) => Promise<Product> = async (id: string) => {
-	const response = await supabase
-		.from("products")
-		.select("*")
-		.eq("product", id)
-		.single();
+const getProductbyId: (id: string) => Promise<{
+	product: Product | null | Error;
+	cart: CartItem | null | Error;
+}> = async (id: string) => {
+	const product = await getProductBySlug(id);
+	if (product instanceof Error) {
+		return {
+			product,
+			cart: null,
+		};
+	}
+	if (!product) {
+		return {
+			product: null,
+			cart: null,
+		};
+	}
+	const cart = await getCartItem(product.id);
 
-	return response.data;
+	if (cart instanceof Error) {
+		return {
+			product,
+			cart,
+		};
+	}
+	if (!cart) {
+		return {
+			product,
+			cart: null,
+		};
+	}
+
+	return {
+		product,
+		cart,
+	};
 };
 
 const clamp = (num: number, min: number, max: number) => {
@@ -27,12 +57,25 @@ const clamp = (num: number, min: number, max: number) => {
 };
 
 const Productpage = () => {
-	const [selected, setSelected] = useState<number>(0);
-	const [items, setItems] = useState<number>(1);
-
-	const product = useLoaderData({
+	const { product, cart } = useLoaderData({
 		from: "/products/$productId",
 	});
+	if (product instanceof Error) {
+		return <div>{product.message}</div>;
+	}
+	if (cart instanceof Error) {
+		return <div>{cart.message}</div>;
+	}
+	if (!product) {
+		return <div>Product not found</div>;
+	}
+	const [selected, setSelected] = useState<number>(0);
+	const [items, setItems] = useState<number>(cart?.quantity || 1);
+
+	console.log(cart);
+
+	const { t } = useTranslation();
+
 	return (
 		<>
 			<article className="container flex flex-col gap-8 justify-center items-center px-4 py-16 mx-auto md:flex-row">
@@ -54,15 +97,19 @@ const Productpage = () => {
 					</h1>
 					<div className="flex flex-wrap gap-4 items-center">
 						<div className="flex gap-1">
-							{[...Array(product.rating)].map((_, i) => (
-								<img
-									key={i}
-									src={filledStar}
-									alt="star"
-									className="w-4 h-4"
-								/>
-							))}
-							{[...Array(5 - product.rating)].map((_, i) => (
+							{[...Array.from({ length: product.rating })].map(
+								(_, i) => (
+									<img
+										key={i}
+										src={filledStar}
+										alt="star"
+										className="w-4 h-4"
+									/>
+								)
+							)}
+							{[
+								...Array.from({ length: 5 - product.rating }),
+							].map((_, i) => (
 								<img
 									key={i}
 									src={emptyStar}
@@ -71,9 +118,13 @@ const Productpage = () => {
 								/>
 							))}
 						</div>
-						<p>({product.reviews} Reviews)</p>
+						<p>
+							({product.reviews} {t("productIdPage.reviews")})
+						</p>
 						<span>|</span>
-						<p className="text-skin-button-1">In Stock</p>
+						<p className="text-skin-button-1">
+							{t("productIdPage.inStock")}
+						</p>
 					</div>
 					{product.price ? (
 						<h2 className="text-3xl">${product.price}</h2>
@@ -115,9 +166,17 @@ const Productpage = () => {
 								+
 							</button>
 						</div>
-						<button className="px-8 py-4 h-full text-nowrap font-medium rounded-lg sm:py-0 bg-skin-secondary-2 text-skin-text">
-							Buy now
-						</button>
+						<CartButton
+							productId={product.id}
+							quantity={items}
+							className="px-8 py-4 h-full w-[100px] data-[state=on]:w-[200px] text-nowrap font-medium rounded-lg sm:py-0 bg-skin-secondary-2 text-skin-text hover:bg-skin-button-hover hover:text-skin-text transition-all"
+						>
+							{(isAdded) =>
+								isAdded
+									? t("productIdPage.removeFromCartButton")
+									: t("productIdPage.buyNowButton")
+							}
+						</CartButton>
 						<WishlistButton
 							productId={product.id}
 							className="cursor-pointer px-4 py-4 h-full font-medium rounded-lg ring-2 transition-all duration-150 sm:py-0 group data-[state=on]:bg-skin-secondary-2 hover:bg-skin-button-hover focus:outline-skin-secondary-2 ring-black/30"
@@ -134,10 +193,12 @@ const Productpage = () => {
 							<img src={deliveryIcon} />
 							<div>
 								<h1 className="text-xl font-bold">
-									Free Delivery
+									{t("productIdPage.freeDelivery.title")}
 								</h1>
 								<p>
-									Enter your postal code to get free delivery
+									{t(
+										"productIdPage.freeDelivery.description"
+									)}
 								</p>
 							</div>
 						</div>
@@ -145,9 +206,13 @@ const Productpage = () => {
 							<img src={returnIcon} />
 							<div>
 								<h1 className="text-xl font-bold">
-									Return Delivery
+									{t("productIdPage.returnDelivery.title")}
 								</h1>
-								<p>Free 30 days return policy</p>
+								<p>
+									{t(
+										"productIdPage.returnDelivery.description"
+									)}
+								</p>
 							</div>
 						</div>
 					</div>

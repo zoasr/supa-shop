@@ -4,14 +4,15 @@ import { cn } from "$/lib/utils";
 import { Link, useRouter } from "@tanstack/react-router";
 import { removeFromCart } from "@/utils/supabase";
 import { useCartStore } from "@/store/cart";
-const WishlistCard = ({
+const CartCard = ({
 	id,
 	product,
 	imageUrl,
 	productName,
 	price,
 	discount,
-}: Product) => {
+	quantity = 1,
+}: Product & { quantity: number }) => {
 	const router = useRouter();
 	const count = useCartStore((state) => state.count);
 	const setCount = useCartStore((state) => state.setCount);
@@ -30,6 +31,11 @@ const WishlistCard = ({
 							src={imageUrl}
 							alt={productName}
 						/>
+						{quantity > 1 && (
+							<span className="absolute bottom-3 right-3 px-4 py-1 text-sm font-light rounded-md bg-skin-secondary-2 text-skin-text">
+								{quantity}
+							</span>
+						)}
 					</div>
 					<div className="flex absolute top-0 right-0 flex-col gap-2 p-3">
 						<button
@@ -66,19 +72,18 @@ const WishlistCard = ({
 									<span className="mr-3">
 										$
 										{(
-											price -
-											(price * discount) / 100
+											(price - (price * discount) / 100) *
+											quantity
 										).toFixed(2)}
 									</span>
 									<span className="line-through text-skin-button/50">
-										${price}
+										${(price * quantity).toFixed(2)}
 									</span>
 								</>
 							) : (
 								<span>${price}</span>
 							)
 						) : null}
-						{}
 					</p>
 				</Link>
 			</div>
@@ -86,4 +91,4 @@ const WishlistCard = ({
 	);
 };
 
-export default WishlistCard;
+export default CartCard;

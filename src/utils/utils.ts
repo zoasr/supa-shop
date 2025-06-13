@@ -23,3 +23,14 @@ export type Product = {
 	colors?: string[];
 	productDescription?: string;
 };
+
+export type CartItem = {
+	product_id: number;
+	user_id: string;
+	quantity: number;
+};
+
+export type WishlistItem = {
+	product_id: number;
+	user_id: string;
+};

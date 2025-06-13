@@ -9,11 +9,13 @@ type CartButtonProps = Omit<
 	"children"
 > & {
 	productId: number;
+	quantity?: number;
+	color?: string;
 	children: ReactNode | ((isAdded: boolean) => ReactNode);
 };
 
 const CartButton: React.FC<CartButtonProps> = memo(
-	({ productId, children, ...props }) => {
+	({ productId, children, quantity, color, ...props }) => {
 		const cart = useCartStore((state) => state.cart);
 		const count = useCartStore((state) => state.count);
 		const setCount = useCartStore((state) => state.setCount);
@@ -28,7 +30,7 @@ const CartButton: React.FC<CartButtonProps> = memo(
 			async (isOn: boolean) => {
 				if (isOn) {
 					setCount(count + 1);
-					await addToCart(productId);
+					await addToCart(productId, quantity);
 				} else {
 					setCount(count - 1);
 					await removeFromCart(productId);
