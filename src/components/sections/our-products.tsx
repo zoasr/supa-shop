@@ -34,7 +34,7 @@ const OurProducts = () => {
 							{t("products.title")}
 						</h1>
 					</div>
-					<div className="grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-4 place-items-center">
+					<div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4 place-items-center">
 						{isError && <ErrorComponent error={error} />}
 						{isPending && (
 							<Loader className="animate-spin size-20" />
@@ -50,6 +50,9 @@ const OurProducts = () => {
 						<Link
 							to="/products"
 							className="px-8 py-4 font-medium rounded-lg bg-skin-secondary-2 text-skin-text"
+							viewTransition={{
+								types: ["slide-left"],
+							}}
 						>
 							{t("products.button")}
 						</Link>

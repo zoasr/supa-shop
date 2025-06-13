@@ -21,4 +21,5 @@ export type Product = {
 	discount?: number;
 	isNew?: boolean;
 	colors?: string[];
+	productDescription?: string;
 };

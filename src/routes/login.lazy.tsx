@@ -37,10 +37,16 @@ const Login = () => {
 	};
 	return (
 		<>
-			<main className="flex flex-col-reverse gap-8 max-w-[1400px] justify-between px-8 my-10 md:flex-row">
-				<img src={sideImage} alt="side-image" />
+			<main className="flex flex-col-reverse gap-4 max-w-[1400px] justify-between px-8 my-10 lg:flex-row">
+				<div className="lg:w-1/2 w-full h-[100%]">
+					<img
+						src={sideImage}
+						alt="side-image"
+						className="w-[100%] h-[100%] object-cover"
+					/>
+				</div>
 				<form
-					className="flex flex-col gap-4 justify-center px-8"
+					className="flex flex-col gap-4 justify-center px-8 lg:w-1/2 w-full"
 					onSubmit={handleSubmit}
 				>
 					<h1 className="text-4xl font-medium">

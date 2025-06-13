@@ -9,12 +9,16 @@ import deliveryIcon from "@/assets/icon-delivery.svg";
 import returnIcon from "@/assets/Icon-return.svg";
 import { useState } from "react";
 import { cn } from "$/lib/utils";
+import type { Product } from "@/utils/utils";
+import { WishlistButton } from "@/components/wishlist-button";
 
-const getProductbyId = async (id: string) => {
+const getProductbyId: (id: string) => Promise<Product> = async (id: string) => {
 	const response = await supabase
 		.from("products")
 		.select("*")
-		.eq("product", id);
+		.eq("product", id)
+		.single();
+
 	return response.data;
 };
 
@@ -23,19 +27,28 @@ const clamp = (num: number, min: number, max: number) => {
 };
 
 const Productpage = () => {
-	const [selected, setSelected] = useState(0);
-	const [items, setItems] = useState(1);
+	const [selected, setSelected] = useState<number>(0);
+	const [items, setItems] = useState<number>(1);
 
-	const [product] = useLoaderData({
+	const product = useLoaderData({
 		from: "/products/$productId",
 	});
 	return (
 		<>
 			<article className="container flex flex-col gap-8 justify-center items-center px-4 py-16 mx-auto md:flex-row">
-				<div className="min-w-[500px] max-w-[1000px] min-h-[600px] p-20 bg-skin-secondary flex items-center justify-center rounded-lg">
-					<img src={product.imageUrl} alt="" className="size-full" />
+				<div
+					className="min-w-[300px] w-[100%] max-w-[700px] min-h-[600px] h-full p-10 bg-skin-secondary flex items-center justify-center rounded-lg"
+					style={{
+						viewTimelineName: `product-picture`,
+					}}
+				>
+					<img
+						src={product.imageUrl}
+						alt=""
+						className="lg:size-1/2 size-full "
+					/>
 				</div>
-				<div className="flex flex-col gap-4 justify-center items-center md:items-start">
+				<div className="flex flex-col gap-4 justify-center items-center sm:items-start">
 					<h1 className="text-3xl font-semibold">
 						{product.productName}
 					</h1>
@@ -80,7 +93,7 @@ const Productpage = () => {
 							></button>
 						))}
 					</div>
-					<div className="flex flex-col gap-4 justify-center items-center md:flex-row md:h-[50px]">
+					<div className="flex flex-col gap-4 justify-center items-center sm:flex-row sm:h-[50px]">
 						<div className="flex gap-0 h-full justify-center w-[200px] text-3xl text-center overflow-clip rounded-lg border-2 divide-x-2 divide-black/30 border-black/30">
 							<button
 								className="w-1/2 h-full font-medium transition-all duration-150 text-skin-secondary-2 hover:bg-skin-secondary-2 hover:text-skin-text"
@@ -94,7 +107,7 @@ const Productpage = () => {
 								{items}
 							</p>
 							<button
-								className="w-1/2 h-full font-medium transition-all duration-150 text-skin-secondary-2 hover:bg-skin-secondary-2 hover:text-skin-text"
+								className="w-1/2 h-full font-medium  transition-all duration-150 text-skin-secondary-2 hover:bg-skin-secondary-2 hover:text-skin-text"
 								onClick={() =>
 									setItems(clamp(items + 1, 1, 10))
 								}
@@ -102,16 +115,19 @@ const Productpage = () => {
 								+
 							</button>
 						</div>
-						<button className="px-8 py-4 h-full font-medium rounded-lg md:py-0 bg-skin-secondary-2 text-skin-text">
+						<button className="px-8 py-4 h-full text-nowrap font-medium rounded-lg sm:py-0 bg-skin-secondary-2 text-skin-text">
 							Buy now
 						</button>
-						<button className="px-4 py-4 h-full font-medium rounded-lg ring-2 transition-all duration-150 md:py-0 group hover:bg-skin-secondary-2 focus:bg-skin-secondary-2 ring-black/30">
+						<WishlistButton
+							productId={product.id}
+							className="cursor-pointer px-4 py-4 h-full font-medium rounded-lg ring-2 transition-all duration-150 sm:py-0 group data-[state=on]:bg-skin-secondary-2 hover:bg-skin-button-hover focus:outline-skin-secondary-2 ring-black/30"
+						>
 							<img
 								src={smallHeart}
-								className="group-hover:invert group-focus-visible:invert"
+								className="group-hover:invert group-focus-visible:invert group-data-[state=on]:invert"
 								alt=""
 							/>
-						</button>
+						</WishlistButton>
 					</div>
 					<div className="w-full rounded-lg border-2 divide-y-2 border-black/30 divide-black/30">
 						<div className="flex gap-4 justify-start p-8">

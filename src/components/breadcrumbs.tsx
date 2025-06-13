@@ -11,15 +11,21 @@ import {
 } from "$/components/ui/breadcrumb";
 import { Fragment } from "react/jsx-runtime";
 
-const toTitleCase = (str: string) => {
-	return str.replace(/\w\S*/g, function (txt) {
-		return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-	});
+const toTitleCase = (str: string): string => {
+	return str
+		.split(/[\s-]+/)
+		.map(
+			(word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+		)
+		.join(" ");
 };
 
 const Breadcrumbs = () => {
-	const { location } = useRouterState();
-	const breadCrumbs = location.href.split("/").filter(Boolean);
+	const location = useRouterState({
+		select: (state) => state.location.pathname,
+	});
+	const breadCrumbs = location.split("/").filter(Boolean);
+
 	return (
 		<Breadcrumb className="mb-10">
 			<BreadcrumbList>
@@ -34,6 +40,9 @@ const Breadcrumbs = () => {
 											.slice(0, index + 1)
 											.join("/")
 									}
+									viewTransition={{
+										types: ["scale-up"],
+									}}
 								>
 									{toTitleCase(crumb)}
 								</Link>

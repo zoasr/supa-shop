@@ -16,7 +16,7 @@ import "@fontsource/poppins/800.css";
 import "@fontsource/poppins/900.css";
 import { useTranslation } from "react-i18next";
 import { cn } from "$/lib/utils";
-import Header from "@/components/header";
+import Header from "@/components/Header";
 import Footer from "@/components/footer";
 
 const Root = () => {
@@ -34,7 +34,7 @@ const Root = () => {
 				)}
 			>
 				<Header />
-				<main className="flex-1 py-8">
+				<main className="flex-1 py-8 px-8 [view-transition-name:main-content]">
 					<Outlet />
 				</main>
 				<Footer />

@@ -17,7 +17,7 @@ const Footer = () => {
 							placeholder="Enter your email"
 							className="bg-transparent outline-none flex-shrink-1"
 						/>
-						<button className="flex-1 flex-shrink-0">
+						<button className="flex-1 shrink-0">
 							<img src={sendIcon} className="invert" alt="" />
 						</button>
 					</label>
@@ -34,19 +34,19 @@ const Footer = () => {
 					<h2 className="text-xl font-medium">Account</h2>
 					<ul className="flex flex-col gap-2">
 						<li>
-							<Link>My Account</Link>
+							<Link to="/account">My Account</Link>
 						</li>
 						<li>
-							<Link>Login / Register</Link>
+							<Link to="/login">Login / Register</Link>
 						</li>
 						<li>
-							<Link>Cart</Link>
+							<Link to="/account/cart">Cart</Link>
 						</li>
 						<li>
-							<Link>Wishlist</Link>
+							<Link to="/account/wishlist">Wishlist</Link>
 						</li>
 						<li>
-							<Link>Shop</Link>
+							<Link to="/products">Shop</Link>
 						</li>
 					</ul>
 				</div>
@@ -54,16 +54,16 @@ const Footer = () => {
 					<h2 className="text-xl font-medium">Quick Links</h2>
 					<ul className="flex flex-col gap-2">
 						<li>
-							<Link>Privacy policy</Link>
+							<Link to="/">Privacy policy</Link>
 						</li>
 						<li>
-							<Link>Terms of use</Link>
+							<Link to="/">Terms of use</Link>
 						</li>
 						<li>
-							<Link>FAQ</Link>
+							<Link to="/">FAQ</Link>
 						</li>
 						<li>
-							<Link>Contact</Link>
+							<Link to="/">Contact</Link>
 						</li>
 					</ul>
 				</div>

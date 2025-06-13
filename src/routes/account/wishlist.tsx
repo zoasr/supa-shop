@@ -1,4 +1,5 @@
 import WishlistCard from "@/components/wishlist-card";
+import { useWishlistStore } from "@/store/wishlist";
 import { getProduct, getWishList, isLoggedIn } from "@/utils/supabase";
 import {
 	createFileRoute,
@@ -16,14 +17,16 @@ export const Route = createFileRoute("/account/wishlist")({
 		}
 	},
 	loader: async () => {
+		const refreshWishlist = useWishlistStore.getState().refreshWishlist;
 		const wishlist = await getWishList();
 		const products = [];
-		if (wishlist) {
+		if (wishlist instanceof Array) {
 			for (const item of wishlist) {
 				const product = await getProduct(item.product_id);
 				product ? products.push(product[0]) : null;
 			}
 		}
+		await refreshWishlist();
 		return products;
 	},
 	component: Page,
@@ -43,7 +46,7 @@ function Page() {
 					Move all to cart
 				</button>
 			</div>
-			<div className="container mx-auto grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-4 place-items-center">
+			<div className="container mx-auto grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4 place-items-center">
 				{wishList &&
 					wishList.map((product) => (
 						<WishlistCard key={product.id} {...product} />

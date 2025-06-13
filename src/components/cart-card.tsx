@@ -2,9 +2,8 @@ import deleteIcon from "@/assets/icon-delete.svg";
 import type { Product } from "@/utils/utils";
 import { cn } from "$/lib/utils";
 import { Link, useRouter } from "@tanstack/react-router";
-import { removeFromWishList } from "@/utils/supabase";
-import { useWishlistStore } from "@/store/wishlist";
-import CartButton from "./cart-button";
+import { removeFromCart } from "@/utils/supabase";
+import { useCartStore } from "@/store/cart";
 const WishlistCard = ({
 	id,
 	product,
@@ -14,8 +13,8 @@ const WishlistCard = ({
 	discount,
 }: Product) => {
 	const router = useRouter();
-	const count = useWishlistStore((state) => state.count);
-	const setCount = useWishlistStore((state) => state.setCount);
+	const count = useCartStore((state) => state.count);
+	const setCount = useCartStore((state) => state.setCount);
 	return (
 		<>
 			<div className="min-w-[300px] w-[300px] group/card">
@@ -25,12 +24,7 @@ const WishlistCard = ({
 							-{discount}%
 						</span>
 					)}
-					<div
-						className="max-[270px] h-[250px] bg-skin-secondary flex items-center justify-center"
-						style={{
-							viewTimelineName: `product-picture-${id}`,
-						}}
-					>
+					<div className="max-[270px] h-[250px] bg-skin-secondary flex items-center justify-center">
 						<img
 							className="object-cover w-full rounded-lg max-w-[140px]"
 							src={imageUrl}
@@ -46,7 +40,7 @@ const WishlistCard = ({
 							)}
 							onClick={() => {
 								router.invalidate();
-								removeFromWishList(id);
+								removeFromCart(id);
 								if (count > 0) {
 									setCount(count - 1);
 								}
@@ -59,28 +53,10 @@ const WishlistCard = ({
 							/>
 						</button>
 					</div>
-					<CartButton
-						productId={id}
-						className={cn(
-							"absolute bottom-0 left-0 py-2 w-full text-center transition-all translate-y-full cursor-pointer group-hover/card:translate-y-0 hover:bg-skin-primary-1 bg-skin-button text-skin-text hover:text-skin-text",
-							""
-						)}
-					>
-						{(isAdded) =>
-							isAdded ? (
-								<span>Remove from Cart</span>
-							) : (
-								<span>Add to Cart</span>
-							)
-						}
-					</CartButton>
 				</div>
 				<Link
 					to="/products/$productId"
 					params={{ productId: product.toString() }}
-					viewTransition={{
-						types: ["scale-up"],
-					}}
 				>
 					<h2 className="text-lg font-medium">{productName}</h2>
 					<p className="font-medium text-skin-secondary-2">
