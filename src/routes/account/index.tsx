@@ -4,7 +4,7 @@ import { createFileRoute, redirect } from "@tanstack/react-router";
 export const Route = createFileRoute("/account/")({
 	beforeLoad: async () => {
 		const loggedIn = await isLoggedIn();
-		if (!loggedIn) {
+		if (!loggedIn || loggedIn instanceof Error) {
 			throw redirect({
 				to: "/login",
 			});

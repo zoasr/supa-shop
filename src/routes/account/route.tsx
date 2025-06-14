@@ -4,7 +4,7 @@ import Breadcrumbs from "@/components/breadcrumbs";
 
 const Layout = () => {
 	return (
-		<div className="container py-20 mx-auto">
+		<div className="container py-10 mx-auto">
 			<Breadcrumbs />
 			<Outlet />
 		</div>

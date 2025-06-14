@@ -20,7 +20,17 @@ export const isLoggedIn: () => Promise<boolean | AuthError> = async () => {
 	return false;
 };
 
-export const getProducts = async () => {
+export const getProducts = async (limit?: number) => {
+	if (limit) {
+		const response: { data: Product[] | null; error: Error | null } =
+			await supabase.from("products").select("*").limit(limit);
+		if (response.error) {
+			return response.error;
+		}
+		if (response.data) {
+			return response.data;
+		}
+	}
 	const response: { data: Product[] | null; error: Error | null } =
 		await supabase.from("products").select("*");
 
@@ -143,7 +153,7 @@ export const getWishList: (
 
 export const addToCart: (
 	producId: number | string,
-	quantity: number
+	quantity?: number
 ) => Promise<CartItem[] | null | Error> = async (
 	producId: number | string,
 	quantity: number = 1
@@ -174,6 +184,28 @@ export const addToCart: (
 		if (data) {
 			return data;
 		}
+	}
+	return null;
+};
+
+export const modifyCart: (
+	producId: number | string,
+	quantity?: number
+) => Promise<CartItem[] | null | Error> = async (
+	producId: number | string,
+	quantity: number = 1
+) => {
+	const { data, error } = await supabase
+		.from("cart")
+		.update({ quantity: quantity })
+		.eq("product_id", producId)
+		.select();
+
+	if (error) {
+		return error;
+	}
+	if (data) {
+		return data;
 	}
 	return null;
 };

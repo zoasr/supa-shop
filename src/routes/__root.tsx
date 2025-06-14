@@ -18,6 +18,7 @@ import { useTranslation } from "react-i18next";
 import { cn } from "$/lib/utils";
 import Header from "@/components/Header";
 import Footer from "@/components/footer";
+import { Toaster } from "sonner";
 
 const Root = () => {
 	const { i18n } = useTranslation();
@@ -41,6 +42,7 @@ const Root = () => {
 					<Outlet />
 				</main>
 				<Footer />
+				<Toaster position="bottom-right" richColors />
 				<TanStackRouterDevtools />
 			</div>
 		</>

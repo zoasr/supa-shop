@@ -11,7 +11,7 @@ import {
 export const Route = createFileRoute("/account/cart")({
 	beforeLoad: async () => {
 		const loggedIn = await isLoggedIn();
-		if (!loggedIn) {
+		if (!loggedIn || loggedIn instanceof Error) {
 			throw redirect({
 				to: "/login",
 			});
@@ -24,7 +24,7 @@ export const Route = createFileRoute("/account/cart")({
 		if (cart instanceof Array) {
 			for (const item of cart) {
 				const product = await getProduct(item.product_id);
-				product ? products.push(product) : null;
+				product instanceof Error ? null : products.push(product);
 			}
 		}
 		await refreshCart();
@@ -48,18 +48,20 @@ function Page() {
 			<div className="container mx-auto grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4 place-items-center">
 				{cart instanceof Array &&
 					products instanceof Array &&
-					products.map((product) => (
-						<CartCard
-							key={product.id}
-							{...product}
-							quantity={
-								(cart as CartItem[]).find(
-									(item: { product_id: number }) =>
-										item.product_id === product.id
-								)?.quantity || 1
-							}
-						/>
-					))}
+					products.map((product) =>
+						product ? (
+							<CartCard
+								key={product.id}
+								{...product}
+								quantity={
+									(cart as CartItem[]).find(
+										(item: { product_id: number }) =>
+											item.product_id === product.id
+									)?.quantity || 1
+								}
+							/>
+						) : null
+					)}
 			</div>
 		</>
 	);

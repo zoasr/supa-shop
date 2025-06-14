@@ -1,14 +1,21 @@
-import { addToCart, getCart, removeFromCart } from "@/utils/supabase";
+import {
+	addToCart,
+	getCart,
+	modifyCart,
+	removeFromCart,
+} from "@/utils/supabase";
+import type { CartItem } from "@/utils/utils";
 import { create } from "zustand";
 
 interface CartStore {
 	count: number;
-	cart: any[] | null;
+	cart: Omit<CartItem, "user_id">[] | null;
 	refreshCart: () => Promise<void>;
-	setCart: (cart: any[]) => void;
+	setCart: (cart: Omit<CartItem, "user_id">[]) => void;
 	setCount: (count: number) => void;
-	addToCart: (productId: number, quantity: number) => void;
-	removeFromCart: (productId: number) => void;
+	addToCart: (productId: number, quantity: number) => Promise<void>;
+	removeFromCart: (productId: number) => Promise<void>;
+	modifyCart: (productId: number, quantity: number) => Promise<void>;
 }
 
 export const useCartStore = create<CartStore>((set, get) => ({
@@ -21,14 +28,16 @@ export const useCartStore = create<CartStore>((set, get) => ({
 		}
 		set({ count: cart?.length || 0, cart: cart || [] });
 	},
-	setCart: (cart: any[]) => {
+	setCart: (cart: Omit<CartItem, "user_id">[]) => {
 		set({ cart: cart });
 	},
 	setCount: (count: number) => {
 		set({ count: count });
 	},
 	addToCart: async (productId: number, quantity: number = 1) => {
-		set({ cart: [...(get().cart || []), { product_id: productId }] });
+		set({
+			cart: [...(get().cart || []), { product_id: productId, quantity }],
+		});
 		const res = await addToCart(productId, quantity);
 		if (res instanceof Error) {
 			set({
@@ -47,7 +56,32 @@ export const useCartStore = create<CartStore>((set, get) => ({
 		});
 		const res = await removeFromCart(productId);
 		if (res instanceof Error) {
-			set({ cart: [...(get().cart || []), { product_id: productId }] });
+			set({
+				cart: [
+					...(get().cart || []),
+					{ product_id: productId, quantity: 1 },
+				],
+			});
+		}
+	},
+	modifyCart: async (productId: number, quantity: number = 1) => {
+		// First update the UI optimistically
+		set((state) => ({
+			cart: (state.cart || []).map((item) =>
+				item.product_id === productId ? { ...item, quantity } : item
+			),
+		}));
+
+		// Then update the server
+		const res = await modifyCart(productId, quantity);
+		if (res instanceof Error) {
+			// Revert on error
+			const currentCart = get().cart;
+			if (currentCart) {
+				set({
+					cart: [...currentCart, { product_id: productId, quantity }],
+				});
+			}
 		}
 	},
 }));
