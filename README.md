@@ -207,7 +207,7 @@ VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 git clone https://github.com/yourusername/e-commerce-supabase.git
 
 # Navigate to project directory
-cd e-commerce-supabase
+cd supa-shop
 
 # Install dependencies
 pnpm install
