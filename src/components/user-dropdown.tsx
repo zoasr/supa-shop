@@ -14,8 +14,9 @@ import { cn } from "$/lib/utils";
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { supabase } from "@/utils/supabase";
-
+import { useRouter } from "@tanstack/react-router";
 const UserDropdown = () => {
+	const router = useRouter();
 	const [open, setOpen] = useState(false);
 	const handleChange = (open: boolean) => {
 		setOpen(open);
@@ -63,6 +64,7 @@ const UserDropdown = () => {
 						<button
 							onClick={() => {
 								supabase.auth.signOut();
+								router.invalidate();
 							}}
 						>
 							Logout

@@ -91,6 +91,31 @@ const footerTranslation = {
 	},
 };
 
+const wishlistTranslation = {
+	en: {
+		translation: {
+			wishlist: {
+				title: "Wishlist",
+				moveAllToBag: "Move All To Cart",
+				addToCart: "Add To Cart",
+				justForYou: "Just For You",
+				seeAll: "See All",
+			},
+		},
+	},
+	ar: {
+		translation: {
+			wishlist: {
+				title: "قائمة الرغبات",
+				moveAllToBag: "نقل الكل إلى السلة",
+				addToCart: "أضف إلى السلة",
+				justForYou: "من أجلك فقط",
+				seeAll: "عرض الكل",
+			},
+		},
+	},
+};
+
 const headerTranslation = {
 	en: {
 		translation: {
@@ -296,19 +321,19 @@ const breadcrumbsTranslation = {
 			breadcrumbs: {
 				home: "Home",
 				products: "Products",
-				productId: "{{productName}}" // Will be replaced with actual product name
-			}
-		}
+				productId: "{{productName}}", // Will be replaced with actual product name
+			},
+		},
 	},
 	ar: {
 		translation: {
 			breadcrumbs: {
 				home: "الرئيسية",
 				products: "المنتجات",
-				productId: "{{productName}}" // Will be replaced with actual product name
-			}
-		}
-	}
+				productId: "{{productName}}", // Will be replaced with actual product name
+			},
+		},
+	},
 };
 
 const prodcutIdPageTranslation = {
@@ -352,6 +377,28 @@ const prodcutIdPageTranslation = {
 	},
 };
 
+// Common translations
+const commonTranslation = {
+	en: {
+		translation: {
+			common: {
+				processing: "Processing...",
+				productAdded: "Product {{productName}} added to cart",
+				productError: "Failed to add {{productName}} to cart",
+			},
+		},
+	},
+	ar: {
+		translation: {
+			common: {
+				processing: "جاري التحميل...",
+				productAdded: "تمت إضافة {{productName}} إلى السلة",
+				productError: "فشل إضافة {{productName}} إلى السلة",
+			},
+		},
+	},
+};
+
 const resources = {
 	en: {
 		translation: {
@@ -368,6 +415,8 @@ const resources = {
 			...footerTranslation["en"].translation,
 			...prodcutIdPageTranslation["en"].translation,
 			...breadcrumbsTranslation["en"].translation,
+			...wishlistTranslation["en"].translation,
+			...commonTranslation["en"].translation,
 		},
 	},
 	ar: {
@@ -385,6 +434,8 @@ const resources = {
 			...footerTranslation["ar"].translation,
 			...prodcutIdPageTranslation["ar"].translation,
 			...breadcrumbsTranslation["ar"].translation,
+			...wishlistTranslation["ar"].translation,
+			...commonTranslation["ar"].translation,
 		},
 	},
 };

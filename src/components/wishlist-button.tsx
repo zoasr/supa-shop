@@ -3,6 +3,7 @@ import { useWishlistStore } from "@/store/wishlist";
 import { useCallback, useMemo } from "react";
 import * as TogglePrimitive from "@radix-ui/react-toggle";
 import { useShallow } from "zustand/react/shallow";
+import { useRouter } from "@tanstack/react-router";
 
 export const WishlistButton = ({
 	productId,
@@ -12,6 +13,7 @@ export const WishlistButton = ({
 	productId: number;
 	children: React.ReactNode;
 }) => {
+	const router = useRouter();
 	const wishlist = useWishlistStore(useShallow((state) => state.wishlist));
 	const count = useWishlistStore(useShallow((state) => state.count));
 	const setCount = useWishlistStore(useShallow((state) => state.setCount));
@@ -34,6 +36,7 @@ export const WishlistButton = ({
 				setCount(count - 1);
 				await removeFromWishList(productId);
 			}
+			router.invalidate();
 		},
 		[productId, wishlist, count, setCount]
 	);
