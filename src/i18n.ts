@@ -378,6 +378,43 @@ const prodcutIdPageTranslation = {
 };
 
 // Common translations
+const cartTranslation = {
+	en: {
+		translation: {
+			cart: {
+				title: "Cart",
+				productName: "Product Name",
+				price: "Price",
+				quantity: "Quantity",
+				subtotal: "Subtotal",
+				returnToShop: "Return to Shop",
+				cartEmpty: "Your cart is empty",
+				productRemoved: "{{productName}} removed from cart",
+				quantityUpdated: "{{productName}} quantity updated to {{quantity}}",
+				updateError: "Failed to update cart",
+				removeError: "Failed to remove item from cart",
+			},
+		},
+	},
+	ar: {
+		translation: {
+			cart: {
+				title: "سلة التسوق",
+				productName: "اسم المنتج",
+				price: "السعر",
+				quantity: "الكمية",
+				subtotal: "المجموع الفرعي",
+				returnToShop: "العودة للتسوق",
+				cartEmpty: "سلة التسوق فارغة",
+				productRemoved: "تمت إزالة {{productName}} من السلة",
+				quantityUpdated: "تم تحديث كمية {{productName}} إلى {{quantity}}",
+				updateError: "فشل تحديث السلة",
+				removeError: "فشل إزالة المنتج من السلة",
+			},
+		},
+	},
+};
+
 const commonTranslation = {
 	en: {
 		translation: {
@@ -417,6 +454,7 @@ const resources = {
 			...breadcrumbsTranslation["en"].translation,
 			...wishlistTranslation["en"].translation,
 			...commonTranslation["en"].translation,
+			...cartTranslation["en"].translation,
 		},
 	},
 	ar: {
@@ -436,6 +474,7 @@ const resources = {
 			...breadcrumbsTranslation["ar"].translation,
 			...wishlistTranslation["ar"].translation,
 			...commonTranslation["ar"].translation,
+			...cartTranslation["ar"].translation,
 		},
 	},
 };

@@ -3,6 +3,7 @@ import { useCartStore } from "@/store/cart";
 import { memo, useCallback, useMemo } from "react";
 import type { ReactNode } from "react";
 import * as TogglePrimitive from "@radix-ui/react-toggle";
+import { useRouter } from "@tanstack/react-router";
 
 type CartButtonProps = Omit<
 	React.ComponentProps<typeof TogglePrimitive.Root>,
@@ -21,7 +22,7 @@ const CartButton: React.FC<CartButtonProps> = memo(
 		const setCount = useCartStore((state) => state.setCount);
 		const addToCart = useCartStore((state) => state.addToCart);
 		const removeFromCart = useCartStore((state) => state.removeFromCart);
-
+		const router = useRouter();
 		const isAdded = useMemo(
 			() => cart?.some((item) => item.product_id === productId),
 			[cart, productId]
@@ -35,6 +36,7 @@ const CartButton: React.FC<CartButtonProps> = memo(
 					setCount(count - 1);
 					await removeFromCart(productId);
 				}
+				router.invalidate();
 			},
 			[productId, count, setCount, addToCart, removeFromCart]
 		);

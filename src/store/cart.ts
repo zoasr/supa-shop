@@ -13,7 +13,7 @@ interface CartStore {
 	refreshCart: () => Promise<void>;
 	setCart: (cart: Omit<CartItem, "user_id">[]) => void;
 	setCount: (count: number) => void;
-	addToCart: (productId: number, quantity: number) => Promise<void>;
+	addToCart: (productId: number, quantity?: number) => Promise<void>;
 	removeFromCart: (productId: number) => Promise<void>;
 	modifyCart: (productId: number, quantity: number) => Promise<void>;
 }
