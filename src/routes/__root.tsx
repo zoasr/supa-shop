@@ -29,7 +29,7 @@ const Root = () => {
 				className={cn(
 					{
 						"font-rubik": i18n.language === "ar",
-						"font-inter": i18n.language === "en",
+						"font-poppins": i18n.language === "en",
 					},
 					"flex flex-col justify-between min-h-screen"
 				)}

@@ -6,9 +6,8 @@
 
 body {
 	@apply m-0;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-		"Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-		"Helvetica Neue", sans-serif;
+	/* font-family: poppins, "Inter Variable", rubik, "Segoe UI", Tahoma, Geneva,
+		Verdana, sans-serif; */
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
@@ -150,6 +149,10 @@ input[type="reset"] {
 	--color-skin-button-2: hsl(0, 68%, 56%);
 	--color-skin-button-hover: hsl(0, 63%, 67%);
 	--color-skin-button-hover-1: hsl(214, 51%, 75%);
+
+	--font-rubik: "Rubik Variable", sans-serif;
+	--font-poppins: "Poppins", sans-serif;
+	--font-inter: "Inter Variable", sans-serif;
 }
 
 @layer base {
