@@ -63,11 +63,11 @@ const CartCardDetailed = ({ product }: { product: Product }) => {
 	};
 	return (
 		<>
-			<div className="flex justify-between items-center w-full  shadow-[0_0_10px_0_rgba(0,0,0,0.1)] py-7 px-16 rounded-md font-bold text-center">
-				<div className="flex flex-1 basis-1/4 gap-4 items-center">
-					<div className="size-16 relative group">
+			<div className="flex justify-between items-center w-full flex-col sm:flex-row gap-4 shadow-[0_0_10px_0_rgba(0,0,0,0.1)] py-7 px-16 rounded-md font-bold text-center">
+				<div className="flex flex-1 basis-1/4 gap-4 items-center justify-center sm:flex-row flex-col">
+					<div className="size-auto relative group">
 						<img
-							className="size-full"
+							className="size-full object-cover"
 							src={product.imageUrl}
 							alt={product.productName}
 						/>
@@ -95,6 +95,7 @@ const CartCardDetailed = ({ product }: { product: Product }) => {
 					<Input
 						type="number"
 						max={10}
+						min={1}
 						className="w-16"
 						value={quantity}
 						onChange={async (e) => {
@@ -126,7 +127,7 @@ function Page() {
 				</h1>
 			</div>
 			<div className="container mx-auto grid gap-4 place-items-center">
-				<div className="flex justify-between items-center w-full bg-skin-secondary shadow-[0_0_10px_0_rgba(0,0,0,0.1)] py-7 px-16 rounded-md font-bold text-center">
+				<div className="justify-between items-center hidden sm:flex w-full bg-skin-secondary shadow-[0_0_10px_0_rgba(0,0,0,0.1)] py-7 px-16 rounded-md font-bold text-center">
 					<div className="flex flex-1 basis-1/4 gap-4 items-center">
 						<h2>Product Name</h2>
 					</div>
