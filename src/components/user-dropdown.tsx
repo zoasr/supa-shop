@@ -12,7 +12,7 @@ import {
 } from "$/components/ui/dropdown-menu";
 import { cn } from "$/lib/utils";
 import { useState } from "react";
-import { Link } from "@tanstack/react-router";
+import { Link, useLoaderData } from "@tanstack/react-router";
 import { supabase } from "@/utils/supabase";
 import { useRouter } from "@tanstack/react-router";
 const UserDropdown = () => {
@@ -21,6 +21,7 @@ const UserDropdown = () => {
 	const handleChange = (open: boolean) => {
 		setOpen(open);
 	};
+	const { imageUrl } = useLoaderData({ from: "__root__" });
 	return (
 		<>
 			<DropdownMenu onOpenChange={handleChange} open={open} modal={false}>
@@ -36,10 +37,10 @@ const UserDropdown = () => {
 					)}
 				>
 					<img
-						src={userIcon}
+						src={imageUrl ? imageUrl : userIcon}
 						alt=""
 						className={cn(
-							"group-hover:invert group-focus-visible:invert group-active:invert",
+							"group-hover:invert group-focus-visible:invert group-active:invert size-10 rounded-full",
 							{
 								invert: open,
 							}

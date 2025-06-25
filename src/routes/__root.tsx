@@ -19,10 +19,10 @@ import { cn } from "$/lib/utils";
 import Header from "@/components/Header";
 import Footer from "@/components/footer";
 import { Toaster } from "sonner";
+import { getUserImage } from "@/utils/supabase";
 
 const Root = () => {
 	const { i18n } = useTranslation();
-
 	return (
 		<>
 			<div
@@ -50,5 +50,9 @@ const Root = () => {
 };
 
 export const Route = createRootRoute({
+	loader: async () => {
+		const imageUrl = await getUserImage();
+		return { imageUrl };
+	},
 	component: Root,
 });
