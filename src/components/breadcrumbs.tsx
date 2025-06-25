@@ -33,7 +33,11 @@ const Breadcrumbs = () => {
 	const { location, matches } = useRouterState();
 	const breadcrumbs = useMemo<BreadcrumbItem[]>(() => {
 		const segments = matches
-			.filter((match) => match.pathname !== "/")
+			// filter out index routes like account and account/
+			.filter(
+				(match) =>
+					match.pathname !== "/" && !match.pathname.endsWith("/")
+			)
 			.map((match) => ({
 				path: match.pathname,
 				segment: match.pathname.split("/").pop() || "",
