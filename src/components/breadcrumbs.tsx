@@ -12,76 +12,51 @@ import {
 import { Fragment, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
-// Helper function to get the product name from the path
-const getProductNameFromPath = (path: string): string => {
-  // This is a simple implementation - you might want to fetch the actual product name
-  // from your state management or API based on the product ID
-  const parts = path.split('/');
-  const productId = parts[parts.length - 1];
-  return `Product ${productId}`; // Default fallback
-};
-
 interface BreadcrumbItem {
 	path: string;
 	segment: string;
 	translationKey: string;
 	translationParams: Record<string, string>;
 	isLast: boolean;
+	isDynamic: boolean;
 }
+
+const toTitleCase = (str: string) => {
+	return str
+		.split("-")
+		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+		.join(" ");
+};
 
 const Breadcrumbs = () => {
 	const { t } = useTranslation();
-	const { location } = useRouterState();
-
+	const { location, matches } = useRouterState();
 	const breadcrumbs = useMemo<BreadcrumbItem[]>(() => {
-		const segments = location.pathname.split("/").filter(Boolean);
-		
-		// Handle root path
-		if (segments.length === 0) {
-			return [{
-				path: "/",
-				segment: "home",
-				translationKey: "/",
+		const segments = matches
+			.filter((match) => match.pathname !== "/")
+			.map((match) => ({
+				path: match.pathname,
+				segment: match.pathname.split("/").pop() || "",
+				translationKey: match.pathname.split("/").pop() || "",
 				translationParams: {},
-				isLast: true
-			}];
-		}
+				isLast: false,
+				isDynamic: Object.keys(match.params).length > 0,
+			}));
 
-		return segments.map((segment: string, index: number) => {
-			const path = `/${segments.slice(0, index + 1).join("/")}`;
-			const isDynamic = /^\d+$/.test(segment);
-
-			let translationKey = path;
-			const translationParams: Record<string, string> = {};
-
-			if (isDynamic) {
-				const parentPath = segments.slice(0, index).join("/");
-				translationKey = `/${parentPath}/:id`;
-				translationParams.id = segment;
-			}
-
+		return segments.map((segment, index) => {
 			return {
-				path,
-				segment: segment === "products" ? "products" : 
-					  isDynamic && segments[index - 1] === "products" ? "$productId" : segment,
-				translationKey: isDynamic && segments[index - 1] === "products" ? "/products/$productId" : translationKey,
-				translationParams: isDynamic && segments[index - 1] === "products" ? { productId: segment } : translationParams,
+				path: segment.path,
+				segment: segment.segment,
+				translationKey: segment.translationKey,
+				translationParams: {},
 				isLast: index === segments.length - 1,
+				isDynamic: segment.isDynamic,
 			};
 		});
-	}, [location.pathname]);
-
-	// Helper function to format segment for display
-	const formatSegment = (segment: string): string => {
-		// Convert kebab-case to Title Case
-		return segment
-			.split('-')
-			.map(word => word.charAt(0).toUpperCase() + word.slice(1))
-			.join(' ');
-	};
+	}, [matches]);
 
 	// Don't show breadcrumbs if we're on the home page
-	if (location.pathname === '/') {
+	if (location.pathname === "/") {
 		return null;
 	}
 
@@ -90,43 +65,26 @@ const Breadcrumbs = () => {
 			<BreadcrumbList>
 				<BreadcrumbItem>
 					<BreadcrumbLink asChild>
-						<Link 
-							to="/" 
+						<Link
+							to="/"
 							className="hover:underline"
 							viewTransition={{
 								types: ["scale-up"],
 							}}
 						>
-							Home
+							{t("breadcrumbs./")}
 						</Link>
 					</BreadcrumbLink>
 				</BreadcrumbItem>
 				{breadcrumbs.map(
-					({
-						path,
-						segment,
-						translationKey,
-						translationParams,
-						isLast,
-					}) => (
+					({ path, isLast, isDynamic, translationKey }) => (
 						<Fragment key={path}>
 							<BreadcrumbSeparator>
 								<Slash className="h-4 w-4" />
 							</BreadcrumbSeparator>
 							<BreadcrumbItem>
-								{isLast ? (
-									<span className="font-medium text-foreground">
-									{segment === '$productId' 
-										? t('breadcrumbs.productId', { 
-											productName: getProductNameFromPath(path) 
-										})
-										: segment === 'products' 
-										? t('breadcrumbs.products')
-										: formatSegment(segment)
-									}
-								</span>
-								) : (
-									<BreadcrumbLink asChild>
+								<BreadcrumbLink asChild>
+									{isLast && isDynamic ? (
 										<Link
 											to={path}
 											className="hover:underline"
@@ -134,17 +92,20 @@ const Breadcrumbs = () => {
 												types: ["scale-up"],
 											}}
 										>
-											{segment === '$productId' 
-												? t('breadcrumbs.productId', { 
-													productName: getProductNameFromPath(path) 
-												})
-												: segment === 'products' 
-												? t('breadcrumbs.products')
-												: formatSegment(segment)
-											}
+											{toTitleCase(translationKey)}
 										</Link>
-									</BreadcrumbLink>
-								)}
+									) : (
+										<Link
+											to={path}
+											className="hover:underline"
+											viewTransition={{
+												types: ["scale-up"],
+											}}
+										>
+											{t(`breadcrumbs.${translationKey}`)}
+										</Link>
+									)}
+								</BreadcrumbLink>
 							</BreadcrumbItem>
 						</Fragment>
 					)

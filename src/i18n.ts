@@ -319,18 +319,24 @@ const breadcrumbsTranslation = {
 	en: {
 		translation: {
 			breadcrumbs: {
-				home: "Home",
+				"/": "Home",
 				products: "Products",
-				productId: "{{productName}}", // Will be replaced with actual product name
+				productId: "{{productId}}", // Will be replaced with actual product name
+				account: "Account",
+				cart: "Cart",
+				wishlist: "Wishlist",
 			},
 		},
 	},
 	ar: {
 		translation: {
 			breadcrumbs: {
-				home: "الرئيسية",
+				"/": "الرئيسية",
 				products: "المنتجات",
-				productId: "{{productName}}", // Will be replaced with actual product name
+				productId: "{{productId}}", // Will be replaced with actual product name
+				account: "حسابي",
+				cart: "سلة التسوق",
+				wishlist: "قائمة الرغبات",
 			},
 		},
 	},
@@ -390,7 +396,8 @@ const cartTranslation = {
 				returnToShop: "Return to Shop",
 				cartEmpty: "Your cart is empty",
 				productRemoved: "{{productName}} removed from cart",
-				quantityUpdated: "{{productName}} quantity updated to {{quantity}}",
+				quantityUpdated:
+					"{{productName}} quantity updated to {{quantity}}",
 				updateError: "Failed to update cart",
 				removeError: "Failed to remove item from cart",
 			},
@@ -407,7 +414,8 @@ const cartTranslation = {
 				returnToShop: "العودة للتسوق",
 				cartEmpty: "سلة التسوق فارغة",
 				productRemoved: "تمت إزالة {{productName}} من السلة",
-				quantityUpdated: "تم تحديث كمية {{productName}} إلى {{quantity}}",
+				quantityUpdated:
+					"تم تحديث كمية {{productName}} إلى {{quantity}}",
 				updateError: "فشل تحديث السلة",
 				removeError: "فشل إزالة المنتج من السلة",
 			},

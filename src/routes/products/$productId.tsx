@@ -72,8 +72,6 @@ const Productpage = () => {
 	const [selected, setSelected] = useState<number>(0);
 	const [items, setItems] = useState<number>(cart?.quantity || 1);
 
-	console.log(cart);
-
 	const { t } = useTranslation();
 
 	return (
