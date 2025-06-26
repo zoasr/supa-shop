@@ -38,11 +38,12 @@ const UserDropdown = () => {
 				>
 					<img
 						src={imageUrl ? imageUrl : userIcon}
-						alt=""
+						alt="User Icon"
+						data-has-icon={!!imageUrl}
 						className={cn(
-							"group-hover:invert group-focus-visible:invert group-active:invert size-10 rounded-full",
+							"data-[has-icon=false]:group-hover:invert data-[has-icon=false]:group-focus-visible:invert data-[has-icon=false]:group-active:invert size-10 rounded-full",
 							{
-								invert: open,
+								"data-[has-icon=false]:invert": open,
 							}
 						)}
 					/>
