@@ -11,6 +11,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TestRouteImport } from './routes/test'
 import { Route as ProductsRouteRouteImport } from './routes/products/route'
 import { Route as AccountRouteRouteImport } from './routes/account/route'
 import { Route as ProductsIndexRouteImport } from './routes/products/index'
@@ -47,6 +48,11 @@ const AboutLazyRoute = AboutLazyRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/about.lazy').then((d) => d.Route))
+const TestRoute = TestRouteImport.update({
+  id: '/test',
+  path: '/test',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProductsRouteRoute = ProductsRouteRouteImport.update({
   id: '/products',
   path: '/products',
@@ -102,6 +108,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '/account': typeof AccountRouteRouteWithChildren
   '/products': typeof ProductsRouteRouteWithChildren
+  '/test': typeof TestRoute
   '/about': typeof AboutLazyRoute
   '/contact': typeof ContactLazyRoute
   '/login': typeof LoginLazyRoute
@@ -116,6 +123,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
+  '/test': typeof TestRoute
   '/about': typeof AboutLazyRoute
   '/contact': typeof ContactLazyRoute
   '/login': typeof LoginLazyRoute
@@ -133,6 +141,7 @@ export interface FileRoutesById {
   '/': typeof IndexLazyRoute
   '/account': typeof AccountRouteRouteWithChildren
   '/products': typeof ProductsRouteRouteWithChildren
+  '/test': typeof TestRoute
   '/about': typeof AboutLazyRoute
   '/contact': typeof ContactLazyRoute
   '/login': typeof LoginLazyRoute
@@ -151,6 +160,7 @@ export interface FileRouteTypes {
     | '/'
     | '/account'
     | '/products'
+    | '/test'
     | '/about'
     | '/contact'
     | '/login'
@@ -165,6 +175,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/test'
     | '/about'
     | '/contact'
     | '/login'
@@ -181,6 +192,7 @@ export interface FileRouteTypes {
     | '/'
     | '/account'
     | '/products'
+    | '/test'
     | '/about'
     | '/contact'
     | '/login'
@@ -198,6 +210,7 @@ export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   AccountRouteRoute: typeof AccountRouteRouteWithChildren
   ProductsRouteRoute: typeof ProductsRouteRouteWithChildren
+  TestRoute: typeof TestRoute
   AboutLazyRoute: typeof AboutLazyRoute
   ContactLazyRoute: typeof ContactLazyRoute
   LoginLazyRoute: typeof LoginLazyRoute
@@ -232,6 +245,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/test': {
+      id: '/test'
+      path: '/test'
+      fullPath: '/test'
+      preLoaderRoute: typeof TestRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/products': {
@@ -345,6 +365,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   AccountRouteRoute: AccountRouteRouteWithChildren,
   ProductsRouteRoute: ProductsRouteRouteWithChildren,
+  TestRoute: TestRoute,
   AboutLazyRoute: AboutLazyRoute,
   ContactLazyRoute: ContactLazyRoute,
   LoginLazyRoute: LoginLazyRoute,

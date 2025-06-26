@@ -8,6 +8,7 @@ import { supabase } from "@/utils/supabase";
 import ErrorComponent from "../error-component";
 import { Loader } from "lucide-react";
 import { Link } from "@tanstack/react-router";
+import SkeletonCard from "../skeleton-card";
 
 const getProducts = async () => {
 	const response = (await supabase.from("products").select("*").limit(6)) as {
@@ -36,9 +37,10 @@ const OurProducts = () => {
 					</div>
 					<div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4 place-items-center">
 						{isError && <ErrorComponent error={error} />}
-						{isPending && (
-							<Loader className="animate-spin size-20" />
-						)}
+						{isPending &&
+							Array.from({ length: 4 }).map((_, i) => (
+								<SkeletonCard key={i} />
+							))}
 						{products &&
 							!isError &&
 							!isPending &&

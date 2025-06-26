@@ -12,6 +12,7 @@ import type { Product } from "@/utils/utils";
 import ErrorComponent from "../error-component";
 import { Loader } from "lucide-react";
 import { Link } from "@tanstack/react-router";
+import SkeletonCard from "../skeleton-card";
 
 const getProducts = async () => {
 	const response = (await supabase
@@ -84,9 +85,11 @@ const BestSelling = () => {
 						ref={carouselRef}
 						className="flex overflow-x-auto gap-4 py-4 my-4"
 					>
-						{isPending && (
-							<Loader className="animate-spin size-20" />
-						)}
+						{isPending &&
+							// <Loader className="animate-spin size-20" />
+							Array.from({ length: 4 }).map((_, i) => {
+								return <SkeletonCard key={i} />;
+							})}
 						{isError && <ErrorComponent error={error} />}
 						{!isError &&
 							!isPending &&

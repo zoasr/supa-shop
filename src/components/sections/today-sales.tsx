@@ -11,6 +11,7 @@ import { supabase } from "@/utils/supabase";
 import { Loader } from "lucide-react";
 import ErrorComponent from "../error-component";
 import { Link } from "@tanstack/react-router";
+import SkeletonCard from "../skeleton-card";
 
 const endTime = new Date().getTime() + 5 * 3600 * 24 * 1000;
 
@@ -147,9 +148,6 @@ const TodaySales = () => {
 						</div>
 					</div>
 					<div className="flex justify-center w-full">
-						{isPending && (
-							<Loader className="animate-spin size-20" />
-						)}
 						{isError && <ErrorComponent error={error} />}
 					</div>
 					<div
@@ -160,6 +158,10 @@ const TodaySales = () => {
 							products &&
 							products.map((product) => (
 								<ProductCard key={product.id} {...product} />
+							))}
+						{isPending &&
+							Array.from({ length: 4 }).map((_, i) => (
+								<SkeletonCard key={i} />
 							))}
 					</div>
 					<div className="text-center">
