@@ -37,7 +37,7 @@ const UserDropdown = () => {
 					)}
 				>
 					<img
-						src={imageUrl ? imageUrl : userIcon}
+						src={!(imageUrl instanceof Error) ? imageUrl : userIcon}
 						alt="User Icon"
 						data-has-icon={!!imageUrl}
 						className={cn(

@@ -272,11 +272,10 @@ export const getCartItem: (
 	return null;
 };
 
-export const getUserImage = async () => {
+export const getUserImage: () => Promise<string | AuthError> = async () => {
 	const { data, error } = await supabase.auth.getUser();
 	if (error) {
 		return error;
 	}
-
 	return data.user.user_metadata.avatar_url;
 };
