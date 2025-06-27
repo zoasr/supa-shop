@@ -19,6 +19,7 @@ interface BreadcrumbItem {
 	translationParams: Record<string, string>;
 	isLast: boolean;
 	isDynamic: boolean;
+	displayName?: string;
 }
 
 const toTitleCase = (str: string) => {
@@ -37,24 +38,28 @@ const Breadcrumbs = () => {
 			.filter(
 				(match) =>
 					match.pathname !== "/" && !match.pathname.endsWith("/")
-			)
-			.map((match) => ({
+			);
+
+		return segments.map((match, index) => {
+			const isDynamic = Object.keys(match.params).length > 0;
+			let displayName: string | undefined = undefined;
+
+			if (isDynamic && match.routeId === "/products/$productId") {
+				const loaderData = match.loaderData as {
+					product?: { productName?: string };
+				};
+				if (loaderData?.product?.productName) {
+					displayName = loaderData.product.productName;
+				}
+			}
+			return {
 				path: match.pathname,
 				segment: match.pathname.split("/").pop() || "",
 				translationKey: match.pathname.split("/").pop() || "",
 				translationParams: {},
-				isLast: false,
-				isDynamic: Object.keys(match.params).length > 0,
-			}));
-
-		return segments.map((segment, index) => {
-			return {
-				path: segment.path,
-				segment: segment.segment,
-				translationKey: segment.translationKey,
-				translationParams: {},
 				isLast: index === segments.length - 1,
-				isDynamic: segment.isDynamic,
+				isDynamic: isDynamic,
+				displayName,
 			};
 		});
 	}, [matches]);
@@ -81,7 +86,7 @@ const Breadcrumbs = () => {
 					</BreadcrumbLink>
 				</BreadcrumbItem>
 				{breadcrumbs.map(
-					({ path, isLast, isDynamic, translationKey }) => (
+					({ path, isLast, isDynamic, translationKey, displayName }) => (
 						<Fragment key={path}>
 							<BreadcrumbSeparator>
 								<Slash className="h-4 w-4" />
@@ -96,7 +101,7 @@ const Breadcrumbs = () => {
 												types: ["scale-up"],
 											}}
 										>
-											{toTitleCase(translationKey)}
+											{displayName ?? toTitleCase(translationKey)}
 										</Link>
 									) : (
 										<Link
