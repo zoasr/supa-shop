@@ -58,6 +58,21 @@ input[type="reset"] {
 	--sidebar-accent-foreground: oklch(0.21 0.006 285.885);
 	--sidebar-border: oklch(0.92 0.004 286.32);
 	--sidebar-ring: oklch(0.705 0.015 286.067);
+
+	--skin-primary: hsl(0, 0%, 100%);
+	--skin-primary-1: hsl(210, 2%, 22%);
+	--skin-secondary: hsl(0, 0%, 96%);
+	--skin-secondary-1: hsl(42, 87%, 97%);
+	--skin-secondary-2: hsl(0, 68%, 56%);
+	--skin-bg: hsl(0, 0%, 100%);
+	--skin-text: hsl(0, 0%, 98%);
+	--skin-text-1: hsl(206, 3%, 50%);
+	--skin-text-2: hsl(0, 0%, 0%);
+	--skin-button: hsl(0, 0%, 0%);
+	--skin-button-1: hsl(144, 100%, 50%);
+	--skin-button-2: hsl(0, 68%, 56%);
+	--skin-button-hover: hsl(0, 63%, 67%);
+	--skin-button-hover-1: hsl(214, 51%, 75%);
 }
 
 .dark {
@@ -93,6 +108,21 @@ input[type="reset"] {
 	--sidebar-accent-foreground: oklch(0.985 0 0);
 	--sidebar-border: oklch(1 0 0 / 10%);
 	--sidebar-ring: oklch(0.552 0.016 285.938);
+
+	--skin-primary: hsl(220, 15%, 8%);
+	--skin-primary-1: hsl(210, 5%, 88%);
+	--skin-secondary: hsl(220, 15%, 12%);
+	--skin-secondary-1: hsl(42, 10%, 10%);
+	--skin-secondary-2: hsl(0, 72%, 61%);
+	--skin-bg: hsl(220, 15%, 8%);
+	--skin-text: hsl(220, 10%, 90%);
+	--skin-text-1: hsl(220, 10%, 60%);
+	--skin-text-2: hsl(220, 15%, 95%);
+	--skin-button: hsl(0, 0%, 95%);
+	--skin-button-1: hsl(144, 65%, 55%);
+	--skin-button-2: hsl(0, 72%, 61%);
+	--skin-button-hover: hsl(0, 72%, 71%);
+	--skin-button-hover-1: hsl(214, 51%, 65%);
 }
 
 @theme inline {
@@ -132,24 +162,24 @@ input[type="reset"] {
 	--color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
 	--color-sidebar-border: var(--sidebar-border);
 	--color-sidebar-ring: var(--sidebar-ring);
+
+	--color-skin-primary: var(--skin-primary);
+	--color-skin-primary-1: var(--skin-primary-1);
+	--color-skin-secondary: var(--skin-secondary);
+	--color-skin-secondary-2: var(--skin-secondary-2);
+	--color-skin-bg: var(--skin-bg);
+	--color-skin-text: var(--skin-text);
+	--color-skin-text-1: var(--skin-text-1);
+	--color-skin-text-2: var(--skin-text-2);
+	--color-skin-button: var(--skin-button);
+	--color-skin-button-1: var(--skin-button-1);
+	--color-skin-button-2: var(--skin-button-2);
+	--color-skin-button-hover: var(--skin-button-hover);
+	--color-skin-button-hover-1: var(--skin-button-hover-1);
+	--color-skin-secondary-1: var(--skin-secondary-1);
 }
 
 @theme {
-	--color-skin-primary: hsl(0, 0%, 100%);
-	--color-skin-primary-1: hsl(210, 2%, 22%);
-	--color-skin-secondary: hsl(0, 0%, 96%);
-	--color-skin-secondary-1: hsl(42, 87%, 97%);
-	--color-skin-secondary-2: hsl(0, 68%, 56%);
-	--color-skin-bg: hsl(0, 0%, 100%);
-	--color-skin-text: hsl(0, 0%, 98%);
-	--color-skin-text-1: hsl(206, 3%, 50%);
-	--color-skin-text-2: hsl(0, 0%, 0%);
-	--color-skin-button: hsl(0, 0%, 0%);
-	--color-skin-button-1: hsl(144, 100%, 50%);
-	--color-skin-button-2: hsl(0, 68%, 56%);
-	--color-skin-button-hover: hsl(0, 63%, 67%);
-	--color-skin-button-hover-1: hsl(214, 51%, 75%);
-
 	--font-rubik: "Rubik Variable", sans-serif;
 	--font-poppins: "Poppins", sans-serif;
 	--font-inter: "Inter Variable", sans-serif;

@@ -1,4 +1,4 @@
-import sendIcon from "@/assets/icon-send.svg";
+import SendIcon from "@/assets/icon-send.svg?react";
 import { Link } from "@tanstack/react-router";
 import { Icon } from "@iconify-icon/react";
 
@@ -7,8 +7,8 @@ import { useTranslation } from "react-i18next";
 const Footer = () => {
 	const { t } = useTranslation();
 	return (
-		<footer className="bg-skin-button">
-			<div className="flex flex-col md:flex-row gap-8 justify-around items-center md:items-start text-center md:text-start container mx-auto py-[80px] text-skin-text">
+		<footer className="bg-skin-primary ">
+			<div className="flex flex-col md:flex-row gap-8 justify-around items-center md:items-start text-center md:text-start container mx-auto py-[80px] ">
 				<div className="flex flex-col gap-4">
 					<h1 className="text-2xl font-bold">
 						{t("footer.exclusive.title")}
@@ -26,7 +26,7 @@ const Footer = () => {
 							className="bg-transparent outline-none flex-shrink-1"
 						/>
 						<button className="flex-1 shrink-0">
-							<img src={sendIcon} className="invert" alt="" />
+							<SendIcon />
 						</button>
 					</label>
 				</div>

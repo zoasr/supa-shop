@@ -1,10 +1,11 @@
 import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
-import searchIcon from "@/assets/icon-search.svg";
+import SearchIcon from "@/assets/icon-search.svg?react";
 import TopCallout from "./top-callout";
-import heartIcon from "@/assets/heart small.svg";
-import cartIcon from "@/assets/Cart1.svg";
+import HeartIcon from "@/assets/heart small.svg?react";
+import CartIcon from "@/assets/Cart1.svg?react";
 import UserDropdown from "./user-dropdown";
+import DarkModeToggle from "./dark-mode-toggle";
 import { cn } from "$/lib/utils";
 import { useWishlistStore } from "@/store/wishlist";
 import { useCartStore } from "@/store/cart";
@@ -16,18 +17,14 @@ const WishList = () => {
 		<Link
 			to="/account/wishlist"
 			className={cn(
-				"group p-2 transition-all relative duration-150 group rounded-full",
+				"group p-2 transition-all relative duration-150 group rounded-full text-black",
 				"[&.active]:bg-skin-secondary-2 *:[&.active]:invert",
 				"hover:bg-skin-secondary-2",
 				"focus-visible:bg-skin-secondary-2"
 			)}
 			viewTransition={{ types: ["slide-left"] }}
 		>
-			<img
-				src={heartIcon}
-				alt="search icon"
-				className="group-hover:invert group-focus-visible:invert"
-			/>
+			<HeartIcon className="group-hover:text-skin-secondary group-focus-visible:text-skin-secondary text-foreground transition-all" />
 			{wishCount > 0 && (
 				<span className="flex absolute top-0 -right-2 justify-center items-center text-sm font-bold text-center rounded-full size-5 bg-skin-secondary-2">
 					{wishCount}
@@ -50,7 +47,8 @@ const Cart = () => {
 			)}
 			viewTransition={{ types: ["slide-right"] }}
 		>
-			<img src={cartIcon} alt="cart icon" />
+			{/* <img src={CartIcon} alt="cart icon" /> */}
+			<CartIcon className="group-hover:text-skin-secondary group-focus-visible:text-skin-secondary text-foreground transition-all" />
 			{cartCount > 0 && (
 				<span className="flex absolute top-0 -right-2 justify-center items-center text-sm font-bold text-center rounded-full size-5 bg-skin-secondary-2">
 					{cartCount}
@@ -108,12 +106,14 @@ const Header = () => {
 							className="flex-1 bg-transparent outline-none"
 							placeholder={t("header.search.placeholder")}
 						/>
-						<img src={searchIcon} alt="search icon" />
+						{/* <img src={SearchIcon} alt="search icon" /> */}
+						<SearchIcon className="text-foreground" />
 					</label>
 					<div className="flex gap-4 justify-center items-center">
 						<WishList />
 						<Cart />
 						<UserDropdown />
+						<DarkModeToggle />
 					</div>
 				</div>
 			</header>
