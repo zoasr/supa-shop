@@ -1,9 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from '@tanstack/react-router';
 
-import SkeletonCard from "@/components/skeleton-card";
+import SkeletonCard from '@/components/skeleton-card';
 
-export const Route = createFileRoute("/test")({
-	component: RouteComponent,
+export const Route = createFileRoute('/test')({
+	component: RouteComponent
 });
 
 function RouteComponent() {

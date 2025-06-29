@@ -1,14 +1,14 @@
-import { Link } from "@tanstack/react-router";
-import { useTranslation } from "react-i18next";
-import SearchIcon from "@/assets/icon-search.svg?react";
-import TopCallout from "./top-callout";
-import HeartIcon from "@/assets/heart small.svg?react";
-import CartIcon from "@/assets/Cart1.svg?react";
-import UserDropdown from "./user-dropdown";
-import DarkModeToggle from "./dark-mode-toggle";
-import { cn } from "$/lib/utils";
-import { useWishlistStore } from "@/store/wishlist";
-import { useCartStore } from "@/store/cart";
+import { Link } from '@tanstack/react-router';
+import { useTranslation } from 'react-i18next';
+import SearchIcon from '@/assets/icon-search.svg?react';
+import TopCallout from './top-callout';
+import HeartIcon from '@/assets/heart small.svg?react';
+import CartIcon from '@/assets/Cart1.svg?react';
+import UserDropdown from './user-dropdown';
+import DarkModeToggle from './dark-mode-toggle';
+import { cn } from '$/lib/utils';
+import { useWishlistStore } from '@/store/wishlist';
+import { useCartStore } from '@/store/cart';
 
 const WishList = () => {
 	const wishCount = useWishlistStore((state) => state.count);
@@ -17,16 +17,16 @@ const WishList = () => {
 		<Link
 			to="/account/wishlist"
 			className={cn(
-				"group p-2 transition-all relative duration-150 group rounded-full text-black",
-				"[&.active]:bg-skin-secondary-2 *:[&.active]:invert",
-				"hover:bg-skin-secondary-2",
-				"focus-visible:bg-skin-secondary-2"
+				'group group relative rounded-full p-2 transition-all duration-150',
+				'[&.active]:bg-skin-secondary-2 [&.active]:text-skin-secondary',
+				'hover:bg-skin-secondary-2 hover:text-skin-secondary',
+				'focus-visible:bg-skin-secondary-2 focus-visible:text-skin-secondary'
 			)}
-			viewTransition={{ types: ["slide-left"] }}
+			viewTransition={{ types: ['slide-left'] }}
 		>
-			<HeartIcon className="group-hover:text-skin-secondary group-focus-visible:text-skin-secondary text-foreground transition-all" />
+			<HeartIcon className="transition-all group-hover:text-skin-secondary group-focus-visible:text-skin-secondary" />
 			{wishCount > 0 && (
-				<span className="flex absolute top-0 -right-2 justify-center items-center text-sm font-bold text-center rounded-full size-5 bg-skin-secondary-2">
+				<span className="absolute top-0 -right-2 flex size-5 items-center justify-center rounded-full bg-skin-secondary-2 text-center text-sm font-bold text-skin-secondary">
 					{wishCount}
 				</span>
 			)}
@@ -40,17 +40,17 @@ const Cart = () => {
 		<Link
 			to="/account/cart"
 			className={cn(
-				"group p-2 transition-all relative duration-150 group rounded-full",
-				"[&.active]:bg-skin-secondary-2 *:[&.active]:invert",
-				"hover:bg-skin-secondary-2",
-				"focus-visible:bg-skin-secondary-2"
+				'group group relative rounded-full p-2 transition-all duration-150',
+				'[&.active]:bg-skin-secondary-2 [&.active]:text-skin-secondary',
+				'hover:bg-skin-secondary-2 hover:text-skin-secondary',
+				'focus-visible:bg-skin-secondary-2 focus-visible:text-skin-secondary'
 			)}
-			viewTransition={{ types: ["slide-right"] }}
+			viewTransition={{ types: ['slide-right'] }}
 		>
 			{/* <img src={CartIcon} alt="cart icon" /> */}
-			<CartIcon className="group-hover:text-skin-secondary group-focus-visible:text-skin-secondary text-foreground transition-all" />
+			<CartIcon className="transition-all group-hover:text-skin-secondary group-focus-visible:text-skin-secondary" />
 			{cartCount > 0 && (
-				<span className="flex absolute top-0 -right-2 justify-center items-center text-sm font-bold text-center rounded-full size-5 bg-skin-secondary-2">
+				<span className="absolute top-0 -right-2 flex size-5 items-center justify-center rounded-full bg-skin-secondary-2 text-center text-sm font-bold text-skin-secondary">
 					{cartCount}
 				</span>
 			)}
@@ -64,52 +64,48 @@ const Header = () => {
 	return (
 		<>
 			<TopCallout />
-			<header dir={t("dir")} className="border-b-2 border-skin-secondary">
-				<div className="container flex flex-wrap gap-12 justify-center items-center px-8 py-4 mx-auto">
-					<Link
-						to="/"
-						className="text-2xl font-bold"
-						viewTransition={{ types: ["warp"] }}
-					>
-						{t("header.title")}
+			<header dir={t('dir')} className="border-b-2 border-skin-secondary">
+				<div className="container mx-auto flex flex-wrap items-center justify-center gap-12 px-8 py-4">
+					<Link to="/" className="text-2xl font-bold" viewTransition={{ types: ['warp'] }}>
+						{t('header.title')}
 					</Link>
 					<nav className="flex gap-12 p-2 whitespace-nowrap">
 						<Link
 							to="/"
-							className="[&.active]:border-b-2 [&.active]:black/50 [&:hover]:border-b-2 [&:hover]:black/50 [&.active]:font-bold transition-all duration-75"
-							viewTransition={{ types: ["slide-warp"] }}
+							className="[&.active]:black/50 [&:hover]:black/50 transition-all duration-75 [&.active]:border-b-2 [&.active]:font-bold [&:hover]:border-b-2"
+							viewTransition={{ types: ['slide-warp'] }}
 						>
-							{t("header.navbar.home")}
+							{t('header.navbar.home')}
 						</Link>
 						<Link
 							to="/contact"
-							className="[&.active]:border-b-2 [&.active]:black/50 [&:hover]:border-b-2 [&:hover]:black/50 [&.active]:font-bold transition-all duration-75"
+							className="[&.active]:black/50 [&:hover]:black/50 transition-all duration-75 [&.active]:border-b-2 [&.active]:font-bold [&:hover]:border-b-2"
 						>
-							{t("header.navbar.contact")}
+							{t('header.navbar.contact')}
 						</Link>
 						<Link
 							to="/about"
-							className="[&.active]:border-b-2 [&.active]:black/50 [&:hover]:border-b-2 [&:hover]:black/50 [&.active]:font-bold transition-all duration-75"
+							className="[&.active]:black/50 [&:hover]:black/50 transition-all duration-75 [&.active]:border-b-2 [&.active]:font-bold [&:hover]:border-b-2"
 						>
-							{t("header.navbar.about")}
+							{t('header.navbar.about')}
 						</Link>
 						<Link
 							to="/signup"
-							className="[&.active]:border-b-2 [&.active]:black/50 [&:hover]:border-b-2 [&:hover]:black/50 [&.active]:font-bold transition-all duration-75"
+							className="[&.active]:black/50 [&:hover]:black/50 transition-all duration-75 [&.active]:border-b-2 [&.active]:font-bold [&:hover]:border-b-2"
 						>
-							{t("header.navbar.signup")}
+							{t('header.navbar.signup')}
 						</Link>
 					</nav>
-					<label className="flex flex-1 gap-2 px-5 py-2 rounded-lg bg-skin-secondary min-w-fit">
+					<label className="flex min-w-fit flex-1 gap-2 rounded-lg bg-skin-secondary px-5 py-2">
 						<input
 							type="text"
 							className="flex-1 bg-transparent outline-none"
-							placeholder={t("header.search.placeholder")}
+							placeholder={t('header.search.placeholder')}
 						/>
 						{/* <img src={SearchIcon} alt="search icon" /> */}
 						<SearchIcon className="text-foreground" />
 					</label>
-					<div className="flex gap-4 justify-center items-center">
+					<div className="flex items-center justify-center gap-4">
 						<WishList />
 						<Cart />
 						<UserDropdown />

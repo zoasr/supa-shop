@@ -1,5 +1,6 @@
-import { useCartStore } from "@/store/cart";
-import type { CartItem, Product } from "@/utils/utils";
+import { Button } from '$/components/ui/button';
+import { useCartStore } from '@/store/cart';
+import type { CartItem, Product } from '@/utils/utils';
 
 interface CartTotalProps {
 	products: (Product | null)[];
@@ -20,9 +21,7 @@ export function CartTotal({ products }: CartTotalProps) {
 	const calculateSubtotal = (): number => {
 		return products.reduce<number>((total, product) => {
 			if (!product || !product.price) return total;
-			const cartItem = cart?.find(
-				(item) => item.product_id === product.id
-			);
+			const cartItem = cart?.find((item) => item.product_id === product.id);
 			const price = calculatePrice(product);
 			return total + price * (cartItem?.quantity || 0);
 		}, 0);
@@ -33,30 +32,26 @@ export function CartTotal({ products }: CartTotalProps) {
 	const total = subtotal + shipping;
 
 	return (
-		<div className="w-full max-w-md p-6 bg-white rounded-lg shadow-[0_0_10px_0_rgba(0,0,0,0.1)] mt-8 justify-self-end">
-			<h3 className="text-xl font-semibold mb-4">Cart Total</h3>
-			<div className="space-y-2 mb-6">
+		<div className="mt-8 w-full max-w-md justify-self-end rounded-lg bg-skin-secondary p-6 shadow-[0_0_10px_0_rgba(0,0,0,0.1)]">
+			<h3 className="mb-4 text-xl font-semibold">Cart Total</h3>
+			<div className="mb-6 space-y-2">
 				<div className="flex justify-between">
 					<span>Subtotal:</span>
 					<span>${subtotal.toFixed(2)}</span>
 				</div>
 				<div className="flex justify-between">
 					<span>Shipping:</span>
-					<span>
-						{shipping === 0 ? "Free" : `$${shipping.toFixed(2)}`}
-					</span>
+					<span>{shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`}</span>
 				</div>
-				<div className="flex justify-between font-bold text-lg pt-2 border-t border-gray-200 mt-2">
+				<div className="mt-2 flex justify-between border-t border-gray-200 pt-2 text-lg font-bold">
 					<span>Total:</span>
 					<span>${total.toFixed(2)}</span>
 				</div>
 			</div>
-			<button
-				className="w-full bg-red-600 text-white py-3 rounded-md font-medium hover:bg-red-700 transition-colors"
-				onClick={() => alert("Proceeding to checkout")}
-			>
+
+			<Button variant="default" className="w-full" onClick={() => alert('Proceeding to checkout')}>
 				Proceed to Checkout
-			</button>
+			</Button>
 		</div>
 	);
 }

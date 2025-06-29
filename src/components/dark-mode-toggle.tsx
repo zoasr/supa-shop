@@ -1,28 +1,28 @@
+import { Moon, Sun } from 'lucide-react';
 import { useState, useEffect } from 'react';
+Moon;
 
 const DarkModeToggle = () => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+	const [isDarkMode, setIsDarkMode] = useState(false);
 
-  useEffect(() => {
-    if (isDarkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [isDarkMode]);
+	useEffect(() => {
+		if (isDarkMode) {
+			document.documentElement.classList.add('dark');
+		} else {
+			document.documentElement.classList.remove('dark');
+		}
+	}, [isDarkMode]);
 
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-  };
+	const toggleDarkMode = () => {
+		setIsDarkMode(!isDarkMode);
+	};
 
-  return (
-    <button
-      onClick={toggleDarkMode}
-      className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
-    >
-      {isDarkMode ? 'Light Mode' : 'Dark Mode'}
-    </button>
-  );
+	return (
+		<button onClick={toggleDarkMode} className="flex justify-between gap-2 rounded-sm p-2">
+			{isDarkMode ? <Moon className="text-foreground" /> : <Sun className="text-foreground" />}
+			{isDarkMode ? 'Dark' : 'Light'}
+		</button>
+	);
 };
 
 export default DarkModeToggle;

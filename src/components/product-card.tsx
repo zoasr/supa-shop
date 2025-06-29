@@ -1,73 +1,55 @@
-import filledStar from "@/assets/star-filled.svg";
-import emptyStar from "@/assets/star-empty.svg";
+import filledStar from '@/assets/star-filled.svg';
+import emptyStar from '@/assets/star-empty.svg';
 
-import eyeIcon from "@/assets/fill-eye.svg";
-import heartIcon from "@/assets/fill-heart.svg";
-import type { Product } from "@/utils/utils";
-import { cn } from "$/lib/utils";
-import { memo, useState } from "react";
-import { Link } from "@tanstack/react-router";
-import { WishlistButton } from "./wishlist-button";
-import CartButton from "./cart-button";
+import eyeIcon from '@/assets/fill-eye.svg';
+import heartIcon from '@/assets/fill-heart.svg';
+import type { Product } from '@/utils/utils';
+import { cn } from '$/lib/utils';
+import { memo, useState } from 'react';
+import { Link } from '@tanstack/react-router';
+import { WishlistButton } from './wishlist-button';
+import CartButton from './cart-button';
 const ProductCard = memo(
-	({
-		id,
-		product,
-		imageUrl,
-		productName,
-		price,
-		rating,
-		reviews,
-		discount,
-		colors,
-	}: Product) => {
+	({ id, product, imageUrl, productName, price, rating, reviews, discount, colors }: Product) => {
 		const [selected, setSelected] = useState(0);
 
 		return (
 			<>
-				<div className="min-w-[300px] w-[300px] group/card">
+				<div className="group/card w-[300px] min-w-[300px]">
 					<div className="relative overflow-clip rounded-lg">
 						{discount && (
-							<span className="absolute top-3 left-3 px-4 py-1 text-sm font-light rounded-md bg-skin-secondary-2 text-skin-text">
+							<span className="text-skin-white absolute top-3 left-3 rounded-sm bg-skin-secondary-2 px-4 py-1 text-sm font-light">
 								-{discount}%
 							</span>
 						)}
 						<div
-							className="max-[270px] h-[250px] bg-skin-secondary flex items-center justify-center"
+							className="max-[270px] flex h-[250px] items-center justify-center bg-skin-secondary"
 							style={{
-								viewTransitionName: `product-picture}`,
+								viewTransitionName: `product-${id}-picture`
 							}}
 						>
 							<img
-								className="object-cover w-full rounded-lg max-w-[140px] "
+								className="w-full max-w-[140px] rounded-lg object-cover"
 								src={imageUrl}
 								alt={productName}
 							/>
 						</div>
-						<div className="flex absolute top-0 right-0 flex-col gap-2 p-3">
-							<button
-								title="Watch"
-								className={cn(
-									"p-2 rounded-full duration-150 group"
-								)}
-							>
+						<div className="absolute top-0 right-0 flex flex-col gap-2 p-3">
+							<button title="Watch" className={cn('group rounded-full p-2 duration-150')}>
 								<img
 									src={eyeIcon}
 									alt="Eye icon"
-									className="transition-all  group-focus-visible:invert group-hover:invert-25 "
+									className="transition-all group-hover:invert-25 group-focus-visible:invert"
 								/>
 							</button>
 							<WishlistButton
 								productId={id}
-								className={cn(
-									"p-2 rounded-full duration-150 group",
-									""
-								)}
+								className={cn('group rounded-full p-2 duration-150', '')}
 								title="Wishlist"
 							>
 								<img
 									src={heartIcon}
-									className="transition-all group-data-[state=on]:invert group-hover:invert-25 group-focus-visible:invert"
+									className="transition-all group-hover:invert-25 group-focus-visible:invert group-data-[state=on]:invert"
 									alt="Wishlist icon"
 								/>
 							</WishlistButton>
@@ -75,24 +57,18 @@ const ProductCard = memo(
 						<CartButton
 							productId={id}
 							className={cn(
-								"absolute bottom-0 left-0 py-2 w-full text-center transition-all translate-y-full cursor-pointer group-hover/card:translate-y-0 hover:bg-skin-primary-1 bg-skin-button text-skin-text hover:text-skin-text",
-								""
+								'absolute bottom-0 left-0 w-full translate-y-full cursor-pointer bg-skin-button py-2 text-center text-skin-text transition-all group-hover/card:translate-y-0 hover:bg-skin-primary-1',
+								''
 							)}
 						>
-							{(isAdded) =>
-								isAdded ? (
-									<span>Remove from Cart</span>
-								) : (
-									<span>Add to Cart</span>
-								)
-							}
+							{(isAdded) => (isAdded ? <span>Remove from Cart</span> : <span>Add to Cart</span>)}
 						</CartButton>
 					</div>
 					<Link
 						to="/products/$productId"
 						params={{ productId: product.toString() }}
 						viewTransition={{
-							types: ["scale-up"],
+							types: ['scale-up']
 						}}
 					>
 						<h2 className="text-lg font-medium">{productName}</h2>
@@ -100,16 +76,8 @@ const ProductCard = memo(
 							{price ? (
 								discount ? (
 									<>
-										<span className="mr-3">
-											$
-											{(
-												price -
-												(price * discount) / 100
-											).toFixed(2)}
-										</span>
-										<span className="line-through text-skin-button/50">
-											${price}
-										</span>
+										<span className="mr-3">${(price - (price * discount) / 100).toFixed(2)}</span>
+										<span className="text-skin-button/50 line-through">${price}</span>
 									</>
 								) : (
 									<span>${price}</span>
@@ -117,38 +85,24 @@ const ProductCard = memo(
 							) : null}
 							{}
 						</p>
-						<div className="flex gap-2 justify-start items-center">
+						<div className="flex items-center justify-start gap-2">
 							<div className="flex gap-1">
 								{[...Array(rating)].map((_, i) => (
-									<img
-										key={i}
-										src={filledStar}
-										alt="star"
-										className="w-4 h-4"
-									/>
+									<img key={i} src={filledStar} alt="star" className="h-4 w-4" />
 								))}
 								{[...Array(5 - rating)].map((_, i) => (
-									<img
-										key={i}
-										src={emptyStar}
-										alt="empty star"
-										className="w-4 h-4"
-									/>
+									<img key={i} src={emptyStar} alt="empty star" className="h-4 w-4" />
 								))}
 							</div>
-							{reviews && (
-								<span className="text-skin-text-2">
-									({reviews})
-								</span>
-							)}
+							{reviews && <span className="text-skin-text-2">({reviews})</span>}
 						</div>
 						<div className="flex gap-2">
 							{colors?.map((color, i) => (
 								<button
 									onClick={() => setSelected(i)}
 									key={color}
-									className={cn("rounded-full size-4", {
-										"ring-2 ring-black": selected === i,
+									className={cn('size-4 rounded-full', {
+										'ring-2 ring-black': selected === i
 									})}
 									style={{ backgroundColor: color }}
 								></button>

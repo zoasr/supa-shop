@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @plugin "tailwindcss-animate";
 
@@ -13,14 +13,13 @@ body {
 }
 
 code {
-	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-		monospace;
+	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
 button,
-input[type="button"],
-input[type="submit"],
-input[type="reset"] {
+input[type='button'],
+input[type='submit'],
+input[type='reset'] {
 	cursor: pointer;
 }
 
@@ -115,7 +114,7 @@ input[type="reset"] {
 	--skin-secondary-1: hsl(42, 10%, 10%);
 	--skin-secondary-2: hsl(0, 72%, 61%);
 	--skin-bg: hsl(220, 15%, 8%);
-	--skin-text: hsl(220, 10%, 90%);
+	--skin-text: hsl(220, 10%, 2%);
 	--skin-text-1: hsl(220, 10%, 60%);
 	--skin-text-2: hsl(220, 15%, 95%);
 	--skin-button: hsl(0, 0%, 95%);
@@ -180,9 +179,9 @@ input[type="reset"] {
 }
 
 @theme {
-	--font-rubik: "Rubik Variable", sans-serif;
-	--font-poppins: "Poppins", sans-serif;
-	--font-inter: "Inter Variable", sans-serif;
+	--font-rubik: 'Rubik Variable', sans-serif;
+	--font-poppins: 'Poppins', sans-serif;
+	--font-inter: 'Inter Variable', sans-serif;
 }
 
 @layer base {

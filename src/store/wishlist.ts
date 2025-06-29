@@ -1,15 +1,12 @@
-import { create } from "zustand";
-import {
-	addToWishList,
-	getWishList,
-	removeFromWishList,
-} from "@/utils/supabase";
+import { create } from 'zustand';
+import { addToWishList, getWishList, removeFromWishList } from '@/utils/supabase';
+import type { WishlistItem } from '@/utils/utils';
 
 interface WishlistStore {
 	count: number;
-	wishlist: any[] | null;
+	wishlist: Omit<WishlistItem, 'user_id'>[] | null;
 	refreshWishlist: () => Promise<void>;
-	setWishlist: (wishlist: any[]) => void;
+	setWishlist: (wishlist: Omit<WishlistItem, 'user_id'>[]) => void;
 	setCount: (count: number) => void;
 	addToWishList: (productId: number) => Promise<void>;
 	removeFromWishList: (productId: number) => Promise<void>;
@@ -25,7 +22,7 @@ export const useWishlistStore = create<WishlistStore>((set, get) => ({
 		}
 		set({ count: wishlist?.length || 0, wishlist: wishlist || [] });
 	},
-	setWishlist: (wishlist: any[]) => {
+	setWishlist: (wishlist: Omit<WishlistItem, 'user_id'>[]) => {
 		set({ wishlist: wishlist });
 	},
 	setCount: (count: number) => {
@@ -33,32 +30,24 @@ export const useWishlistStore = create<WishlistStore>((set, get) => ({
 	},
 	addToWishList: async (productId: number) => {
 		set({
-			wishlist: [...(get().wishlist || []), { product_id: productId }],
+			wishlist: [...(get().wishlist || []), { product_id: productId }]
 		});
 		const res = await addToWishList(productId);
 		if (res instanceof Error) {
 			set({
-				wishlist: (get().wishlist || []).filter(
-					(item: { product_id: number }) =>
-						item.product_id !== productId
-				),
+				wishlist: (get().wishlist || []).filter((item: { product_id: number }) => item.product_id !== productId)
 			});
 		}
 	},
 	removeFromWishList: async (productId: number) => {
 		set({
-			wishlist: (get().wishlist || []).filter(
-				(item: { product_id: number }) => item.product_id !== productId
-			),
+			wishlist: (get().wishlist || []).filter((item: { product_id: number }) => item.product_id !== productId)
 		});
 		const res = await removeFromWishList(productId);
 		if (res instanceof Error) {
 			set({
-				wishlist: [
-					...(get().wishlist || []),
-					{ product_id: productId },
-				],
+				wishlist: [...(get().wishlist || []), { product_id: productId }]
 			});
 		}
-	},
+	}
 }));

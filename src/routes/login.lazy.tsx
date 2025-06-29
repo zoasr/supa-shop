@@ -1,8 +1,8 @@
-import { supabase } from "@/utils/supabase";
-import { Link, createLazyFileRoute, useNavigate } from "@tanstack/react-router";
-import sideImage from "@/assets/side-image.png";
+import { supabase } from '@/utils/supabase';
+import { Link, createLazyFileRoute, useNavigate } from '@tanstack/react-router';
+import sideImage from '@/assets/side-image.png';
 
-import googleSignupImage from "@/assets/icon-google.svg";
+import googleSignupImage from '@/assets/icon-google.svg';
 
 const Login = () => {
 	const navigate = useNavigate();
@@ -19,14 +19,14 @@ const Login = () => {
 		}
 		if (data) {
 			navigate({
-				to: "/",
+				to: '/'
 			});
 		}
 	};
 
 	const handleOAuth = async () => {
 		const { data, error } = await supabase.auth.signInWithOAuth({
-			provider: "google",
+			provider: 'google'
 		});
 		if (error) {
 			console.log(error);
@@ -37,31 +37,22 @@ const Login = () => {
 	};
 	return (
 		<>
-			<main className="flex flex-col-reverse gap-4 max-w-[1400px] justify-between px-8 my-10 lg:flex-row">
-				<div className="lg:w-1/2 w-full h-[100%]">
-					<img
-						src={sideImage}
-						alt="side-image"
-						className="w-[100%] h-[100%] object-cover"
-					/>
+			<main className="my-10 flex max-w-[1400px] flex-col-reverse justify-between gap-4 px-8 lg:flex-row">
+				<div className="h-[100%] w-full lg:w-1/2">
+					<img src={sideImage} alt="side-image" className="h-[100%] w-[100%] object-cover" />
 				</div>
-				<form
-					className="flex flex-col gap-4 justify-center px-8 lg:w-1/2 w-full"
-					onSubmit={handleSubmit}
-				>
-					<h1 className="text-4xl font-medium">
-						Log in to Exclusive
-					</h1>
+				<form className="flex w-full flex-col justify-center gap-4 px-8 lg:w-1/2" onSubmit={handleSubmit}>
+					<h1 className="text-4xl font-medium">Log in to Exclusive</h1>
 					<p>Enter your details below</p>
 					<input
-						className="py-4 rounded-b-md border-b-2 transition-all duration-75 outline-none focus-visible:border-b-4"
+						className="rounded-b-md border-b-2 py-4 transition-all duration-75 outline-none focus-visible:border-b-4"
 						type="email"
 						placeholder="Email"
 						required
 						name="email"
 					/>
 					<input
-						className="py-4 rounded-b-md border-b-2 transition-all duration-75 outline-none focus-visible:border-b-4"
+						className="rounded-b-md border-b-2 py-4 transition-all duration-75 outline-none focus-visible:border-b-4"
 						type="password"
 						placeholder="Password"
 						required
@@ -69,22 +60,22 @@ const Login = () => {
 					/>
 					<button
 						type="submit"
-						className="px-8 py-4 rounded-lg transition-all bg-skin-secondary-2 text-skin-text hover:opacity-80 focus-visible:opacity-80"
+						className="rounded-lg bg-skin-secondary-2 px-8 py-4 text-skin-text transition-all hover:opacity-80 focus-visible:opacity-80"
 					>
 						Login
 					</button>
 					<button
 						onClick={handleOAuth}
-						className="flex gap-4 justify-center items-center px-8 py-4 text-black bg-transparent rounded-md ring-2 transition-all ring-black/40 hover:opacity-80 focus-visible:opacity-80"
+						className="flex items-center justify-center gap-4 rounded-md bg-transparent px-8 py-4 text-black ring-2 ring-black/40 transition-all hover:opacity-80 focus-visible:opacity-80"
 					>
 						<img src={googleSignupImage} alt="" />
 						Sign in with Google
 					</button>
 					<p className="text-center">
-						Don't have an account?{" "}
+						Don't have an account?{' '}
 						<Link to="/signup" className="font-bold underline">
 							Signup
-						</Link>{" "}
+						</Link>{' '}
 					</p>
 				</form>
 			</main>
@@ -92,6 +83,6 @@ const Login = () => {
 	);
 };
 
-export const Route = createLazyFileRoute("/login")({
-	component: Login,
+export const Route = createLazyFileRoute('/login')({
+	component: Login
 });

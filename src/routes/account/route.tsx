@@ -1,16 +1,16 @@
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { createFileRoute, Outlet } from '@tanstack/react-router';
 
-import Breadcrumbs from "@/components/breadcrumbs";
+import Breadcrumbs from '@/components/breadcrumbs';
 
 const Layout = () => {
 	return (
-		<div className="container py-10 mx-auto">
+		<div className="container mx-auto py-10">
 			<Breadcrumbs />
 			<Outlet />
 		</div>
 	);
 };
 
-export const Route = createFileRoute("/account")({
-	component: Layout,
+export const Route = createFileRoute('/account')({
+	component: Layout
 });

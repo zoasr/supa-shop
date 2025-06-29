@@ -1,16 +1,16 @@
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useRouterState } from '@tanstack/react-router';
 
-import { Slash } from "lucide-react";
+import { Slash } from 'lucide-react';
 
 import {
 	Breadcrumb,
 	BreadcrumbItem,
 	BreadcrumbLink,
 	BreadcrumbList,
-	BreadcrumbSeparator,
-} from "$/components/ui/breadcrumb";
-import { Fragment, useMemo } from "react";
-import { useTranslation } from "react-i18next";
+	BreadcrumbSeparator
+} from '$/components/ui/breadcrumb';
+import { Fragment, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface BreadcrumbItem {
 	path: string;
@@ -24,9 +24,9 @@ interface BreadcrumbItem {
 
 const toTitleCase = (str: string) => {
 	return str
-		.split("-")
+		.split('-')
 		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-		.join(" ");
+		.join(' ');
 };
 
 const Breadcrumbs = () => {
@@ -35,16 +35,13 @@ const Breadcrumbs = () => {
 	const breadcrumbs = useMemo<BreadcrumbItem[]>(() => {
 		const segments = matches
 			// filter out index routes like account and account/
-			.filter(
-				(match) =>
-					match.pathname !== "/" && !match.pathname.endsWith("/")
-			);
+			.filter((match) => match.pathname !== '/' && !match.pathname.endsWith('/'));
 
 		return segments.map((match, index) => {
 			const isDynamic = Object.keys(match.params).length > 0;
 			let displayName: string | undefined = undefined;
 
-			if (isDynamic && match.routeId === "/products/$productId") {
+			if (isDynamic && match.routeId === '/products/$productId') {
 				const loaderData = match.loaderData as {
 					product?: { productName?: string };
 				};
@@ -54,18 +51,18 @@ const Breadcrumbs = () => {
 			}
 			return {
 				path: match.pathname,
-				segment: match.pathname.split("/").pop() || "",
-				translationKey: match.pathname.split("/").pop() || "",
+				segment: match.pathname.split('/').pop() || '',
+				translationKey: match.pathname.split('/').pop() || '',
 				translationParams: {},
 				isLast: index === segments.length - 1,
 				isDynamic: isDynamic,
-				displayName,
+				displayName
 			};
 		});
 	}, [matches]);
 
 	// Don't show breadcrumbs if we're on the home page
-	if (location.pathname === "/") {
+	if (location.pathname === '/') {
 		return null;
 	}
 
@@ -78,47 +75,45 @@ const Breadcrumbs = () => {
 							to="/"
 							className="hover:underline"
 							viewTransition={{
-								types: ["scale-up"],
+								types: ['scale-up']
 							}}
 						>
-							{t("breadcrumbs./")}
+							{t('breadcrumbs./')}
 						</Link>
 					</BreadcrumbLink>
 				</BreadcrumbItem>
-				{breadcrumbs.map(
-					({ path, isLast, isDynamic, translationKey, displayName }) => (
-						<Fragment key={path}>
-							<BreadcrumbSeparator>
-								<Slash className="h-4 w-4" />
-							</BreadcrumbSeparator>
-							<BreadcrumbItem>
-								<BreadcrumbLink asChild>
-									{isLast && isDynamic ? (
-										<Link
-											to={path}
-											className="hover:underline"
-											viewTransition={{
-												types: ["scale-up"],
-											}}
-										>
-											{displayName ?? toTitleCase(translationKey)}
-										</Link>
-									) : (
-										<Link
-											to={path}
-											className="hover:underline"
-											viewTransition={{
-												types: ["scale-up"],
-											}}
-										>
-											{t(`breadcrumbs.${translationKey}`)}
-										</Link>
-									)}
-								</BreadcrumbLink>
-							</BreadcrumbItem>
-						</Fragment>
-					)
-				)}
+				{breadcrumbs.map(({ path, isLast, isDynamic, translationKey, displayName }) => (
+					<Fragment key={path}>
+						<BreadcrumbSeparator>
+							<Slash className="h-4 w-4" />
+						</BreadcrumbSeparator>
+						<BreadcrumbItem>
+							<BreadcrumbLink asChild>
+								{isLast && isDynamic ? (
+									<Link
+										to={path}
+										className="hover:underline"
+										viewTransition={{
+											types: ['scale-up']
+										}}
+									>
+										{displayName ?? toTitleCase(translationKey)}
+									</Link>
+								) : (
+									<Link
+										to={path}
+										className="hover:underline"
+										viewTransition={{
+											types: ['scale-up']
+										}}
+									>
+										{t(`breadcrumbs.${translationKey}`)}
+									</Link>
+								)}
+							</BreadcrumbLink>
+						</BreadcrumbItem>
+					</Fragment>
+				))}
 			</BreadcrumbList>
 		</Breadcrumb>
 	);
