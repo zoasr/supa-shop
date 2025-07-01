@@ -249,5 +249,13 @@ export const getUserImage: () => Promise<string | AuthError> = async () => {
 	if (error) {
 		return error;
 	}
-	return data.user.user_metadata.avatar_url;
+	return data.user.user_metadata.avatar_url ? data.user.user_metadata.avatar_url : undefined;
+};
+
+export const getUser = async () => {
+	const { data, error } = await supabase.auth.getUser();
+	if (error) {
+		return error;
+	}
+	return data.user;
 };

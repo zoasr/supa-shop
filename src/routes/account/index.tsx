@@ -1,5 +1,21 @@
-import { isLoggedIn } from '@/utils/supabase';
-import { createFileRoute, Link, redirect } from '@tanstack/react-router';
+import { getUser, isLoggedIn } from '@/utils/supabase';
+import { createFileRoute, Link, redirect, useLoaderData } from '@tanstack/react-router';
+import { useForm } from '@tanstack/react-form';
+import { z } from 'zod';
+import { Input } from '$/components/ui/input';
+import { cn } from '$/lib/utils';
+
+const FormInput = ({ className, ...props }: React.ComponentProps<typeof Input>) => {
+	return (
+		<Input
+			className={cn(
+				'h-auto w-full rounded-md border-0 bg-skin-secondary px-4 py-3 text-skin-text-2/50 selection:bg-skin-secondary-2 placeholder:text-skin-text-2/30 focus:border-transparent focus:text-skin-text-2 focus:ring-2 focus:ring-skin-secondary-2',
+				className
+			)}
+			{...props}
+		/>
+	);
+};
 
 export const Route = createFileRoute('/account/')({
 	beforeLoad: async () => {
@@ -10,7 +26,70 @@ export const Route = createFileRoute('/account/')({
 			});
 		}
 	},
+	loader: async () => {
+		const user = await getUser();
+		if (user instanceof Error) {
+			throw redirect({
+				to: '/login'
+			});
+		}
+		return {
+			user: user.user_metadata,
+			isOAuth: user instanceof Error || user.identities?.[0]?.provider !== 'email' || false
+		};
+	},
+
 	component: () => {
+		const { user, isOAuth } = useLoaderData({ from: '/account/' });
+		const form = useForm({
+			defaultValues: {
+				firstName: (user.full_name?.split(' ')[0] || user.name || 'name') as string,
+				lastName: (user.full_name?.split(' ')[1] || '') as string,
+				email: user.email as string,
+				address: '',
+				currPass: '',
+				newPass: '',
+				confirmNewPass: ''
+			},
+			validators: {
+				onChange: z
+					.object({
+						firstName: z.string().min(1),
+						lastName: z.union([z.string(), z.literal('')]),
+						email: z.string().email(),
+						address: z.string().optional(),
+						currPass: z.string().superRefine((val, ctx) => {
+							if (val !== '' && val.length < 6) {
+								ctx.addIssue({
+									code: 'custom',
+									message: 'Password must be at least 6 characters long'
+								});
+							}
+						}),
+						newPass: z.string().optional(),
+						confirmNewPass: z.string().optional()
+					})
+					.superRefine((data, ctx) => {
+						if (data.currPass && data.newPass && data.newPass?.length < 6 && !data.newPass) {
+							ctx.addIssue({
+								path: ['newPass'],
+								code: 'custom',
+								message: 'Please enter a new password'
+							});
+						}
+						if (data.newPass !== data.confirmNewPass) {
+							ctx.addIssue({
+								path: ['confirmNewPass'],
+								code: 'custom',
+								message: 'Passwords do not match'
+							});
+						}
+					})
+			},
+			onSubmit: () => {
+				console.log('submit');
+			}
+		});
 		return (
 			<div className="container mx-auto p-4">
 				<h1 className="mb-6 text-3xl font-bold">Account Management</h1>
@@ -58,89 +137,199 @@ export const Route = createFileRoute('/account/')({
 						<form className="space-y-6">
 							<div className="grid grid-cols-1 gap-6 md:grid-cols-2">
 								<div className="col-span-2 md:col-span-1">
-									<label
-										htmlFor="firstName"
-										className="mb-1 block text-sm font-medium text-skin-text-2"
-									>
-										First Name
-									</label>
-									<input
-										type="text"
-										id="firstName"
-										placeholder="Md"
-										className="w-full rounded-md bg-skin-secondary px-4 py-3 text-skin-text-2/50 focus:border-transparent focus:text-skin-text-2 focus:ring-2 focus:ring-skin-secondary-2"
-									/>
+									<form.Field name="firstName">
+										{(field) => {
+											return (
+												<>
+													<label
+														htmlFor="firstName"
+														className="mb-1 block text-sm font-medium text-skin-text-2"
+													>
+														First Name
+													</label>
+													<FormInput
+														type="text"
+														id="firstName"
+														placeholder="Md"
+														value={field.state.value}
+														onChange={(e) => field.handleChange(e.target.value)}
+														className={!field.state.meta.isValid ? '!bg-red-500/20' : ''}
+													/>
+													<em className="mt-2 text-xs text-red-500">
+														{field.state.meta.isValid ? '' : 'First name is required'}
+													</em>
+												</>
+											);
+										}}
+									</form.Field>
 								</div>
 								<div className="col-span-2 md:col-span-1">
-									<label
-										htmlFor="lastName"
-										className="mb-1 block text-sm font-medium text-skin-text-2"
-									>
-										Last Name
-									</label>
-									<input
-										type="text"
-										id="lastName"
-										placeholder="Rimel"
-										className="w-full rounded-md bg-skin-secondary px-4 py-3 text-skin-text-2/50 focus:border-transparent focus:text-skin-text-2 focus:ring-2 focus:ring-skin-secondary-2"
-									/>
+									<form.Field name="lastName">
+										{(field) => {
+											return (
+												<>
+													<label
+														htmlFor={field.name}
+														className="mb-1 block text-sm font-medium text-skin-text-2"
+													>
+														Last Name
+													</label>
+													<FormInput
+														type="text"
+														id={field.name}
+														value={field.state.value}
+														onChange={(e) => field.handleChange(e.target.value)}
+														className={!field.state.meta.isValid ? '!bg-red-500/20' : ''}
+													/>
+													<em className="mt-2 text-xs text-red-500">
+														{field.state.meta.isValid ? '' : 'Last name is required'}
+													</em>
+												</>
+											);
+										}}
+									</form.Field>
 								</div>
 								<div className="col-span-2 md:col-span-1">
-									<label htmlFor="email" className="mb-1 block text-sm font-medium text-skin-text-2">
-										Email
-									</label>
-									<input
-										type="email"
-										id="email"
-										placeholder="rimell111@gmail.com"
-										className="w-full rounded-md bg-skin-secondary px-4 py-3 text-skin-text-2/50 focus:border-transparent focus:text-skin-text-2 focus:ring-2 focus:ring-skin-secondary-2"
-									/>
+									<form.Field name="email">
+										{(field) => {
+											return (
+												<>
+													<label
+														htmlFor={field.name}
+														className="mb-1 block text-sm font-medium text-skin-text-2"
+													>
+														Email
+													</label>
+													<FormInput
+														type="email"
+														placeholder='ex: "r5oNt@example.com"'
+														id={field.name}
+														value={field.state.value}
+														onChange={(e) => field.handleChange(e.target.value)}
+														className={!field.state.meta.isValid ? '!bg-red-500/20' : ''}
+													/>
+													<em className="mt-2 text-xs text-red-500">
+														{field.state.meta.isValid ? '' : 'Please enter a valid email'}
+													</em>
+												</>
+											);
+										}}
+									</form.Field>
 								</div>
 								<div className="col-span-2 md:col-span-1">
-									<label
-										htmlFor="address"
-										className="mb-1 block text-sm font-medium text-skin-text-2"
-									>
-										Address
-									</label>
-									<input
-										type="text"
-										id="address"
-										placeholder="Kingston, 5236, United State"
-										className="w-full rounded-md bg-skin-secondary px-4 py-3 text-skin-text-2/50 focus:border-transparent focus:text-skin-text-2 focus:ring-2 focus:ring-skin-secondary-2"
-									/>
+									<form.Field name="address">
+										{(field) => {
+											return (
+												<>
+													<label
+														htmlFor="address"
+														className="mb-1 block text-sm font-medium text-skin-text-2"
+													>
+														Address
+													</label>
+													<FormInput
+														type="text"
+														id="address"
+														placeholder="Kingston, 5236, United States"
+														onChange={(e) => field.handleChange(e.target.value)}
+														value={field.state.value}
+														className={!field.state.meta.isValid ? '!bg-red-500/20' : ''}
+													/>
+													<em className="mt-2 text-xs text-red-500">
+														{field.state.meta.isValid ? '' : 'Please enter a valid Address'}
+													</em>
+												</>
+											);
+										}}
+									</form.Field>
 								</div>
 							</div>
-
-							<div className="pt-6">
-								<h3 className="mb-4 font-medium text-skin-text-2">Password Changes</h3>
-								<div className="space-y-4">
-									<div>
-										<input
-											type="password"
-											id="currentPassword"
-											placeholder="Current Password"
-											className="w-full rounded-md bg-skin-secondary px-4 py-3 text-skin-text-2/50 focus:border-transparent focus:text-skin-text-2 focus:ring-2 focus:ring-skin-secondary-2"
-										/>
-									</div>
-									<div>
-										<input
-											type="password"
-											id="newPassword"
-											placeholder="New Password"
-											className="w-full rounded-md bg-skin-secondary px-4 py-3 text-skin-text-2/50 focus:border-transparent focus:text-skin-text-2 focus:ring-2 focus:ring-skin-secondary-2"
-										/>
-									</div>
-									<div>
-										<input
-											type="password"
-											id="confirmPassword"
-											placeholder="Confirm New Password"
-											className="w-full rounded-md bg-skin-secondary px-4 py-3 text-skin-text-2/50 focus:border-transparent focus:text-skin-text-2 focus:ring-2 focus:ring-skin-secondary-2"
-										/>
+							{!isOAuth && (
+								<div className="pt-6">
+									<h3 className="mb-4 font-medium text-skin-text-2">Password Change</h3>
+									<div className="space-y-4">
+										<div>
+											<form.Field name="currPass">
+												{(field) => {
+													return (
+														<>
+															<FormInput
+																type="password"
+																id={field.name}
+																placeholder="Current Password"
+																value={field.state.value}
+																onChange={(e) => field.handleChange(e.target.value)}
+																className={
+																	!field.state.meta.isValid ? 'bg-red-500/20' : ''
+																}
+															/>
+															<em className="mt-2 space-x-2 text-xs text-red-500">
+																{!field.state.meta.isValid &&
+																	field.state.meta.errors
+																		// @ts-ignore
+																		.map((e) => e.message)
+																		.join(', ')}
+															</em>
+														</>
+													);
+												}}
+											</form.Field>
+										</div>
+										<div>
+											<form.Field name="newPass">
+												{(field) => (
+													<>
+														<FormInput
+															type="password"
+															id={field.name}
+															placeholder="New Password"
+															value={field.state.value}
+															onChange={(e) => field.handleChange(e.target.value)}
+															className={!field.state.meta.isValid ? 'bg-red-500/20' : ''}
+														/>
+														<em className="mt-2 space-x-2 text-xs text-red-500">
+															{!field.state.meta.isValid &&
+																field.state.meta.errors
+																	// @ts-ignore
+																	.map((e) => e.message)
+																	.join(', ')}
+														</em>
+													</>
+												)}
+											</form.Field>
+										</div>
+										<div>
+											<form.Field name="confirmNewPass">
+												{(field) => (
+													<>
+														<FormInput
+															type="password"
+															id={field.name}
+															placeholder="Confirm New Password"
+															value={field.state.value}
+															onChange={(e) => field.handleChange(e.target.value)}
+															className={!field.state.meta.isValid ? 'bg-red-500/20' : ''}
+														/>
+														<em className="mt-2 space-x-2 text-xs text-red-500">
+															{!field.state.meta.isValid &&
+																field.state.meta.errors
+																	// @ts-ignore
+																	.map((e) => e.message)
+																	.join(', ')}
+														</em>
+													</>
+												)}
+											</form.Field>
+											{/* <input
+												type="password"
+												id="confirmPassword"
+												placeholder="Confirm New Password"
+												className="px-4 py-3 w-full rounded-md bg-skin-secondary text-skin-text-2/50 focus:border-transparent focus:text-skin-text-2 focus:ring-2 focus:ring-skin-secondary-2"
+											/> */}
+										</div>
 									</div>
 								</div>
-							</div>
+							)}
 
 							<div className="flex justify-end space-x-4 pt-6">
 								<button
