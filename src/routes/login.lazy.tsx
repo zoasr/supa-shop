@@ -1,11 +1,12 @@
 import { supabase } from '@/utils/supabase';
-import { Link, createLazyFileRoute, useNavigate } from '@tanstack/react-router';
+import { Link, createLazyFileRoute, redirect } from '@tanstack/react-router';
 import sideImage from '@/assets/side-image.png';
 
 import googleSignupImage from '@/assets/icon-google.svg';
+import { useState } from 'react';
 
 const Login = () => {
-	const navigate = useNavigate();
+	const [error, setError] = useState<Error | null>(null);
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const formData = new FormData(event.currentTarget);
@@ -16,10 +17,11 @@ const Login = () => {
 		const { data, error } = await supabase.auth.signInWithPassword(formObj);
 		if (error) {
 			console.log(error);
+			setError(error);
 		}
-		if (data) {
-			navigate({
-				to: '/'
+		if (data.session) {
+			redirect({
+				to: '/account'
 			});
 		}
 	};
@@ -30,6 +32,7 @@ const Login = () => {
 		});
 		if (error) {
 			console.log(error);
+			setError(error);
 		}
 		if (data) {
 			console.log(data);
@@ -58,6 +61,7 @@ const Login = () => {
 						required
 						name="password"
 					/>
+					{error && <p className="text-center text-red-500 sm:text-left">{error.message}</p>}
 					<button
 						type="submit"
 						className="rounded-lg bg-skin-secondary-2 px-8 py-4 text-skin-text transition-all hover:opacity-80 focus-visible:opacity-80"

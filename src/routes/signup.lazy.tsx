@@ -1,12 +1,14 @@
-import { Link, createLazyFileRoute } from '@tanstack/react-router';
+import { Link, createLazyFileRoute, redirect } from '@tanstack/react-router';
 
 import sideImage from '@/assets/side-image.png';
 
 import googleSignupImage from '@/assets/icon-google.svg';
 
 import { supabase } from '@/utils/supabase';
+import { useState } from 'react';
 
 const Signup = () => {
+	const [error, setError] = useState<Error | null>(null);
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const formData = new FormData(event.currentTarget);
@@ -26,9 +28,13 @@ const Signup = () => {
 		});
 		if (error) {
 			console.log(error);
+			setError(error);
 		}
 		if (data) {
 			console.log(data);
+			redirect({
+				to: '/account'
+			});
 		}
 	};
 
@@ -38,9 +44,13 @@ const Signup = () => {
 		});
 		if (error) {
 			console.log(error);
+			setError(error);
 		}
 		if (data) {
 			console.log(data);
+			redirect({
+				to: '/account'
+			});
 		}
 	};
 	return (
@@ -71,6 +81,7 @@ const Signup = () => {
 						required
 						name="password"
 					/>
+					{error && <p className="font-bold text-red-500">{error.message}</p>}
 					<button
 						type="submit"
 						className="rounded-md bg-skin-secondary-2 px-8 py-4 text-skin-text transition-all hover:opacity-80 focus-visible:opacity-80"
