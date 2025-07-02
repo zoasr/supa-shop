@@ -22,6 +22,7 @@ import { Toaster } from 'sonner';
 import { getUserImage } from '@/utils/supabase';
 import { useCartStore } from '@/store/cart';
 import { useWishlistStore } from '@/store/wishlist';
+import { useThemeStore } from '@/store/theme';
 
 const Root = () => {
 	const { i18n } = useTranslation();
@@ -56,6 +57,11 @@ export const Route = createRootRoute({
 		const imageUrl = await getUserImage();
 		useWishlistStore.getState().refreshWishlist();
 		useCartStore.getState().refreshCart();
+		const localTheme = localStorage.getItem('theme') ?? 'light';
+		useThemeStore.setState(() => ({ isDarkMode: localTheme === 'dark' }));
+		if (localTheme === 'dark') {
+			document.documentElement.classList.add('dark');
+		}
 		return { imageUrl };
 	},
 	component: Root

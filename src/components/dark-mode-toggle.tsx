@@ -1,24 +1,12 @@
+import { useThemeStore } from '@/store/theme';
 import { Moon, Sun } from 'lucide-react';
-import { useState, useEffect } from 'react';
-Moon;
 
 const DarkModeToggle = () => {
-	const [isDarkMode, setIsDarkMode] = useState(false);
-
-	useEffect(() => {
-		if (isDarkMode) {
-			document.documentElement.classList.add('dark');
-		} else {
-			document.documentElement.classList.remove('dark');
-		}
-	}, [isDarkMode]);
-
-	const toggleDarkMode = () => {
-		setIsDarkMode(!isDarkMode);
-	};
+	const isDarkMode = useThemeStore((selector) => selector.isDarkMode);
+	const setIsDarkMode = useThemeStore((selector) => selector.toggleDarkMode);
 
 	return (
-		<button onClick={toggleDarkMode} className="flex justify-between gap-2 rounded-sm p-2">
+		<button onClick={setIsDarkMode} className="flex justify-between gap-2 rounded-sm p-2">
 			{isDarkMode ? <Moon className="text-foreground" /> : <Sun className="text-foreground" />}
 			{isDarkMode ? 'Dark' : 'Light'}
 		</button>
