@@ -1,4 +1,4 @@
-import userIcon from '@/assets/user.svg';
+import UserIcon from '@/assets/user.svg?react';
 
 import logoutIcon from '@/assets/Icon-logout.svg';
 import orderIcon from '@/assets/icon-mallbag.svg';
@@ -36,21 +36,26 @@ const UserDropdown = () => {
 						}
 					)}
 				>
-					<img
-						src={!(imageUrl instanceof Error) && imageUrl ? imageUrl : userIcon}
-						alt="User Icon"
-						data-has-icon={!!imageUrl}
-						className={cn(
-							'size-10 rounded-full data-[has-icon=false]:group-hover:invert data-[has-icon=false]:group-focus-visible:invert data-[has-icon=false]:group-active:invert',
-							{
-								'data-[has-icon=false]:invert': open
-							}
-						)}
-					/>
+					{!(imageUrl instanceof Error) && imageUrl ? (
+						<img
+							src={imageUrl}
+							alt="User Icon"
+							data-has-icon={!!imageUrl}
+							className={cn(
+								'size-10 rounded-full data-[has-icon=false]:group-hover:invert data-[has-icon=false]:group-focus-visible:invert data-[has-icon=false]:group-active:invert',
+								{
+									'data-[has-icon=false]:invert': open
+								}
+							)}
+						/>
+					) : (
+						<UserIcon className="group-hover:text-skin-primary" />
+					)}
 				</DropdownMenuTrigger>
 				<DropdownMenuContent className="border-none bg-black/50 text-white filter backdrop-blur-xl">
 					<DropdownMenuItem className="flex gap-2 focus:bg-skin-secondary-2">
-						<img className="invert" src={userIcon} alt="" />
+						<UserIcon className="text-white" />
+						{/* <img className="invert" src={userIcon} alt="" /> */}
 						<Link to="/account">Manage My Account</Link>
 					</DropdownMenuItem>
 					<DropdownMenuItem className="flex gap-2 focus:bg-skin-secondary-2">
