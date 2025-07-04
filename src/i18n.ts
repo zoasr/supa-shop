@@ -421,6 +421,69 @@ const cartTranslation = {
 	}
 };
 
+const accountPageTranslation = {
+	en: {
+		translation: {
+			accountNav: {
+				title: 'My Account',
+				profile: 'My Profile',
+				orders: 'Orders',
+				wishlist: 'Wishlist',
+				'wishlist.title': 'My Wishlist',
+				reviews: 'Reviews'
+			},
+			accountPage: {
+				title: 'Account Management',
+				profileTitle: 'Edit Your Profile'
+			},
+			formFields: {
+				firstName: 'First Name',
+				lastName: 'Last Name',
+				email: 'Email',
+				address: 'Address',
+				passwordTitle: 'Change Password',
+				password: 'Password',
+				newPassword: 'New Password',
+				confirmPassword: 'Confirm Password',
+				buttons: {
+					save: 'Save Changes',
+					cancel: 'Cancel'
+				}
+			}
+		}
+	},
+	ar: {
+		translation: {
+			accountNav: {
+				title: 'حسابي',
+				profile: 'الملف الشخصي',
+				orders: 'الطلبات',
+				wishlist: 'قائمة الرغبات',
+				'wishlist.title': 'قائمة رغباتي',
+				reviews: 'التقييمات'
+			},
+			accountPage: {
+				title: 'ادارة الحساب',
+				profileTitle: 'تعديل الملف الشخصي'
+			},
+			formFields: {
+				firstName: 'الاسم الاول',
+				lastName: 'الاسم الاخير',
+				email: 'البريد الالكتروني',
+				address: 'العنوان',
+				passwordTitle: 'تغيير كلمة المرور',
+				password: 'كلمة المرور',
+				newPassword: 'كلمة المرور الجديدة',
+				confirmPassword: 'تاكيد كلمة المرور',
+				buttons: {
+					save: 'حفظ التغييرات',
+					cancel: 'الغاء'
+				}
+			}
+		}
+	}
+};
+
 const commonTranslation = {
 	en: {
 		translation: {
@@ -442,7 +505,7 @@ const commonTranslation = {
 	}
 };
 
-const resources = {
+export const resources = {
 	en: {
 		translation: {
 			language: 'English',
@@ -460,7 +523,8 @@ const resources = {
 			...breadcrumbsTranslation['en'].translation,
 			...wishlistTranslation['en'].translation,
 			...commonTranslation['en'].translation,
-			...cartTranslation['en'].translation
+			...cartTranslation['en'].translation,
+			...accountPageTranslation['en'].translation
 		}
 	},
 	ar: {
@@ -480,7 +544,8 @@ const resources = {
 			...breadcrumbsTranslation['ar'].translation,
 			...wishlistTranslation['ar'].translation,
 			...commonTranslation['ar'].translation,
-			...cartTranslation['ar'].translation
+			...cartTranslation['ar'].translation,
+			...accountPageTranslation['ar'].translation
 		}
 	}
 };
