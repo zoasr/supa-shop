@@ -27,7 +27,7 @@ const UserDropdown = () => {
 			<DropdownMenu onOpenChange={handleChange} open={open} modal={false}>
 				<DropdownMenuTrigger
 					className={cn(
-						'group rounded-full p-2 transition-all duration-150',
+						'p-2 rounded-full transition-all duration-150 group',
 						'hover:bg-skin-secondary-2',
 						'active:bg-skin-secondary-2',
 						'focus-visible:bg-skin-secondary-2',
@@ -52,9 +52,9 @@ const UserDropdown = () => {
 						<UserIcon className="group-hover:text-skin-primary" />
 					)}
 				</DropdownMenuTrigger>
-				<DropdownMenuContent className="border-none bg-black/50 text-white filter backdrop-blur-xl">
+				<DropdownMenuContent className="text-white border-none filter backdrop-blur-xl bg-black/50">
 					<DropdownMenuItem className="flex gap-2 focus:bg-skin-secondary-2">
-						<UserIcon className="text-white" />
+						<UserIcon className="text-white size-8" />
 						{/* <img className="invert" src={userIcon} alt="" /> */}
 						<Link to="/account">Manage My Account</Link>
 					</DropdownMenuItem>
