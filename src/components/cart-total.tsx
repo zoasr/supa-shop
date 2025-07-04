@@ -1,6 +1,7 @@
 import { Button } from '$/components/ui/button';
 import { useCartStore } from '@/store/cart';
 import type { CartItem, Product } from '@/utils/utils';
+import { useTranslation } from 'react-i18next';
 
 interface CartTotalProps {
 	products: (Product | null)[];
@@ -17,6 +18,7 @@ const calculatePrice = (product: Product): number => {
 };
 
 export function CartTotal({ products }: CartTotalProps) {
+	const { t } = useTranslation();
 	const cart = useCartStore((state) => state.cart);
 	const calculateSubtotal = (): number => {
 		return products.reduce<number>((total, product) => {
@@ -33,24 +35,24 @@ export function CartTotal({ products }: CartTotalProps) {
 
 	return (
 		<div className="mt-8 w-full max-w-md justify-self-end rounded-lg bg-skin-secondary p-6 shadow-[0_0_10px_0_rgba(0,0,0,0.1)]">
-			<h3 className="mb-4 text-xl font-semibold">Cart Total</h3>
+			<h3 className="mb-4 text-xl font-semibold">{t('cart.cartTotal')}</h3>
 			<div className="mb-6 space-y-2">
 				<div className="flex justify-between">
-					<span>Subtotal:</span>
+					<span>{t('cart.subtotal')}:</span>
 					<span>${subtotal.toFixed(2)}</span>
 				</div>
 				<div className="flex justify-between">
-					<span>Shipping:</span>
-					<span>{shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`}</span>
+					<span>{t('cart.shipping')}:</span>
+					<span>{shipping === 0 ? t('cart.free') : `$${shipping.toFixed(2)}`}</span>
 				</div>
-				<div className="mt-2 flex justify-between border-t border-gray-200 pt-2 text-lg font-bold">
-					<span>Total:</span>
+				<div className="flex justify-between pt-2 mt-2 text-lg font-bold border-t border-gray-200">
+					<span>{t('cart.total')}:</span>
 					<span>${total.toFixed(2)}</span>
 				</div>
 			</div>
 
 			<Button variant="default" className="w-full" onClick={() => alert('Proceeding to checkout')}>
-				Proceed to Checkout
+				{t('cart.proceedToCheckout')}
 			</Button>
 		</div>
 	);
