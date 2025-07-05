@@ -27,15 +27,12 @@ const Login = () => {
 	};
 
 	const handleOAuth = async () => {
-		const { data, error } = await supabase.auth.signInWithOAuth({
+		const { error } = await supabase.auth.signInWithOAuth({
 			provider: 'google'
 		});
 		if (error) {
 			console.log(error);
 			setError(error);
-		}
-		if (data) {
-			console.log(data);
 		}
 	};
 	return (

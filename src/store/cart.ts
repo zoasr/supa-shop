@@ -34,7 +34,6 @@ export const useCartStore = create<CartStore>((set, get) => ({
 			cart: [...(get().cart || []), { product_id: productId, quantity }]
 		});
 		const res = await addToCart(productId, quantity);
-		console.log(res);
 		if (res instanceof Error) {
 			set({
 				cart: (get().cart || []).filter((item: { product_id: number }) => item.product_id !== productId)

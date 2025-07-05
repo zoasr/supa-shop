@@ -31,7 +31,6 @@ const Signup = () => {
 			setError(error);
 		}
 		if (data) {
-			console.log(data);
 			redirect({
 				to: '/account'
 			});
@@ -47,7 +46,6 @@ const Signup = () => {
 			setError(error);
 		}
 		if (data) {
-			console.log(data);
 			redirect({
 				to: '/account'
 			});
