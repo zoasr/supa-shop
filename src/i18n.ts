@@ -606,7 +606,9 @@ export const resources = {
 			...wishlistTranslation['en'].translation,
 			...commonTranslation['en'].translation,
 			...cartTranslation['en'].translation,
-			...accountPageTranslation['en'].translation
+			...accountPageTranslation['en'].translation,
+			...loginPageTranslation['en'].translation,
+			...signupPageTranslation['en'].translation
 		}
 	},
 	ar: {
@@ -627,7 +629,9 @@ export const resources = {
 			...wishlistTranslation['ar'].translation,
 			...commonTranslation['ar'].translation,
 			...cartTranslation['ar'].translation,
-			...accountPageTranslation['ar'].translation
+			...accountPageTranslation['ar'].translation,
+			...loginPageTranslation['ar'].translation,
+			...signupPageTranslation['ar'].translation
 		}
 	}
 };
