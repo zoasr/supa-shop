@@ -528,6 +528,44 @@ const loginPageTranslation = {
 		}
 	}
 };
+
+const signupPageTranslation = {
+	en: {
+		translation: {
+			signupPage: {
+				title: 'Create an account',
+				details: 'Enter your details below',
+				name: 'Name',
+				email: 'Email',
+				password: 'Password',
+				already: 'Already have an account?',
+				buttons: {
+					login: 'Login',
+					signup: 'Sign Up',
+					google: 'Sign in with Google'
+				}
+			}
+		}
+	},
+	ar: {
+		translation: {
+			signupPage: {
+				title: 'تسجيل حساب جديد',
+				details: 'ادخل التفاصيل التالية',
+				name: 'الاسم',
+				email: 'البريد الالكتروني',
+				password: 'كلمة المرور',
+				already: 'لديك حساب بالفعل؟',
+				buttons: {
+					login: 'تسجيل الدخول',
+					signup: 'تسجيل حساب جديد',
+					google: 'انشاء حساب باستخدام جوجل'
+				}
+			}
+		}
+	}
+};
+
 const commonTranslation = {
 	en: {
 		translation: {

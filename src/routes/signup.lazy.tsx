@@ -6,8 +6,11 @@ import googleSignupImage from '@/assets/icon-google.svg';
 
 import { supabase } from '@/utils/supabase';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Button } from '$/components/ui/button';
 
 const Signup = () => {
+	const { t } = useTranslation();
 	const [error, setError] = useState<Error | null>(null);
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -55,48 +58,40 @@ const Signup = () => {
 		<>
 			<main className="my-10 flex max-w-[1400px] flex-col-reverse justify-between gap-8 px-8 md:flex-row">
 				<img src={sideImage} alt="side-image" />
-				<form className="flex flex-col justify-center gap-4 px-8" onSubmit={handleSubmit}>
-					<h1 className="text-4xl font-medium">Create an account</h1>
-					<p>Enter your details below</p>
+				<form className="flex flex-col gap-4 justify-center px-8" onSubmit={handleSubmit}>
+					<h1 className="text-4xl font-medium">{t('signupPage.title')}</h1>
+					<p>{t('signupPage.details')}</p>
 					<input
-						className="rounded-b-md border-b-2 py-4 transition-all duration-75 outline-none focus-visible:border-b-4"
+						className="py-4 rounded-b-md border-b-2 transition-all duration-75 outline-none focus-visible:border-b-4"
 						type="text"
-						placeholder="Name"
+						placeholder={t('signupPage.name')}
 						required
 						name="name"
 					/>
 					<input
-						className="rounded-b-md border-b-2 py-4 transition-all duration-75 outline-none focus-visible:border-b-4"
+						className="py-4 rounded-b-md border-b-2 transition-all duration-75 outline-none focus-visible:border-b-4"
 						type="email"
-						placeholder="Email"
+						placeholder={t('signupPage.email')}
 						required
 						name="email"
 					/>
 					<input
-						className="rounded-b-md border-b-2 py-4 transition-all duration-75 outline-none focus-visible:border-b-4"
+						className="py-4 rounded-b-md border-b-2 transition-all duration-75 outline-none focus-visible:border-b-4"
 						type="password"
-						placeholder="Password"
+						placeholder={t('signupPage.password')}
 						required
 						name="password"
 					/>
 					{error && <p className="font-bold text-red-500">{error.message}</p>}
-					<button
-						type="submit"
-						className="rounded-md bg-skin-secondary-2 px-8 py-4 text-skin-text transition-all hover:opacity-80 focus-visible:opacity-80"
-					>
-						Create Account
-					</button>
-					<button
-						onClick={handleOAuth}
-						className="flex items-center justify-center gap-4 rounded-md bg-transparent px-8 py-4 text-black ring-2 ring-black/40 transition-all hover:opacity-80 focus-visible:opacity-80"
-					>
+					<Button type="submit">{t('signupPage.buttons.signup')}</Button>
+					<Button type="button" onClick={handleOAuth} variant={'outline'}>
 						<img src={googleSignupImage} alt="" />
-						Sign up with Google
-					</button>
+						{t('signupPage.buttons.google')}
+					</Button>
 					<p className="text-center">
-						Already have an account?{' '}
+						{t('signupPage.already')}{' '}
 						<Link to="/login" className="font-bold underline">
-							Login
+							{t('signupPage.buttons.login')}
 						</Link>{' '}
 					</p>
 				</form>
