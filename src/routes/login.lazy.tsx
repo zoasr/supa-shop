@@ -4,8 +4,11 @@ import sideImage from '@/assets/side-image.png';
 
 import googleSignupImage from '@/assets/icon-google.svg';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Button } from '$/components/ui/button';
 
 const Login = () => {
+	const { t } = useTranslation();
 	const [error, setError] = useState<Error | null>(null);
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -41,41 +44,33 @@ const Login = () => {
 				<div className="h-[100%] w-full lg:w-1/2">
 					<img src={sideImage} alt="side-image" className="h-[100%] w-[100%] object-cover" />
 				</div>
-				<form className="flex w-full flex-col justify-center gap-4 px-8 lg:w-1/2" onSubmit={handleSubmit}>
-					<h1 className="text-4xl font-medium">Log in to Exclusive</h1>
-					<p>Enter your details below</p>
+				<form className="flex flex-col gap-4 justify-center px-8 w-full lg:w-1/2" onSubmit={handleSubmit}>
+					<h1 className="text-4xl font-medium">{t('loginPage.title')}</h1>
+					<p>{t('loginPage.details')}</p>
 					<input
-						className="rounded-b-md border-b-2 py-4 transition-all duration-75 outline-none focus-visible:border-b-4"
+						className="py-4 rounded-b-md border-b-2 transition-all duration-75 outline-none focus-visible:border-b-4"
 						type="email"
-						placeholder="Email"
+						placeholder={t('loginPage.email')}
 						required
 						name="email"
 					/>
 					<input
-						className="rounded-b-md border-b-2 py-4 transition-all duration-75 outline-none focus-visible:border-b-4"
+						className="py-4 rounded-b-md border-b-2 transition-all duration-75 outline-none focus-visible:border-b-4"
 						type="password"
-						placeholder="Password"
+						placeholder={t('loginPage.password')}
 						required
 						name="password"
 					/>
 					{error && <p className="text-center text-red-500 sm:text-left">{error.message}</p>}
-					<button
-						type="submit"
-						className="rounded-lg bg-skin-secondary-2 px-8 py-4 text-skin-text transition-all hover:opacity-80 focus-visible:opacity-80"
-					>
-						Login
-					</button>
-					<button
-						onClick={handleOAuth}
-						className="flex items-center justify-center gap-4 rounded-md bg-transparent px-8 py-4 text-black ring-2 ring-black/40 transition-all hover:opacity-80 focus-visible:opacity-80"
-					>
+					<Button type="submit">{t('loginPage.buttons.login')}</Button>
+					<Button type="button" onClick={handleOAuth} variant={'outline'}>
 						<img src={googleSignupImage} alt="" />
-						Sign in with Google
-					</button>
+						{t('loginPage.buttons.google')}
+					</Button>
 					<p className="text-center">
-						Don't have an account?{' '}
+						{t('loginPage.nologin')}{' '}
 						<Link to="/signup" className="font-bold underline">
-							Signup
+							{t('loginPage.buttons.signup')}
 						</Link>{' '}
 					</p>
 				</form>

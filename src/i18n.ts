@@ -494,6 +494,40 @@ const accountPageTranslation = {
 	}
 };
 
+const loginPageTranslation = {
+	en: {
+		translation: {
+			loginPage: {
+				title: 'Login to Exclusive',
+				details: 'Enter your details below',
+				email: 'Email',
+				password: 'Password',
+				nologin: "Don't have an account?",
+				buttons: {
+					login: 'Login',
+					signup: 'Sign Up',
+					google: 'Sign in with Google'
+				}
+			}
+		}
+	},
+	ar: {
+		translation: {
+			loginPage: {
+				title: 'تسجيل الدخول',
+				details: 'ادخل التفاصيل التالية',
+				email: 'البريد الالكتروني',
+				password: 'كلمة المرور',
+				nologin: 'ليس لديك حساب؟',
+				buttons: {
+					login: 'تسجيل الدخول',
+					signup: 'تسجيل حساب جديد',
+					google: 'تسجيل الدخول باستخدام جوجل'
+				}
+			}
+		}
+	}
+};
 const commonTranslation = {
 	en: {
 		translation: {
