@@ -1,9 +1,11 @@
-import SendIcon from '@/assets/icon-send.svg?react';
-import { Link } from '@tanstack/react-router';
+/** biome-ignore-all lint/a11y/useValidAnchor: links that don't go nowhere yet */
 import { Icon } from '@iconify-icon/react';
+import { Link } from '@tanstack/react-router';
+import { useTranslation } from 'react-i18next';
 
 import app from '@/assets/app.png';
-import { useTranslation } from 'react-i18next';
+import SendIcon from '@/assets/icon-send.svg?react';
+
 const Footer = () => {
 	const { t } = useTranslation();
 	return (
@@ -13,11 +15,11 @@ const Footer = () => {
 					<h1 className="text-2xl font-bold">{t('footer.exclusive.title')}</h1>
 					<h2 className="text-xl font-medium">{t('footer.exclusive.subscribe.title')}</h2>
 					<p>{t('footer.exclusive.subscribe.text')}</p>
-					<label className="flex w-fit gap-2 rounded-md px-5 py-3 ring-2 ring-skin-text">
+					<label className="flex gap-2 px-5 py-3 rounded-md ring-2 w-fit ring-skin-text">
 						<input
 							type="text"
 							placeholder={t('footer.exclusive.subscribe.placeholder')}
-							className="flex-shrink-1 bg-transparent outline-none"
+							className="bg-transparent outline-none flex-shrink-1"
 						/>
 						<button className="flex-1 shrink-0">
 							<SendIcon />
@@ -73,7 +75,7 @@ const Footer = () => {
 					<h2 className="text-xl font-medium">{t('footer.downloadApp.title')}</h2>
 					<p className="text-sm text-skin-secondary/50">{t('footer.downloadApp.text')}</p>
 					<img src={app} alt="" />
-					<ul className="flex justify-center gap-2">
+					<ul className="flex gap-2 justify-center">
 						<li>
 							<a href="#">
 								<Icon icon="ri:facebook-line" />
@@ -97,7 +99,7 @@ const Footer = () => {
 					</ul>
 				</div>
 			</div>
-			<div className="w-full border-t-2 border-skin-secondary/10 py-4 text-center text-skin-primary/30">
+			<div className="py-4 w-full text-center border-t-2 border-skin-secondary/10 text-skin-primary/30">
 				{t('footer.copyright')}
 			</div>
 		</footer>

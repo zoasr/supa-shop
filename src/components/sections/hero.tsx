@@ -1,18 +1,16 @@
-import heroImage from '@/assets/hero-image.png';
-import appleLogo from '@/assets/apple-logo.svg';
+import { cn } from '$/lib/utils';
 import { Icon } from '@iconify-icon/react';
 import { Link } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
-import { cn } from '$/lib/utils';
+import appleLogo from '@/assets/apple-logo.svg';
+import heroImage from '@/assets/hero-image.png';
 
 const Category = ({ label, dir }: { label: string; dir: 'ltr' | 'rtl' }) => {
 	return (
-		<>
-			<li className="flex items-center gap-2 transition-all duration-75 hover:border-b-2 hover:border-skin-secondary">
-				<Link to="#">{label}</Link>
-				{dir === 'rtl' ? <Icon icon="radix-icons:caret-left" /> : <Icon icon="radix-icons:caret-right" />}
-			</li>
-		</>
+		<li className="flex items-center gap-2 transition-all duration-75 hover:border-b-2 hover:border-skin-secondary">
+			<Link to="#">{label}</Link>
+			{dir === 'rtl' ? <Icon icon="radix-icons:caret-left" /> : <Icon icon="radix-icons:caret-right" />}
+		</li>
 	);
 };
 

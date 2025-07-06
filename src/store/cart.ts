@@ -1,6 +1,6 @@
+import { create } from 'zustand';
 import { addToCart, getCart, modifyCart, removeFromCart } from '@/utils/supabase';
 import type { CartItem } from '@/utils/utils';
-import { create } from 'zustand';
 
 interface CartStore {
 	count: number;

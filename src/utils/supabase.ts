@@ -1,4 +1,4 @@
-import { AuthError, createClient } from '@supabase/supabase-js';
+import { type AuthError, createClient } from '@supabase/supabase-js';
 import type { CartItem, Product, WishlistItem } from './utils';
 
 const supabaseUrl = import.meta.env.VITE_PROJECT_URL;

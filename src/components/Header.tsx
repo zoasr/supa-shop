@@ -1,14 +1,14 @@
+import { cn } from '$/lib/utils';
 import { Link } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
-import SearchIcon from '@/assets/icon-search.svg?react';
-import TopCallout from './top-callout';
-import HeartIcon from '@/assets/heart small.svg?react';
 import CartIcon from '@/assets/Cart1.svg?react';
-import UserDropdown from './user-dropdown';
-import DarkModeToggle from './dark-mode-toggle';
-import { cn } from '$/lib/utils';
-import { useWishlistStore } from '@/store/wishlist';
+import HeartIcon from '@/assets/heart small.svg?react';
+import SearchIcon from '@/assets/icon-search.svg?react';
 import { useCartStore } from '@/store/cart';
+import { useWishlistStore } from '@/store/wishlist';
+import DarkModeToggle from './dark-mode-toggle';
+import TopCallout from './top-callout';
+import UserDropdown from './user-dropdown';
 
 const WishList = () => {
 	const wishCount = useWishlistStore((state) => state.count);

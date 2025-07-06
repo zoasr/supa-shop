@@ -1,8 +1,7 @@
-import * as React from 'react';
+import { cn } from '$/lib/utils';
 import { Slot } from '@radix-ui/react-slot';
 import { ChevronRight, MoreHorizontal } from 'lucide-react';
-
-import { cn } from '$/lib/utils';
+import type * as React from 'react';
 
 function Breadcrumb({ ...props }: React.ComponentProps<'nav'>) {
 	return <nav aria-label="breadcrumb" data-slot="breadcrumb" {...props} />;
@@ -46,6 +45,7 @@ function BreadcrumbLink({
 function BreadcrumbPage({ className, ...props }: React.ComponentProps<'span'>) {
 	return (
 		<span
+			tabIndex={0}
 			data-slot="breadcrumb-page"
 			role="link"
 			aria-disabled="true"
@@ -76,7 +76,7 @@ function BreadcrumbEllipsis({ className, ...props }: React.ComponentProps<'span'
 			data-slot="breadcrumb-ellipsis"
 			role="presentation"
 			aria-hidden="true"
-			className={cn('flex size-9 items-center justify-center', className)}
+			className={cn('flex justify-center items-center size-9', className)}
 			{...props}
 		>
 			<MoreHorizontal className="size-4" />

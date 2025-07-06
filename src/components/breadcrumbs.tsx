@@ -1,7 +1,3 @@
-import { Link, useRouterState } from '@tanstack/react-router';
-
-import { Slash } from 'lucide-react';
-
 import {
 	Breadcrumb,
 	BreadcrumbItem,
@@ -9,10 +5,12 @@ import {
 	BreadcrumbList,
 	BreadcrumbSeparator
 } from '$/components/ui/breadcrumb';
+import { Link, useRouterState } from '@tanstack/react-router';
+import { Slash } from 'lucide-react';
 import { Fragment, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-interface BreadcrumbItem {
+interface BreadcrumbItemObj {
 	path: string;
 	segment: string;
 	translationKey: string;
@@ -32,14 +30,14 @@ const toTitleCase = (str: string) => {
 const Breadcrumbs = () => {
 	const { t } = useTranslation();
 	const { location, matches } = useRouterState();
-	const breadcrumbs = useMemo<BreadcrumbItem[]>(() => {
+	const breadcrumbs = useMemo<BreadcrumbItemObj[]>(() => {
 		const segments = matches
 			// filter out index routes like account and account/
 			.filter((match) => match.pathname !== '/' && !match.pathname.endsWith('/'));
 
 		return segments.map((match, index) => {
 			const isDynamic = Object.keys(match.params).length > 0;
-			let displayName: string | undefined = undefined;
+			let displayName: string | undefined;
 
 			if (isDynamic && match.routeId === '/products/$productId') {
 				const loaderData = match.loaderData as {
@@ -85,7 +83,7 @@ const Breadcrumbs = () => {
 				{breadcrumbs.map(({ path, isLast, isDynamic, translationKey, displayName }) => (
 					<Fragment key={path}>
 						<BreadcrumbSeparator>
-							<Slash className="h-4 w-4" />
+							<Slash className="w-4 h-4" />
 						</BreadcrumbSeparator>
 						<BreadcrumbItem>
 							<BreadcrumbLink asChild>

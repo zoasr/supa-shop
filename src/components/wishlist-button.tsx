@@ -1,9 +1,9 @@
 import { Toggle } from '$/components/ui/toggle';
-import { useWishlistStore } from '@/store/wishlist';
-import { useCallback, useMemo } from 'react';
-import * as TogglePrimitive from '@radix-ui/react-toggle';
-import { useShallow } from 'zustand/react/shallow';
+import type * as TogglePrimitive from '@radix-ui/react-toggle';
 import { useRouter } from '@tanstack/react-router';
+import { useCallback, useMemo } from 'react';
+import { useShallow } from 'zustand/react/shallow';
+import { useWishlistStore } from '@/store/wishlist';
 
 export const WishlistButton = ({
 	productId,
@@ -31,7 +31,7 @@ export const WishlistButton = ({
 			}
 			router.invalidate();
 		},
-		[productId, wishlist, count, setCount]
+		[productId, count, setCount, addToWishList, removeFromWishList, router.invalidate]
 	);
 	return (
 		<Toggle

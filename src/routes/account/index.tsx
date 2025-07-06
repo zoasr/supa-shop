@@ -1,10 +1,10 @@
-import { getUser, isLoggedIn } from '@/utils/supabase';
-import { createFileRoute, Link, redirect, useLoaderData } from '@tanstack/react-router';
-import { useForm } from '@tanstack/react-form';
-import { z } from 'zod';
 import { Input } from '$/components/ui/input';
 import { cn } from '$/lib/utils';
+import { useForm } from '@tanstack/react-form';
+import { createFileRoute, Link, redirect, useLoaderData } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
+import { z } from 'zod';
+import { getUser, isLoggedIn } from '@/utils/supabase';
 
 const FormInput = ({ className, ...props }: React.ComponentProps<typeof Input>) => {
 	return (

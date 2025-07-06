@@ -1,3 +1,10 @@
+import { Button } from '$/components/ui/button';
+import { useQuery } from '@tanstack/react-query';
+import { createFileRoute, Link, redirect, useLoaderData, useRouter } from '@tanstack/react-router';
+import { Loader } from 'lucide-react';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'sonner';
 import ErrorComponent from '@/components/error-component';
 import ProductCard from '@/components/product-card';
 import SectionLabel from '@/components/sections/section-label';
@@ -5,13 +12,6 @@ import WishlistCard from '@/components/wishlist-card';
 import { useCartStore } from '@/store/cart';
 import { useWishlistStore } from '@/store/wishlist';
 import { getProduct, getProducts, getWishList, isLoggedIn } from '@/utils/supabase';
-import { useQuery } from '@tanstack/react-query';
-import { createFileRoute, Link, redirect, useLoaderData, useRouter } from '@tanstack/react-router';
-import { Loader } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
-import React from 'react';
-import { toast } from 'sonner';
-import { Button } from '$/components/ui/button';
 
 export const Route = createFileRoute('/account/wishlist')({
 	beforeLoad: async () => {
@@ -26,7 +26,7 @@ export const Route = createFileRoute('/account/wishlist')({
 		const refreshWishlist = useWishlistStore.getState().refreshWishlist;
 		const wishlist = await getWishList();
 		const products = [];
-		if (wishlist instanceof Array) {
+		if (Array.isArray(wishlist)) {
 			for (const item of wishlist) {
 				const product = await getProduct(item.product_id);
 				product instanceof Error ? null : products.push(product);
@@ -106,14 +106,14 @@ function Page() {
 
 	return (
 		<>
-			<div className="mb-16 flex w-full justify-between">
+			<div className="flex justify-between mb-16 w-full">
 				<h1 className="text-xl font-medium">
 					{t('wishlist.title')} ({wishList ? wishList?.length : 0})
 				</h1>
 				<Button variant="outline" disabled={isMovingAll} onClick={handleMoveAllToBag}>
 					{isMovingAll ? (
 						<>
-							<Loader className="h-4 w-4 animate-spin" />
+							<Loader className="w-4 h-4 animate-spin" />
 							{t('common.processing')}
 						</>
 					) : (
@@ -122,16 +122,15 @@ function Page() {
 				</Button>
 			</div>
 			<div className="container mx-auto grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] place-items-center gap-4">
-				{wishList &&
-					wishList.map((product) => (product ? <WishlistCard key={product.id} {...product} /> : null))}
+				{wishList?.map((product) => (product ? <WishlistCard key={product.id} {...product} /> : null))}
 			</div>
 			<section dir={t('dir')}>
-				<div className="container mx-auto my-8 space-y-8 border-y-2 border-skin-secondary py-8">
-					<div className="flex items-center justify-between">
+				<div className="container py-8 mx-auto my-8 space-y-8 border-y-2 border-skin-secondary">
+					<div className="flex justify-between items-center">
 						<SectionLabel title={t('wishlist.justForYou')} />
 						<Link
 							to="/products"
-							className="rounded-md border-2 border-black/50 px-8 py-4 font-bold"
+							className="px-8 py-4 font-bold rounded-md border-2 border-black/50"
 							viewTransition={{
 								types: ['slide-left']
 							}}
@@ -139,13 +138,13 @@ function Page() {
 							{t('wishlist.seeAll')}
 						</Link>
 					</div>
-					<div className="flex w-full flex-col items-center justify-between gap-4 md:flex-row">
+					<div className="flex flex-col gap-4 justify-between items-center w-full md:flex-row">
 						<h1 className="text-3xl font-semibold">{t('wishlist.justForYou')}</h1>
 					</div>
 					<div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] place-items-center gap-4">
 						{isError && <ErrorComponent error={error} />}
-						{isPending && <Loader className="size-20 animate-spin" />}
-						{products instanceof Array &&
+						{isPending && <Loader className="animate-spin size-20" />}
+						{Array.isArray(products) &&
 							!isError &&
 							!isPending &&
 							products.map((product) => <ProductCard key={product.id} {...product} />)}

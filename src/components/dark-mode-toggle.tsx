@@ -1,6 +1,6 @@
-import { useThemeStore } from '@/store/theme';
 import { Moon, Sun } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useThemeStore } from '@/store/theme';
 
 const DarkModeToggle = () => {
 	const { t } = useTranslation();

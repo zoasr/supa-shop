@@ -7,9 +7,5 @@ export const Route = createFileRoute('/test')({
 });
 
 function RouteComponent() {
-	return (
-		<>
-			<SkeletonCard></SkeletonCard>
-		</>
-	);
+	return <SkeletonCard></SkeletonCard>;
 }

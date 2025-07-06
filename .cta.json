@@ -1,13 +1,11 @@
 {
-  "projectName": "e-commerce-supabase",
-  "mode": "file-router",
-  "typescript": true,
-  "tailwind": true,
-  "packageManager": "pnpm",
-  "git": true,
-  "version": 1,
-  "framework": "react-cra",
-  "chosenAddOns": [
-    "shadcn"
-  ]
+	"projectName": "e-commerce-supabase",
+	"mode": "file-router",
+	"typescript": true,
+	"tailwind": true,
+	"packageManager": "pnpm",
+	"git": true,
+	"version": 1,
+	"framework": "react-cra",
+	"chosenAddOns": ["shadcn"]
 }

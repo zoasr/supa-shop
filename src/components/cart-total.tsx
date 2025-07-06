@@ -1,7 +1,7 @@
 import { Button } from '$/components/ui/button';
+import { useTranslation } from 'react-i18next';
 import { useCartStore } from '@/store/cart';
 import type { CartItem, Product } from '@/utils/utils';
-import { useTranslation } from 'react-i18next';
 
 interface CartTotalProps {
 	products: (Product | null)[];

@@ -1,13 +1,10 @@
-import { Link, createLazyFileRoute, redirect } from '@tanstack/react-router';
-
-import sideImage from '@/assets/side-image.png';
-
-import googleSignupImage from '@/assets/icon-google.svg';
-
-import { supabase } from '@/utils/supabase';
+import { Button } from '$/components/ui/button';
+import { createLazyFileRoute, Link, redirect } from '@tanstack/react-router';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button } from '$/components/ui/button';
+import googleSignupImage from '@/assets/icon-google.svg';
+import sideImage from '@/assets/side-image.png';
+import { supabase } from '@/utils/supabase';
 
 const Signup = () => {
 	const { t } = useTranslation();
@@ -55,48 +52,46 @@ const Signup = () => {
 		}
 	};
 	return (
-		<>
-			<main className="my-10 flex max-w-[1400px] flex-col-reverse justify-between gap-8 px-8 md:flex-row">
-				<img src={sideImage} alt="side-image" />
-				<form className="flex flex-col gap-4 justify-center px-8" onSubmit={handleSubmit}>
-					<h1 className="text-4xl font-medium">{t('signupPage.title')}</h1>
-					<p>{t('signupPage.details')}</p>
-					<input
-						className="py-4 rounded-b-md border-b-2 transition-all duration-75 outline-none focus-visible:border-b-4"
-						type="text"
-						placeholder={t('signupPage.name')}
-						required
-						name="name"
-					/>
-					<input
-						className="py-4 rounded-b-md border-b-2 transition-all duration-75 outline-none focus-visible:border-b-4"
-						type="email"
-						placeholder={t('signupPage.email')}
-						required
-						name="email"
-					/>
-					<input
-						className="py-4 rounded-b-md border-b-2 transition-all duration-75 outline-none focus-visible:border-b-4"
-						type="password"
-						placeholder={t('signupPage.password')}
-						required
-						name="password"
-					/>
-					{error && <p className="font-bold text-red-500">{error.message}</p>}
-					<Button type="submit">{t('signupPage.buttons.signup')}</Button>
-					<Button type="button" onClick={handleOAuth} variant={'outline'}>
-						<img src={googleSignupImage} alt="" />
-						{t('signupPage.buttons.google')}
-					</Button>
-					<p className="text-center">
-						{t('signupPage.already')}{' '}
-						<Link to="/login" className="font-bold underline">
-							{t('signupPage.buttons.login')}
-						</Link>{' '}
-					</p>
-				</form>
-			</main>
-		</>
+		<main className="my-10 flex max-w-[1400px] flex-col-reverse justify-between gap-8 px-8 md:flex-row">
+			<img src={sideImage} alt="side-image" />
+			<form className="flex flex-col gap-4 justify-center px-8" onSubmit={handleSubmit}>
+				<h1 className="text-4xl font-medium">{t('signupPage.title')}</h1>
+				<p>{t('signupPage.details')}</p>
+				<input
+					className="py-4 rounded-b-md border-b-2 transition-all duration-75 outline-none focus-visible:border-b-4"
+					type="text"
+					placeholder={t('signupPage.name')}
+					required
+					name="name"
+				/>
+				<input
+					className="py-4 rounded-b-md border-b-2 transition-all duration-75 outline-none focus-visible:border-b-4"
+					type="email"
+					placeholder={t('signupPage.email')}
+					required
+					name="email"
+				/>
+				<input
+					className="py-4 rounded-b-md border-b-2 transition-all duration-75 outline-none focus-visible:border-b-4"
+					type="password"
+					placeholder={t('signupPage.password')}
+					required
+					name="password"
+				/>
+				{error && <p className="font-bold text-red-500">{error.message}</p>}
+				<Button type="submit">{t('signupPage.buttons.signup')}</Button>
+				<Button type="button" onClick={handleOAuth} variant={'outline'}>
+					<img src={googleSignupImage} alt="" />
+					{t('signupPage.buttons.google')}
+				</Button>
+				<p className="text-center">
+					{t('signupPage.already')}{' '}
+					<Link to="/login" className="font-bold underline">
+						{t('signupPage.buttons.login')}
+					</Link>{' '}
+				</p>
+			</form>
+		</main>
 	);
 };
 export const Route = createLazyFileRoute('/signup')({
