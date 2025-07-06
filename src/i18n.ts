@@ -51,7 +51,7 @@ const footerTranslation = {
 		translation: {
 			footer: {
 				exclusive: {
-					title: 'حصري',
+					title: 'Exclusive',
 					subscribe: {
 						title: 'اشترك',
 						text: 'احصل على خصم 10٪ على طلبك الأول',
@@ -121,6 +121,8 @@ const headerTranslation = {
 		translation: {
 			// Header
 			'header.title': 'Exclusive',
+			'header.theme.dark': 'Dark',
+			'header.theme.light': 'Light',
 			'header.navbar.home': 'Home',
 			'header.navbar.about': 'About',
 			'header.navbar.contact': 'Contact',
@@ -132,6 +134,8 @@ const headerTranslation = {
 		translation: {
 			// Header
 			'header.title': 'Exclusive',
+			'header.theme.dark': 'داكن',
+			'header.theme.light': 'فاتح',
 			'header.navbar.home': 'الصفحة الرئيسية',
 			'header.navbar.about': 'عنا',
 			'header.navbar.contact': 'اتصل بنا',

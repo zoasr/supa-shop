@@ -1,14 +1,16 @@
 import { useThemeStore } from '@/store/theme';
 import { Moon, Sun } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const DarkModeToggle = () => {
+	const { t } = useTranslation();
 	const isDarkMode = useThemeStore((selector) => selector.isDarkMode);
 	const setIsDarkMode = useThemeStore((selector) => selector.toggleDarkMode);
 
 	return (
-		<button onClick={setIsDarkMode} className="flex justify-between gap-2 rounded-sm p-2">
+		<button onClick={setIsDarkMode} className="flex gap-2 justify-between p-2 rounded-sm">
 			{isDarkMode ? <Moon className="text-foreground" /> : <Sun className="text-foreground" />}
-			{isDarkMode ? 'Dark' : 'Light'}
+			{isDarkMode ? t('header.theme.dark') : t('header.theme.light')}
 		</button>
 	);
 };
