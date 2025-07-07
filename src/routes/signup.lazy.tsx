@@ -7,8 +7,8 @@ import sideImage from '@/assets/side-image.png';
 import { supabase } from '@/utils/supabase';
 
 const Signup = () => {
-	const navigate = useNavigate()
-		;	const { t } = useTranslation();
+	const navigate = useNavigate();
+	const { t } = useTranslation();
 	const [error, setError] = useState<Error | null>(null);
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
