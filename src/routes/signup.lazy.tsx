@@ -1,5 +1,5 @@
 import { Button } from '$/components/ui/button';
-import { createLazyFileRoute, Link, redirect } from '@tanstack/react-router';
+import { createLazyFileRoute, Link, useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import googleSignupImage from '@/assets/icon-google.svg';
@@ -7,7 +7,8 @@ import sideImage from '@/assets/side-image.png';
 import { supabase } from '@/utils/supabase';
 
 const Signup = () => {
-	const { t } = useTranslation();
+	const navigate = useNavigate()
+		;	const { t } = useTranslation();
 	const [error, setError] = useState<Error | null>(null);
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -31,7 +32,7 @@ const Signup = () => {
 			setError(error);
 		}
 		if (data) {
-			redirect({
+			navigate({
 				to: '/account'
 			});
 		}
@@ -46,7 +47,7 @@ const Signup = () => {
 			setError(error);
 		}
 		if (data) {
-			redirect({
+			navigate({
 				to: '/account'
 			});
 		}
