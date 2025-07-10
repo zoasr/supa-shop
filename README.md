@@ -204,7 +204,7 @@ VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/e-commerce-supabase.git
+git clone https://github.com/zoasr/e-commerce-supabase.git
 
 # Navigate to project directory
 cd supa-shop
