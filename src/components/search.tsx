@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import SearchIcon from '@/assets/icon-search.svg?react';
 import type { Product } from '@/utils/utils';
 
-const SeacrhProduct = ({
+const SearchProduct = ({
 	product,
 	setFoundProducts
 }: {
@@ -92,7 +92,7 @@ const Search = () => {
 			>
 				<div className="flex flex-col gap-2 w-full max-w-[600px] h-[50dvh] ml-8 overflow-y-scroll">
 					{foundProducts.map((product) => (
-						<SeacrhProduct key={product.id} setFoundProducts={setFoundProducts} product={product} />
+						<SearchProduct key={product.id} setFoundProducts={setFoundProducts} product={product} />
 					))}
 				</div>
 			</PopoverContent>
