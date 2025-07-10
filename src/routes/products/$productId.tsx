@@ -30,14 +30,8 @@ const getProductbyId: (id: string) => Promise<{
 			cart: null
 		};
 	}
-	const cart = await getCartItem(product.id);
 
-	if (cart instanceof Error) {
-		return {
-			product,
-			cart
-		};
-	}
+	const cart = await getCartItem(product.id);
 	if (!cart) {
 		return {
 			product,
