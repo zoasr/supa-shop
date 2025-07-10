@@ -22,7 +22,7 @@ import Header from '@/components/Header';
 import { useCartStore } from '@/store/cart';
 import { useThemeStore } from '@/store/theme';
 import { useWishlistStore } from '@/store/wishlist';
-import { getUserImage } from '@/utils/supabase';
+import { getProducts, getUserImage } from '@/utils/supabase';
 
 const Root = () => {
 	const { i18n } = useTranslation();
@@ -60,7 +60,8 @@ export const Route = createRootRoute({
 		if (localTheme === 'dark') {
 			document.documentElement.classList.add('dark');
 		}
-		return { imageUrl };
+		const products = await getProducts();
+		return { imageUrl, products };
 	},
 	component: Root
 });

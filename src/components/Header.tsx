@@ -3,12 +3,12 @@ import { Link } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import CartIcon from '@/assets/Cart1.svg?react';
 import HeartIcon from '@/assets/heart small.svg?react';
-import SearchIcon from '@/assets/icon-search.svg?react';
 import { useCartStore } from '@/store/cart';
 import { useWishlistStore } from '@/store/wishlist';
 import DarkModeToggle from './dark-mode-toggle';
 import TopCallout from './top-callout';
 import UserDropdown from './user-dropdown';
+import Search from './search';
 
 const WishList = () => {
 	const wishCount = useWishlistStore((state) => state.count);
@@ -26,7 +26,7 @@ const WishList = () => {
 		>
 			<HeartIcon className="transition-all group-hover:text-skin-secondary group-focus-visible:text-skin-secondary" />
 			{wishCount > 0 && (
-				<span className="absolute top-0 -right-2 flex size-5 items-center justify-center rounded-full bg-skin-secondary-2 text-center text-sm font-bold text-skin-secondary">
+				<span className="flex absolute top-0 -right-2 justify-center items-center text-sm font-bold text-center rounded-full size-5 bg-skin-secondary-2 text-skin-secondary">
 					{wishCount}
 				</span>
 			)}
@@ -50,7 +50,7 @@ const Cart = () => {
 			{/* <img src={CartIcon} alt="cart icon" /> */}
 			<CartIcon className="transition-all group-hover:text-skin-secondary group-focus-visible:text-skin-secondary" />
 			{cartCount > 0 && (
-				<span className="absolute top-0 -right-2 flex size-5 items-center justify-center rounded-full bg-skin-secondary-2 text-center text-sm font-bold text-skin-secondary">
+				<span className="flex absolute top-0 -right-2 justify-center items-center text-sm font-bold text-center rounded-full size-5 bg-skin-secondary-2 text-skin-secondary">
 					{cartCount}
 				</span>
 			)}
@@ -65,7 +65,7 @@ const Header = () => {
 		<>
 			<TopCallout />
 			<header dir={t('dir')} className="border-b-2 border-skin-secondary">
-				<div className="container mx-auto flex flex-wrap items-center justify-center gap-12 px-8 py-4">
+				<div className="container flex flex-wrap gap-12 justify-center items-center px-8 py-4 mx-auto">
 					<Link to="/" className="text-2xl font-bold" viewTransition={{ types: ['warp'] }}>
 						{t('header.title')}
 					</Link>
@@ -96,16 +96,8 @@ const Header = () => {
 							{t('header.navbar.signup')}
 						</Link>
 					</nav>
-					<label className="flex min-w-fit flex-1 gap-2 rounded-lg bg-skin-secondary px-5 py-2">
-						<input
-							type="text"
-							className="flex-1 bg-transparent outline-none"
-							placeholder={t('header.search.placeholder')}
-						/>
-						{/* <img src={SearchIcon} alt="search icon" /> */}
-						<SearchIcon className="text-foreground" />
-					</label>
-					<div className="flex items-center justify-center gap-4">
+					<Search />
+					<div className="flex gap-4 justify-center items-center">
 						<WishList />
 						<Cart />
 						<UserDropdown />
