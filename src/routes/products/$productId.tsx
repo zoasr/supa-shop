@@ -145,7 +145,7 @@ const Productpage = () => {
 					</Button>
 					<WishlistButton
 						productId={product.id}
-						className="group h-full cursor-pointer rounded-sm px-4 py-4 font-medium ring-2 ring-[var(--primary-1)] transition-all duration-150 hover:bg-skin-button-hover focus:outline-skin-secondary-2 focus-visible:bg-skin-secondary-2 data-[state=on]:bg-skin-secondary-2 sm:py-0"
+						className="group h-full cursor-pointer rounded-sm px-4 py-4 font-medium border-2 border-border  transition-all duration-150 hover:bg-skin-button-hover focus:outline-skin-secondary-2 focus-visible:bg-skin-secondary-2 data-[state=on]:border-primary data-[state=on]:bg-skin-secondary-2 sm:py-0"
 					>
 						<SmallHeart className="size-6 group-hover:text-white group-focus-visible:text-white group-data-[state=on]:text-white" />
 					</WishlistButton>
