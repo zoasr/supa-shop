@@ -1,11 +1,11 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Input } from '$/components/ui/input';
+import { Popover, PopoverAnchor, PopoverContent } from '$/components/ui/popover';
 import { Link, useLoaderData, useNavigate } from '@tanstack/react-router';
 import Fuse from 'fuse.js';
+import { useCallback, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import SearchIcon from '@/assets/icon-search.svg?react';
-import { Popover, PopoverAnchor, PopoverContent } from '$/components/ui/popover';
 import type { Product } from '@/utils/utils';
-import { Input } from '$/components/ui/input';
 
 const SeacrhProduct = ({
 	product,

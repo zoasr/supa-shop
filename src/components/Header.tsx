@@ -6,9 +6,9 @@ import HeartIcon from '@/assets/heart small.svg?react';
 import { useCartStore } from '@/store/cart';
 import { useWishlistStore } from '@/store/wishlist';
 import DarkModeToggle from './dark-mode-toggle';
+import Search from './search';
 import TopCallout from './top-callout';
 import UserDropdown from './user-dropdown';
-import Search from './search';
 
 const WishList = () => {
 	const wishCount = useWishlistStore((state) => state.count);
