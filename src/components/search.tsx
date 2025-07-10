@@ -73,7 +73,7 @@ const Search = () => {
 						onFocus={(e) => setSearchItems(e.target.value)}
 						type="text"
 						id="search"
-						className="flex-1 !bg-transparent border-0 outline-none focus-visible:outline-none focus-visible:ring-0 p-0"
+						className="flex-1 !bg-transparent selection:bg-skin-secondary-2 selection:text-white border-0 outline-none focus-visible:outline-none focus-visible:ring-0 p-0"
 						placeholder={t('header.search.placeholder')}
 					/>
 					<SearchIcon className="text-foreground" />
