@@ -1,5 +1,4 @@
-# supa-shop
-
+# Supa Shop
 ![Logo](./public/favicon.png)
 
 [![React](https://img.shields.io/badge/React-19.0.0-blue.svg)](https://reactjs.org/)
