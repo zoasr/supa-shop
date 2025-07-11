@@ -1,5 +1,7 @@
 # supa-shop
 
+![Logo](./public/favicon.png)
+
 [![React](https://img.shields.io/badge/React-19.0.0-blue.svg)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7.2-blue.svg)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-6.1.0-purple.svg)](https://vitejs.dev/)
@@ -204,7 +206,7 @@ VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 
 ```bash
 # Clone the repository
-git clone https://github.com/zoasr/e-commerce-supabase.git
+git clone https://github.com/zoasr/supa-shop.git
 
 # Navigate to project directory
 cd supa-shop

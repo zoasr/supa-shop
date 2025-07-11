@@ -1,6 +1,6 @@
 {
-	"short_name": "TanStack App",
-	"name": "Create TanStack App Sample",
+	"short_name": "supa-shop",
+	"name": "supa-shop",
 	"icons": [
 		{
 			"src": "favicon.ico",
@@ -8,12 +8,12 @@
 			"type": "image/x-icon"
 		},
 		{
-			"src": "logo192.png",
+			"src": "favicon@0.38x.png",
 			"type": "image/png",
 			"sizes": "192x192"
 		},
 		{
-			"src": "logo512.png",
+			"src": "favicon.png",
 			"type": "image/png",
 			"sizes": "512x512"
 		}
