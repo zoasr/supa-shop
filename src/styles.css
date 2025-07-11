@@ -193,6 +193,26 @@ input[type='reset'] {
 	}
 }
 
+@layer components {
+
+	.popover-scrollable {
+		scrollbar-width: 8px;
+		/* scrollbar-gutter: 8px; */
+		scrollbar-color: var(--color-muted) transparent;
+	}
+	.popover-scrollable::-webkit-scrollbar{
+		width: 8px;
+		height: 8px;
+		background-color: transparent;
+	}
+
+	.popover-scrollable::-webkit-scrollbar-thumb {
+		background-color: var(--color-muted);
+		border-radius: 4px;
+	}
+
+}
+
 /* Slide Left Transition */
 html:active-view-transition-type(slide-left) {
 	&::view-transition-old(main-content) {

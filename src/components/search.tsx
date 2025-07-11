@@ -26,16 +26,29 @@ const SearchProduct = ({
 				});
 				setFoundProducts([]);
 			}}
-			className="grid grid-cols-3 grid-rows-2 gap-4 p-2 rounded-sm hover:bg-skin-secondary-2 hover:text-white hover:cursor-pointer"
+			className="grid grid-cols-3 grid-rows-2 gap-4 p-2 text-xs rounded-sm hover:bg-skin-secondary-2 hover:text-white hover:cursor-pointer"
 		>
 			<div className="flex row-span-2 justify-center items-center p-4 rounded-md bg-skin-secondary">
 				<img src={product.imageUrl} alt={product.productName} />
 			</div>
 			<div className="flex flex-col col-span-2 gap-2">
-				<p className="text-2xl font-semibold">{product.productName}</p>
+				<p className="text-xl font-semibold">{product.productName}</p>
 				<p>{product.productDescription}</p>
 			</div>
-			<p className="flex col-span-2 justify-start items-center text-3xl font-semibold">${product.price}</p>
+			<p className="flex col-span-2 justify-start items-center text-2xl font-semibold">
+				{product.price ? (
+					product.discount ? (
+						<>
+							<span className="mr-3">
+								${(product.price - (product.price * product.discount) / 100).toFixed(2)}
+							</span>
+							<span className="line-through text-skin-button/50">${product.price}</span>
+						</>
+					) : (
+						<span>${product.price}</span>
+					)
+				) : null}
+			</p>
 		</Link>
 	);
 };
@@ -88,9 +101,11 @@ const Search = () => {
 				onInteractOutside={(e) => {
 					if (e.target !== inputRef.current) setFoundProducts([]);
 				}}
-				className="font-poppins"
+				className="font-poppins popover-scrollable"
+				align="center"
+				avoidCollisions={true}
 			>
-				<div className="flex flex-col gap-2 w-full max-w-[600px] h-[50dvh] ml-8 overflow-y-scroll">
+				<div className="flex flex-col gap-2 border-3 !bg-background w-full max-w-[600px] h-[50vmin] overflow-y-scroll ">
 					{foundProducts.map((product) => (
 						<SearchProduct key={product.id} setFoundProducts={setFoundProducts} product={product} />
 					))}
