@@ -1,22 +1,9 @@
-import { Input } from '$/components/ui/input';
-import { cn } from '$/lib/utils';
 import { useForm } from '@tanstack/react-form';
 import { createFileRoute, Link, redirect, useLoaderData } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
+import { FormInput } from '@/components/form-input';
 import { getUser, isLoggedIn } from '@/utils/supabase';
-
-const FormInput = ({ className, ...props }: React.ComponentProps<typeof Input>) => {
-	return (
-		<Input
-			className={cn(
-				'px-4 py-3 w-full h-auto rounded-md border-0 bg-skin-secondary text-skin-text-2/50 selection:bg-skin-secondary-2 placeholder:text-skin-text-2/30 focus:border-transparent focus:text-skin-text-2 focus:ring-2 focus:ring-skin-secondary-2',
-				className
-			)}
-			{...props}
-		/>
-	);
-};
 
 export const Route = createFileRoute('/account/')({
 	beforeLoad: async () => {
