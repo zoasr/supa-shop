@@ -2,18 +2,17 @@ import { Input } from '$/components/ui/input';
 import { Popover, PopoverAnchor, PopoverContent } from '$/components/ui/popover';
 import { Link, useLoaderData, useNavigate } from '@tanstack/react-router';
 import Fuse from 'fuse.js';
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { memo, useCallback, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import SearchIcon from '@/assets/icon-search.svg?react';
-import type { Product } from '@/utils/utils';
+import { debounce, type Product } from '@/utils/utils';
 
-const SearchProduct = ({
-	product,
-	setFoundProducts
-}: {
+interface SearchProductProps {
 	product: Product;
 	setFoundProducts: React.Dispatch<React.SetStateAction<Product[]>>;
-}) => {
+}
+
+const SearchProduct = memo<SearchProductProps>(({ product, setFoundProducts }) => {
 	const navigate = useNavigate();
 	return (
 		<Link
@@ -51,7 +50,7 @@ const SearchProduct = ({
 			</p>
 		</Link>
 	);
-};
+});
 
 const Search = () => {
 	const { t } = useTranslation();
@@ -62,14 +61,22 @@ const Search = () => {
 		if (!products || products instanceof Error) {
 			return new Fuse([]);
 		}
-		return new Fuse(products, { keys: ['productName', 'productDescription'] });
+		return new Fuse(products, { keys: ['productName', 'productDescription'], threshold: 0.3 });
 	}, [products]);
 
-	const setSearchItems = useCallback(
-		(value: string) => {
-			setFoundProducts(fuse.search(value).map((result) => result.item));
-		},
-		[fuse]
+	const searchProducts = debounce(
+		useCallback(
+			(query: string) => {
+				if (!query.trim()) {
+					setFoundProducts([]);
+					return;
+				}
+				const results = fuse.search(query).map((result) => result.item);
+				setFoundProducts(results);
+			},
+			[fuse]
+		),
+		300
 	);
 	return (
 		<Popover open={foundProducts.length > 0} defaultOpen={false} modal={false}>
@@ -81,9 +88,9 @@ const Search = () => {
 					<Input
 						ref={inputRef}
 						onChange={(e) => {
-							setSearchItems(e.target.value);
+							searchProducts(e.target.value);
 						}}
-						onFocus={(e) => setSearchItems(e.target.value)}
+						onFocus={(e) => searchProducts(e.target.value)}
 						type="text"
 						id="search"
 						className="flex-1 !bg-transparent selection:bg-skin-secondary-2 selection:text-white border-0 outline-none focus-visible:outline-none focus-visible:ring-0 p-0"
