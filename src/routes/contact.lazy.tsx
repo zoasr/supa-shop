@@ -1,9 +1,10 @@
 import { Button } from '$/components/ui/button';
 import { Textarea } from '$/components/ui/textarea';
+import { createLazyFileRoute } from '@tanstack/react-router';
 import MailIcon from '@/assets/icon-mail.svg?react';
 import PhoneIcon from '@/assets/icon-phone.svg?react';
 import { FormInput } from '@/components/form-input';
-import { createLazyFileRoute } from '@tanstack/react-router';
+
 const Page = () => {
 	return (
 		<div className="container mx-auto grid gap-4 grid-cols-1 md:grid-cols-[repeat(auto-fit,340px_minmax(340px,auto))]">
