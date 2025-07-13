@@ -64,6 +64,8 @@ const Search = () => {
 		return new Fuse(products, { keys: ['productName', 'productDescription'], threshold: 0.3 });
 	}, [products]);
 
+	const isOpen = foundProducts.length > 0;
+
 	const searchProducts = debounce(
 		useCallback(
 			(query: string) => {
@@ -79,7 +81,7 @@ const Search = () => {
 		300
 	);
 	return (
-		<Popover open={foundProducts.length > 0} defaultOpen={false} modal={false}>
+		<Popover open={isOpen} defaultOpen={false} modal={false}>
 			<PopoverAnchor asChild>
 				<label
 					htmlFor="search"
