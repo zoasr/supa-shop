@@ -8,7 +8,7 @@ import { FormInput } from '@/components/form-input';
 const Page = () => {
 	return (
 		<div className="container mx-auto grid gap-4 grid-cols-1 md:grid-cols-[repeat(auto-fit,340px_minmax(340px,auto))]">
-			<aside className="grid  gap-8 p-10 text-skin-text-2 shadow-[0_0_10px_0_rgba(0,0,0,0.1)] rounded-sm">
+			<aside className="grid gap-8 h-min p-10 text-skin-text-2 shadow-[0_0_10px_0_rgba(0,0,0,0.1)] rounded-sm">
 				<section className="space-y-4">
 					<h1 className="flex gap-4 items-center text-lg font-semibold">
 						<span className="p-2 text-white rounded-full bg-skin-secondary-2">
@@ -33,7 +33,7 @@ const Page = () => {
 				</section>
 			</aside>
 			<main className="@container p-10 text-skin-text-2 shadow-[0_0_10px_0_rgba(0,0,0,0.1)] rounded-sm">
-				<form className="grid grid-cols-3 grid-rows-5 gap-8">
+				<form className="h-full grid grid-cols-3 grid-rows-[min-content_repeat(3,minmax(0,auto))_min-content] gap-8">
 					<FormInput
 						required
 						type="text"
@@ -57,12 +57,12 @@ const Page = () => {
 						placeholder="Your Phone"
 					/>
 					<Textarea
-						className="col-span-3 px-4 py-3 w-full h-auto rounded-md border-0 @md:row-span-3 bg-skin-secondary focus-visible:ring-skin-secondary-2"
+						className="col-span-3 px-4 py-3 w-full h-auto rounded-md border-0 @md:row-span-3 bg-skin-secondary dark:bg-skin-secondary focus-visible:ring-skin-secondary-2"
 						name="message"
 						placeholder="Your Message"
 					></Textarea>
 					<Button
-						className="@lg:col-start-3 @lg:col-span-1 @sm:col-start-2 @sm:col-span-2 cols-start-1 row-start-5 col-span-3 "
+						className="@lg:col-start-3 @lg:col-span-1 @sm:col-start-2 @sm:col-span-2 max-h-fit self-end cols-start-1 row-start-5 col-span-3 "
 						type="submit"
 					>
 						Send Message
