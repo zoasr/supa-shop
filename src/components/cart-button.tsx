@@ -4,10 +4,10 @@ import { useQuery } from '@tanstack/react-query';
 import { useLoaderData, useRouter } from '@tanstack/react-router';
 import type { ReactNode } from 'react';
 import { memo, useCallback, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'sonner';
 import { useCart, useCartActions, useCartCount } from '@/store/cart';
 import { isLoggedIn } from '@/utils/supabase';
-import { toast } from 'sonner';
-import { useTranslation } from 'react-i18next';
 
 type CartButtonProps = Omit<React.ComponentProps<typeof TogglePrimitive.Root>, 'children'> & {
 	productId: number;

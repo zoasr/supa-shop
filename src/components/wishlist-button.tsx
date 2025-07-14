@@ -3,10 +3,10 @@ import type * as TogglePrimitive from '@radix-ui/react-toggle';
 import { useQuery } from '@tanstack/react-query';
 import { useLoaderData, useRouter } from '@tanstack/react-router';
 import { useCallback, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { useWishlist, useWishlistActions, useWishlistCount } from '@/store/wishlist';
 import { isLoggedIn } from '@/utils/supabase';
-import { useTranslation } from 'react-i18next';
 
 export const WishlistButton = ({
 	productId,
