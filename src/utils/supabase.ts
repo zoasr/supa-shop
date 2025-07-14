@@ -8,7 +8,7 @@ export const supabase = createClient(supabaseUrl, supabaseKey);
 export const isLoggedIn: () => Promise<boolean | AuthError> = async () => {
 	const { data, error } = await supabase.auth.getUser();
 	if (error) {
-		return error;
+		return false;
 	}
 	if (data) {
 		const user = data.user;
