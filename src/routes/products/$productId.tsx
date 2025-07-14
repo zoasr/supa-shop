@@ -167,6 +167,7 @@ const Productpage = () => {
 };
 
 export const Route = createFileRoute('/products/$productId')({
+	staleTime: 1000 * 3600,
 	loader: ({ params: { productId } }) => getProductbyId(productId),
 	component: Productpage
 });

@@ -51,6 +51,8 @@ const Root = () => {
 };
 
 export const Route = createRootRoute({
+	staleTime: 1000 * 3600,
+	preloadStaleTime: 1000 * 3600,
 	loader: async () => {
 		const imageUrl = await getUserImage();
 		useWishlistStore.getState().refreshWishlist();
