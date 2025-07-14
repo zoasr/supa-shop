@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useLoaderData, useRouter } from '@tanstack/react-router';
 import type { ReactNode } from 'react';
 import { memo, useCallback, useMemo } from 'react';
-import { useCartStore } from '@/store/cart';
+import { useCart, useCartActions, useCartCount } from '@/store/cart';
 import { isLoggedIn } from '@/utils/supabase';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
@@ -20,11 +20,9 @@ const CartButton: React.FC<CartButtonProps> = memo(({ productId, children, quant
 	const { data: loggedIn } = useQuery({ queryKey: ['isLoggedIn'], queryFn: () => isLoggedIn() });
 	const { products } = useLoaderData({ from: '__root__' });
 	const { t } = useTranslation();
-	const cart = useCartStore((state) => state.cart);
-	const count = useCartStore((state) => state.count);
-	const setCount = useCartStore((state) => state.setCount);
-	const addToCart = useCartStore((state) => state.addToCart);
-	const removeFromCart = useCartStore((state) => state.removeFromCart);
+	const cart = useCart();
+	const count = useCartCount();
+	const { setCount, addToCart, removeFromCart } = useCartActions();
 	const router = useRouter();
 	const isAdded = useMemo(() => cart?.some((item) => item.product_id === productId), [cart, productId]);
 	const handleToggle = useCallback(

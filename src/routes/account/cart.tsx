@@ -5,7 +5,7 @@ import { Plus, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import CartButtonComponent from '@/components/cart-button';
 import { CartTotal } from '@/components/cart-total';
-import { useCartStore } from '@/store/cart';
+import { useCart, useCartActions, usePlainCart } from '@/store/cart';
 import { getCart, getProduct, isLoggedIn } from '@/utils/supabase';
 import type { CartItem, Product } from '@/utils/utils';
 
@@ -19,7 +19,7 @@ export const Route = createFileRoute('/account/cart')({
 		}
 	},
 	loader: async () => {
-		const refreshCart = useCartStore.getState().refreshCart;
+		const { refreshCart } = usePlainCart().actions;
 		const cart = await getCart();
 		const products = [];
 		if (Array.isArray(cart)) {
@@ -35,8 +35,8 @@ export const Route = createFileRoute('/account/cart')({
 });
 
 const CartCardDetailed = ({ product }: { product: Product }) => {
-	const modifyCart = useCartStore((state) => state.modifyCart);
-	const cart = useCartStore((state) => state.cart);
+	const { modifyCart } = useCartActions();
+	const cart = useCart();
 	const quantity = cart?.find((item) => item.product_id === product.id)?.quantity || 1;
 
 	const calculateSubtotal = (): number => {

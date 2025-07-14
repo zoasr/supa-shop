@@ -4,8 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useLoaderData, useRouter } from '@tanstack/react-router';
 import { useCallback, useMemo } from 'react';
 import { toast } from 'sonner';
-import { useShallow } from 'zustand/react/shallow';
-import { useWishlistStore } from '@/store/wishlist';
+import { useWishlist, useWishlistActions, useWishlistCount } from '@/store/wishlist';
 import { isLoggedIn } from '@/utils/supabase';
 import { useTranslation } from 'react-i18next';
 
@@ -21,11 +20,9 @@ export const WishlistButton = ({
 	const { products } = useLoaderData({ from: '__root__' });
 	const { t } = useTranslation();
 	const router = useRouter();
-	const wishlist = useWishlistStore(useShallow((state) => state.wishlist));
-	const count = useWishlistStore(useShallow((state) => state.count));
-	const setCount = useWishlistStore(useShallow((state) => state.setCount));
-	const addToWishList = useWishlistStore(useShallow((state) => state.addToWishList));
-	const removeFromWishList = useWishlistStore(useShallow((state) => state.removeFromWishList));
+	const { setCount, addToWishList, removeFromWishList } = useWishlistActions();
+	const wishlist = useWishlist();
+	const count = useWishlistCount();
 	const isWhishlisted = useMemo(() => wishlist?.some((item) => item.product_id === productId), [wishlist, productId]);
 	const handleToggle = useCallback(
 		async (isOn: boolean) => {

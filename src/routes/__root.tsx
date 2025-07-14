@@ -19,9 +19,9 @@ import { useTranslation } from 'react-i18next';
 import { Toaster } from 'sonner';
 import Footer from '@/components/footer';
 import Header from '@/components/Header';
-import { useCartStore } from '@/store/cart';
+import { usePlainCart } from '@/store/cart';
 import { useThemeStore } from '@/store/theme';
-import { useWishlistStore } from '@/store/wishlist';
+import { usePlainWishlist } from '@/store/wishlist';
 import { getProducts, getUserImage } from '@/utils/supabase';
 
 const Root = () => {
@@ -55,8 +55,8 @@ export const Route = createRootRoute({
 	preloadStaleTime: 1000 * 3600,
 	loader: async () => {
 		const imageUrl = await getUserImage();
-		useWishlistStore.getState().refreshWishlist();
-		useCartStore.getState().refreshCart();
+		usePlainWishlist().actions.refreshWishlist();
+		usePlainCart().actions.refreshCart();
 		const localTheme = localStorage.getItem('theme') ?? 'light';
 		useThemeStore.setState(() => ({ isDarkMode: localTheme === 'dark' }));
 		if (localTheme === 'dark') {

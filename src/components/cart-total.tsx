@@ -1,6 +1,6 @@
 import { Button } from '$/components/ui/button';
 import { useTranslation } from 'react-i18next';
-import { useCartStore } from '@/store/cart';
+import { useCart } from '@/store/cart';
 import type { CartItem, Product } from '@/utils/utils';
 
 interface CartTotalProps {
@@ -19,7 +19,7 @@ const calculatePrice = (product: Product): number => {
 
 export function CartTotal({ products }: CartTotalProps) {
 	const { t } = useTranslation();
-	const cart = useCartStore((state) => state.cart);
+	const cart = useCart();
 	const calculateSubtotal = (): number => {
 		return products.reduce<number>((total, product) => {
 			if (!product || !product.price) return total;

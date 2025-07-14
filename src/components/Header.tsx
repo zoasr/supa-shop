@@ -3,15 +3,15 @@ import { Link } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import CartIcon from '@/assets/Cart1.svg?react';
 import HeartIcon from '@/assets/heart small.svg?react';
-import { useCartStore } from '@/store/cart';
-import { useWishlistStore } from '@/store/wishlist';
+import { useCartCount } from '@/store/cart';
+import { useWishlistCount } from '@/store/wishlist';
 import DarkModeToggle from './dark-mode-toggle';
 import Search from './search';
 import TopCallout from './top-callout';
 import UserDropdown from './user-dropdown';
 
 const WishList = () => {
-	const wishCount = useWishlistStore((state) => state.count);
+	const wishCount = useWishlistCount();
 
 	return (
 		<Link
@@ -35,7 +35,7 @@ const WishList = () => {
 };
 
 const Cart = () => {
-	const cartCount = useCartStore((state) => state.count);
+	const cartCount = useCartCount();
 	return (
 		<Link
 			to="/account/cart"

@@ -9,8 +9,8 @@ import ErrorComponent from '@/components/error-component';
 import ProductCard from '@/components/product-card';
 import SectionLabel from '@/components/sections/section-label';
 import WishlistCard from '@/components/wishlist-card';
-import { useCartStore } from '@/store/cart';
-import { useWishlistStore } from '@/store/wishlist';
+import { useCart, useCartActions } from '@/store/cart';
+import { usePlainWishlist, useWishlistActions } from '@/store/wishlist';
 import { getProduct, getProducts, getWishList, isLoggedIn } from '@/utils/supabase';
 
 export const Route = createFileRoute('/account/wishlist')({
@@ -23,7 +23,7 @@ export const Route = createFileRoute('/account/wishlist')({
 		}
 	},
 	loader: async () => {
-		const refreshWishlist = useWishlistStore.getState().refreshWishlist;
+		const { refreshWishlist } = usePlainWishlist().actions;
 		const wishlist = await getWishList();
 		const products = [];
 		if (Array.isArray(wishlist)) {
@@ -49,10 +49,9 @@ function Page() {
 		error
 	} = useQuery({ queryKey: ['products'], queryFn: () => getProducts(5) });
 	const { t } = useTranslation();
-	const removeFromWishList = useWishlistStore((state) => state.removeFromWishList);
-	const addToCart = useCartStore((state) => state.addToCart);
-	const modifyCart = useCartStore((state) => state.modifyCart);
-	const cart = useCartStore((state) => state.cart);
+	const { removeFromWishList } = useWishlistActions();
+	const cart = useCart();
+	const { addToCart, modifyCart } = useCartActions();
 	const router = useRouter();
 	const [isMovingAll, setIsMovingAll] = React.useState(false);
 
