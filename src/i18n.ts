@@ -575,8 +575,12 @@ const commonTranslation = {
 		translation: {
 			common: {
 				processing: 'Processing...',
-				productAdded: 'Product {{productName}} added to cart',
-				productError: 'Failed to add {{productName}} to cart'
+				productAddedCart: 'Product {{productName}} added to cart',
+				productRemovedCart: 'Product {{productName}} removed from cart',
+				productErrorCart: 'Failed to add {{productName}} to cart',
+				productAddedWishlist: 'Product {{productName}} added to wishlist',
+				productRemovedWishlist: 'Product {{productName}} removed from wishlist',
+				productErrorWishlist: 'Failed to add {{productName}} to wishlist'
 			}
 		}
 	},
@@ -584,8 +588,12 @@ const commonTranslation = {
 		translation: {
 			common: {
 				processing: 'جاري التحميل...',
-				productAdded: 'تمت إضافة {{productName}} إلى السلة',
-				productError: 'فشل إضافة {{productName}} إلى السلة'
+				productAddedCart: 'تمت إضافة {{productName}} إلى السلة',
+				productRemovedCart: 'تم حذف {{productName}} من السلة',
+				productErrorCart: 'فشل إضافة {{productName}} إلى السلة',
+				productAddedWishlist: 'تمت إضافة {{productName}} لقائمة الرغبات',
+				productRemovedWishlist: 'تم حذف {{productName}} من قائمة الرغبات',
+				productErrorWishlist: 'فشل إضافة {{productName}} لقائمة الرغبات'
 			}
 		}
 	}

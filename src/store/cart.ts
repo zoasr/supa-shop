@@ -8,9 +8,9 @@ interface CartStore {
 	refreshCart: () => Promise<void>;
 	setCart: (cart: Omit<CartItem, 'user_id'>[]) => void;
 	setCount: (count: number) => void;
-	addToCart: (productId: number, quantity?: number) => Promise<void>;
-	removeFromCart: (productId: number) => Promise<void>;
-	modifyCart: (productId: number, quantity: number) => Promise<void>;
+	addToCart: (productId: number, quantity?: number) => Promise<Awaited<ReturnType<typeof addToCart>>>;
+	removeFromCart: (productId: number) => Promise<Awaited<ReturnType<typeof removeFromCart>>>;
+	modifyCart: (productId: number, quantity: number) => Promise<Awaited<ReturnType<typeof modifyCart>>>;
 }
 
 export const useCartStore = create<CartStore>((set, get) => ({
@@ -39,6 +39,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
 				cart: (get().cart || []).filter((item: { product_id: number }) => item.product_id !== productId)
 			});
 		}
+		return res;
 	},
 	removeFromCart: async (productId: number) => {
 		set({
@@ -50,6 +51,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
 				cart: [...(get().cart || []), { product_id: productId, quantity: 1 }]
 			});
 		}
+		return res;
 	},
 	modifyCart: async (productId: number, quantity: number = 1) => {
 		// First update the UI optimistically
@@ -68,5 +70,6 @@ export const useCartStore = create<CartStore>((set, get) => ({
 				});
 			}
 		}
+		return res;
 	}
 }));

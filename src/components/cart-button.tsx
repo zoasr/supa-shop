@@ -1,12 +1,13 @@
 import { Toggle } from '$/components/ui/toggle';
 import type * as TogglePrimitive from '@radix-ui/react-toggle';
 import { useQuery } from '@tanstack/react-query';
-import { useRouter } from '@tanstack/react-router';
+import { useLoaderData, useRouter } from '@tanstack/react-router';
 import type { ReactNode } from 'react';
 import { memo, useCallback, useMemo } from 'react';
 import { useCartStore } from '@/store/cart';
 import { isLoggedIn } from '@/utils/supabase';
 import { toast } from 'sonner';
+import { useTranslation } from 'react-i18next';
 
 type CartButtonProps = Omit<React.ComponentProps<typeof TogglePrimitive.Root>, 'children'> & {
 	productId: number;
@@ -17,6 +18,8 @@ type CartButtonProps = Omit<React.ComponentProps<typeof TogglePrimitive.Root>, '
 
 const CartButton: React.FC<CartButtonProps> = memo(({ productId, children, quantity, color, ...props }) => {
 	const { data: loggedIn } = useQuery({ queryKey: ['isLoggedIn'], queryFn: () => isLoggedIn() });
+	const { products } = useLoaderData({ from: '__root__' });
+	const { t } = useTranslation();
 	const cart = useCartStore((state) => state.cart);
 	const count = useCartStore((state) => state.count);
 	const setCount = useCartStore((state) => state.setCount);
@@ -39,16 +42,42 @@ const CartButton: React.FC<CartButtonProps> = memo(({ productId, children, quant
 				});
 				return;
 			}
+			if (!products || products instanceof Error) return;
+			const product = products.find((item) => item.id === productId);
 			if (isOn) {
 				setCount(count + 1);
 				await addToCart(productId, quantity);
+				const res = await addToCart(productId);
+				if (product) {
+					if (res instanceof Error) {
+						toast.error(t('common.productErrorCart', { productName: product.productName }));
+					} else {
+						toast.success(
+							t('common.productAddedCart', {
+								productName: product.productName
+							})
+						);
+					}
+				}
 			} else {
 				setCount(count - 1);
 				await removeFromCart(productId);
+				const res = await removeFromCart(productId);
+				if (product) {
+					if (res instanceof Error) {
+						toast.error(t('common.productErrorCart', { productName: product.productName }));
+					} else {
+						toast.success(
+							t('common.productRemovedCart', {
+								productName: product.productName
+							})
+						);
+					}
+				}
 			}
 			router.invalidate();
 		},
-		[productId, count, setCount, addToCart, removeFromCart, quantity, router, loggedIn]
+		[productId, count, setCount, addToCart, removeFromCart, quantity, router, loggedIn, products, t]
 	);
 
 	return (

@@ -1,12 +1,13 @@
 import { Toggle } from '$/components/ui/toggle';
 import type * as TogglePrimitive from '@radix-ui/react-toggle';
 import { useQuery } from '@tanstack/react-query';
-import { useRouter } from '@tanstack/react-router';
+import { useLoaderData, useRouter } from '@tanstack/react-router';
 import { useCallback, useMemo } from 'react';
 import { toast } from 'sonner';
 import { useShallow } from 'zustand/react/shallow';
 import { useWishlistStore } from '@/store/wishlist';
 import { isLoggedIn } from '@/utils/supabase';
+import { useTranslation } from 'react-i18next';
 
 export const WishlistButton = ({
 	productId,
@@ -17,6 +18,8 @@ export const WishlistButton = ({
 	children: React.ReactNode;
 }) => {
 	const { data: loggedIn } = useQuery({ queryKey: ['loggedIn'], queryFn: () => isLoggedIn() });
+	const { products } = useLoaderData({ from: '__root__' });
+	const { t } = useTranslation();
 	const router = useRouter();
 	const wishlist = useWishlistStore(useShallow((state) => state.wishlist));
 	const count = useWishlistStore(useShallow((state) => state.count));
@@ -39,16 +42,51 @@ export const WishlistButton = ({
 				});
 				return;
 			}
+			if (!products || products instanceof Error) return;
+			const product = products.find((item) => item.id === productId);
 			if (isOn) {
 				setCount(count + 1);
-				await addToWishList(productId);
+				const res = await addToWishList(productId);
+				if (product) {
+					if (res instanceof Error) {
+						toast.error(t('common.productErrorWishlist', { productName: product.productName }));
+					} else {
+						toast.success(
+							t('common.productAddedWishlist', {
+								productName: product.productName
+							})
+						);
+					}
+				}
 			} else {
 				setCount(count - 1);
-				await removeFromWishList(productId);
+				const res = await removeFromWishList(productId);
+				if (product) {
+					if (res instanceof Error) {
+						toast.error(t('common.productErrorWishlist', { productName: product.productName }));
+					} else {
+						toast.success(
+							t('common.productRemovedWishlist', {
+								productName: product.productName
+							})
+						);
+					}
+				}
 			}
 			router.invalidate();
 		},
-		[productId, count, setCount, addToWishList, removeFromWishList, router.invalidate, loggedIn, router.navigate]
+		[
+			productId,
+			count,
+			setCount,
+			addToWishList,
+			removeFromWishList,
+			router.invalidate,
+			loggedIn,
+			router.navigate,
+			products,
+			t
+		]
 	);
 	return (
 		<Toggle

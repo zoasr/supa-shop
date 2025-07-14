@@ -8,8 +8,8 @@ interface WishlistStore {
 	refreshWishlist: () => Promise<void>;
 	setWishlist: (wishlist: Omit<WishlistItem, 'user_id'>[]) => void;
 	setCount: (count: number) => void;
-	addToWishList: (productId: number) => Promise<void>;
-	removeFromWishList: (productId: number) => Promise<void>;
+	addToWishList: (productId: number) => Promise<Awaited<ReturnType<typeof addToWishList>>>;
+	removeFromWishList: (productId: number) => Promise<Awaited<ReturnType<typeof removeFromWishList>>>;
 }
 
 export const useWishlistStore = create<WishlistStore>((set, get) => ({
@@ -38,6 +38,7 @@ export const useWishlistStore = create<WishlistStore>((set, get) => ({
 				wishlist: (get().wishlist || []).filter((item: { product_id: number }) => item.product_id !== productId)
 			});
 		}
+		return res;
 	},
 	removeFromWishList: async (productId: number) => {
 		set({
@@ -49,5 +50,6 @@ export const useWishlistStore = create<WishlistStore>((set, get) => ({
 				wishlist: [...(get().wishlist || []), { product_id: productId }]
 			});
 		}
+		return res;
 	}
 }));

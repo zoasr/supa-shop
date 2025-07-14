@@ -74,7 +74,7 @@ function Page() {
 						// If product exists in cart, increment quantity
 						modifyCart(product.id, existingProduct.quantity + 1);
 						toast.success(
-							t('common.productAdded', {
+							t('common.productAddedCart', {
 								productName: product.productName
 							})
 						);
@@ -87,7 +87,7 @@ function Page() {
 					removeFromWishList(product.id);
 				} catch (error) {
 					toast.error(
-						t('common.productError', {
+						t('common.productErrorCart', {
 							productName: product.productName
 						})
 					);
