@@ -5,6 +5,60 @@ import { z } from 'zod';
 import { FormInput } from '@/components/form-input';
 import { getUser, isLoggedIn } from '@/utils/supabase';
 
+interface FormValues {
+	firstName: string;
+	lastName: string;
+	email: string;
+	address?: string;
+	currPass?: string;
+	newPass?: string;
+	confirmNewPass?: string;
+}
+
+const defaultValues: FormValues = {
+	firstName: '',
+	lastName: '',
+	email: '',
+	address: '',
+	currPass: '',
+	newPass: '',
+	confirmNewPass: ''
+};
+
+const formSchema = z
+	.object({
+		firstName: z.string().min(1),
+		lastName: z.union([z.string(), z.literal('')]),
+		email: z.string().email(),
+		address: z.string().optional(),
+		currPass: z.string().superRefine((val, ctx) => {
+			if (val !== '' && val.length < 6) {
+				ctx.addIssue({
+					code: 'custom',
+					message: 'Password must be at least 6 characters long'
+				});
+			}
+		}),
+		newPass: z.string().optional(),
+		confirmNewPass: z.string().optional()
+	})
+	.superRefine((data, ctx) => {
+		if (data.currPass && data.newPass && data.newPass?.length < 6 && !data.newPass) {
+			ctx.addIssue({
+				path: ['newPass'],
+				code: 'custom',
+				message: 'Please enter a new password'
+			});
+		}
+		if (data.newPass !== data.confirmNewPass) {
+			ctx.addIssue({
+				path: ['confirmNewPass'],
+				code: 'custom',
+				message: 'Passwords do not match'
+			});
+		}
+	});
+
 export const Route = createFileRoute('/account/')({
 	beforeLoad: async () => {
 		const loggedIn = await isLoggedIn();
@@ -31,49 +85,9 @@ export const Route = createFileRoute('/account/')({
 		const { user, isOAuth } = useLoaderData({ from: '/account/' });
 		const { t } = useTranslation();
 		const form = useForm({
-			defaultValues: {
-				firstName: (user.full_name?.split(' ')[0] || user.name || 'name') as string,
-				lastName: (user.full_name?.split(' ')[1] || '') as string,
-				email: user.email as string,
-				address: '',
-				currPass: '',
-				newPass: '',
-				confirmNewPass: ''
-			},
+			defaultValues,
 			validators: {
-				onChange: z
-					.object({
-						firstName: z.string().min(1),
-						lastName: z.union([z.string(), z.literal('')]),
-						email: z.string().email(),
-						address: z.string().optional(),
-						currPass: z.string().superRefine((val, ctx) => {
-							if (val !== '' && val.length < 6) {
-								ctx.addIssue({
-									code: 'custom',
-									message: 'Password must be at least 6 characters long'
-								});
-							}
-						}),
-						newPass: z.string().optional(),
-						confirmNewPass: z.string().optional()
-					})
-					.superRefine((data, ctx) => {
-						if (data.currPass && data.newPass && data.newPass?.length < 6 && !data.newPass) {
-							ctx.addIssue({
-								path: ['newPass'],
-								code: 'custom',
-								message: 'Please enter a new password'
-							});
-						}
-						if (data.newPass !== data.confirmNewPass) {
-							ctx.addIssue({
-								path: ['confirmNewPass'],
-								code: 'custom',
-								message: 'Passwords do not match'
-							});
-						}
-					})
+				onChange: formSchema
 			},
 			onSubmit: () => {
 				console.log('submit');
