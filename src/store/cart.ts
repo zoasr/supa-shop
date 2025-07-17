@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { create } from 'zustand';
 import { addToCart, getCart, modifyCart, removeFromCart } from '@/utils/supabase';
 import type { CartItem } from '@/utils/utils';
@@ -6,6 +7,8 @@ interface CartActions {
 	refreshCart: () => Promise<void>;
 	setCart: (cart: Omit<CartItem, 'user_id'>[]) => void;
 	setCount: (count: number) => void;
+	incrementCount: () => void;
+	decrementCount: () => void;
 	addToCart: (productId: number, quantity?: number) => Promise<Awaited<ReturnType<typeof addToCart>>>;
 	removeFromCart: (productId: number) => Promise<Awaited<ReturnType<typeof removeFromCart>>>;
 	modifyCart: (productId: number, quantity: number) => Promise<Awaited<ReturnType<typeof modifyCart>>>;
@@ -33,6 +36,12 @@ const useCartStore = create<CartStore>((set, get) => ({
 		},
 		setCount: (count: number) => {
 			set({ count: count });
+		},
+		incrementCount: () => {
+			set({ count: get().count + 1 });
+		},
+		decrementCount: () => {
+			set({ count: get().count - 1 });
 		},
 		addToCart: async (productId: number, quantity: number = 1) => {
 			set({
@@ -79,7 +88,16 @@ const useCartStore = create<CartStore>((set, get) => ({
 		}
 	}
 }));
-export const usePlainCart = () => useCartStore.getState();
-export const useCart = () => useCartStore((state) => state.cart);
-export const useCartCount = () => useCartStore((state) => state.count);
-export const useCartActions = () => useCartStore((state) => state.actions);
+const useStore = useCartStore;
+export const usePlainCart = () => useStore.getState();
+export const useCart = () => useStore(useCallback((state: CartStore) => state.cart, []));
+export const useCartCount = () => useStore(useCallback((state: CartStore) => state.count, []));
+export const useCartActions = () => useStore(useCallback((state: CartStore) => state.actions, []));
+export const useIsProductInCart = (productId: number) =>
+	useStore(
+		useCallback(
+			(state: CartStore) =>
+				state.cart?.some((item: Omit<CartItem, 'user_id'>) => item.product_id === productId) ?? false,
+			[productId]
+		)
+	);

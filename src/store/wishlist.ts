@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { create } from 'zustand';
 import { addToWishList, getWishList, removeFromWishList } from '@/utils/supabase';
 import type { WishlistItem } from '@/utils/utils';
@@ -6,6 +7,8 @@ interface WishlistActions {
 	refreshWishlist: () => Promise<void>;
 	setWishlist: (wishlist: Omit<WishlistItem, 'user_id'>[]) => void;
 	setCount: (count: number) => void;
+	incrementCount: () => void;
+	decrementCount: () => void;
 	addToWishList: (productId: number) => Promise<Awaited<ReturnType<typeof addToWishList>>>;
 	removeFromWishList: (productId: number) => Promise<Awaited<ReturnType<typeof removeFromWishList>>>;
 }
@@ -32,6 +35,12 @@ const useWishlistStore = create<WishlistStore>((set, get) => ({
 		},
 		setCount: (count: number) => {
 			set({ count: count });
+		},
+		incrementCount: () => {
+			set({ count: get().count + 1 });
+		},
+		decrementCount: () => {
+			set({ count: get().count - 1 });
 		},
 		addToWishList: async (productId: number) => {
 			set({
@@ -62,7 +71,16 @@ const useWishlistStore = create<WishlistStore>((set, get) => ({
 	}
 }));
 
-export const useWishlist = () => useWishlistStore((state) => state.wishlist);
-export const useWishlistCount = () => useWishlistStore((state) => state.count);
-export const useWishlistActions = () => useWishlistStore((state) => state.actions);
-export const usePlainWishlist = () => useWishlistStore.getState();
+const useStore = useWishlistStore;
+export const usePlainWishlist = () => useStore.getState();
+export const useWishlist = () => useStore(useCallback((state: WishlistStore) => state.wishlist, []));
+export const useWishlistCount = () => useStore(useCallback((state: WishlistStore) => state.count, []));
+export const useWishlistActions = () => useStore(useCallback((state: WishlistStore) => state.actions, []));
+export const useIsProductInWishlist = (productId: number) =>
+	useStore(
+		useCallback(
+			(state: WishlistStore) =>
+				state.wishlist?.some((item: Omit<WishlistItem, 'user_id'>) => item.product_id === productId) ?? false,
+			[productId]
+		)
+	);
