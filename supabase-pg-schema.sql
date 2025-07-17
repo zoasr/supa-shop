@@ -189,3 +189,110 @@ CREATE POLICY "Users can update their own cart entries"
     TO authenticated
     USING ((( SELECT auth.uid() AS uid) = user_id))
     WITH CHECK ((( SELECT auth.uid() AS uid) = user_id));
+
+
+------------------------------------------
+
+-- Table: public.profiles
+
+-- DROP TABLE IF EXISTS public.profiles;
+
+CREATE TABLE IF NOT EXISTS public.profiles
+(
+    id uuid NOT NULL,
+    first_name text COLLATE pg_catalog."default",
+    last_name text COLLATE pg_catalog."default",
+    address text COLLATE pg_catalog."default",
+    email text COLLATE pg_catalog."default",
+    CONSTRAINT profiles_pkey PRIMARY KEY (id),
+    CONSTRAINT profiles_email_key UNIQUE (email),
+    CONSTRAINT profiles_id_fkey FOREIGN KEY (id)
+        REFERENCES auth.users (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.profiles
+    OWNER to postgres;
+
+ALTER TABLE IF EXISTS public.profiles
+    ENABLE ROW LEVEL SECURITY;
+
+GRANT ALL ON TABLE public.profiles TO anon;
+
+GRANT ALL ON TABLE public.profiles TO authenticated;
+
+GRANT ALL ON TABLE public.profiles TO postgres;
+
+GRANT ALL ON TABLE public.profiles TO service_role;
+-- POLICY: Enable insert for authenticated users only
+
+-- DROP POLICY IF EXISTS "Enable insert for authenticated users only" ON public.profiles;
+
+CREATE POLICY "Enable insert for authenticated users only"
+    ON public.profiles
+    AS PERMISSIVE
+    FOR INSERT
+    TO authenticated
+    WITH CHECK ((id = auth.uid()));
+-- POLICY: Enable read access fo authed user
+
+-- DROP POLICY IF EXISTS "Enable read access fo authed user" ON public.profiles;
+
+CREATE POLICY "Enable read access fo authed user"
+    ON public.profiles
+    AS PERMISSIVE
+    FOR SELECT
+    TO public
+    USING ((( SELECT auth.uid() AS uid) = id));
+-- POLICY: Update policy
+
+-- DROP POLICY IF EXISTS "Update policy" ON public.profiles;
+
+CREATE POLICY "Update policy"
+    ON public.profiles
+    AS PERMISSIVE
+    FOR UPDATE
+    TO public
+    USING ((( SELECT auth.uid() AS uid) = id))
+    WITH CHECK ((( SELECT auth.uid() AS uid) = id));
+
+
+------------------------------------------
+
+-- FUNCTIONS
+
+
+-- FUNCTION: public.handle_new_user()
+
+-- DROP FUNCTION IF EXISTS public.handle_new_user();
+
+CREATE OR REPLACE FUNCTION public.handle_new_user()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF SECURITY DEFINER
+    SET search_path=""
+AS $BODY$
+begin
+  insert into public.profiles (id, first_name, last_name, address, email)
+  values (new.id, new.raw_user_meta_data ->> 'first_name', new.raw_user_meta_data ->> 'last_name', '', new.email);
+  return new;
+end;
+$BODY$;
+
+ALTER FUNCTION public.handle_new_user()
+    OWNER TO postgres;
+
+GRANT EXECUTE ON FUNCTION public.handle_new_user() TO PUBLIC;
+
+GRANT EXECUTE ON FUNCTION public.handle_new_user() TO anon;
+
+GRANT EXECUTE ON FUNCTION public.handle_new_user() TO authenticated;
+
+GRANT EXECUTE ON FUNCTION public.handle_new_user() TO postgres;
+
+GRANT EXECUTE ON FUNCTION public.handle_new_user() TO service_role;
+
