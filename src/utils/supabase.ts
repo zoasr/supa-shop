@@ -1,9 +1,10 @@
-import { type AuthError, createClient } from '@supabase/supabase-js';
-import type { CartItem, Product, WishlistItem } from './utils';
+import { type AuthError, createClient, PostgrestError, type User } from '@supabase/supabase-js';
+import type { CartItem, Product, ProfileForm } from './utils';
+import type { Database } from './database.types';
 
 const supabaseUrl = import.meta.env.VITE_PROJECT_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
-export const supabase = createClient(supabaseUrl, supabaseKey);
+export const supabase = createClient<Database>(supabaseUrl, supabaseKey);
 
 export const isLoggedIn: () => Promise<boolean | AuthError> = async () => {
 	const { data, error } = await supabase.auth.getUser();
@@ -22,10 +23,7 @@ export const isLoggedIn: () => Promise<boolean | AuthError> = async () => {
 
 export const getProducts = async (limit?: number) => {
 	if (limit) {
-		const response: { data: Product[] | null; error: Error | null } = await supabase
-			.from('products')
-			.select('*')
-			.limit(limit);
+		const response = await supabase.from('products').select('*').limit(limit);
 		if (response.error) {
 			return response.error;
 		}
@@ -43,7 +41,7 @@ export const getProducts = async (limit?: number) => {
 	}
 	return null;
 };
-export const getProduct = async (id: number | string) => {
+export const getProduct = async (id: number) => {
 	const response: { data: Product | null; error: Error | null } = await supabase
 		.from('products')
 		.select('*')
@@ -75,7 +73,7 @@ export const getProductBySlug = async (slug: string) => {
 	return null;
 };
 
-export const addToWishList = async (productId: number | string) => {
+export const addToWishList = async (productId: number) => {
 	const { data: userData, error: userError } = await supabase.auth.getUser();
 	const { data: productIdData, error: productIdError } = await supabase
 		.from('wishlist')
@@ -103,7 +101,7 @@ export const addToWishList = async (productId: number | string) => {
 	return null;
 };
 
-export const removeFromWishList = async (productId: number | string) => {
+export const removeFromWishList = async (productId: number) => {
 	const { data, error } = await supabase.from('wishlist').delete().eq('product_id', productId);
 	if (error) {
 		return error;
@@ -114,12 +112,9 @@ export const removeFromWishList = async (productId: number | string) => {
 	return null;
 };
 
-export const getWishList: (limit?: number) => Promise<WishlistItem[] | null | Error> = async (limit?: number) => {
+export const getWishList = async (limit?: number) => {
 	if (limit) {
-		const { data, error }: { data: WishlistItem[] | null; error: Error | null } = await supabase
-			.from('wishlist')
-			.select('*')
-			.limit(limit);
+		const { data, error } = await supabase.from('wishlist').select('*').limit(limit);
 		if (error) {
 			return error;
 		}
@@ -129,9 +124,7 @@ export const getWishList: (limit?: number) => Promise<WishlistItem[] | null | Er
 		return null;
 	}
 
-	const { data, error }: { data: WishlistItem[] | null; error: Error | null } = await supabase
-		.from('wishlist')
-		.select('*');
+	const { data, error } = await supabase.from('wishlist').select('*');
 	if (error) {
 		return error;
 	}
@@ -141,8 +134,8 @@ export const getWishList: (limit?: number) => Promise<WishlistItem[] | null | Er
 	return null;
 };
 
-export const addToCart: (productId: number | string, quantity?: number) => Promise<CartItem[] | null | Error> = async (
-	productId: number | string,
+export const addToCart: (productId: number, quantity?: number) => Promise<CartItem[] | null | Error> = async (
+	productId: number,
 	quantity: number = 1
 ) => {
 	const { data: userData, error: userError } = await supabase.auth.getUser();
@@ -175,10 +168,7 @@ export const addToCart: (productId: number | string, quantity?: number) => Promi
 	return null;
 };
 
-export const modifyCart: (productId: number | string, quantity?: number) => Promise<CartItem[] | null | Error> = async (
-	productId: number | string,
-	quantity: number = 1
-) => {
+export const modifyCart = async (productId: number, quantity: number = 1) => {
 	const { data, error } = await supabase
 		.from('cart')
 		.update({ quantity: quantity })
@@ -194,7 +184,7 @@ export const modifyCart: (productId: number | string, quantity?: number) => Prom
 	return null;
 };
 
-export const removeFromCart = async (productId: number | string) => {
+export const removeFromCart = async (productId: number) => {
 	const { data, error } = await supabase.from('cart').delete().eq('product_id', productId);
 	if (error) {
 		return error;
@@ -205,12 +195,9 @@ export const removeFromCart = async (productId: number | string) => {
 	return null;
 };
 
-export const getCart: (limit?: number) => Promise<CartItem[] | null | Error> = async (limit?: number) => {
+export const getCart = async (limit?: number) => {
 	if (limit) {
-		const { data, error }: { data: CartItem[] | null; error: Error | null } = await supabase
-			.from('cart')
-			.select('*')
-			.limit(limit);
+		const { data, error } = await supabase.from('cart').select('*').limit(limit);
 		if (error) {
 			return error;
 		}
@@ -218,7 +205,7 @@ export const getCart: (limit?: number) => Promise<CartItem[] | null | Error> = a
 			return data;
 		}
 	}
-	const { data, error }: { data: CartItem[] | null; error: Error | null } = await supabase.from('cart').select('*');
+	const { data, error } = await supabase.from('cart').select('*');
 	if (error) {
 		return error;
 	}
@@ -228,13 +215,8 @@ export const getCart: (limit?: number) => Promise<CartItem[] | null | Error> = a
 	return null;
 };
 
-export const getCartItem: (id: number | string) => Promise<CartItem | null | Error> = async (id: number | string) => {
-	const { data, error }: { data: CartItem | null; error: Error | null } = await supabase
-		.from('cart')
-		.select('*')
-		.eq('product_id', id)
-		.limit(1)
-		.single();
+export const getCartItem = async (id: number) => {
+	const { data, error } = await supabase.from('cart').select('*').eq('product_id', id).limit(1).single();
 	if (error) {
 		return error;
 	}
