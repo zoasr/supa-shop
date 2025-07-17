@@ -62,6 +62,7 @@ const CartCardDetailed = ({ product }: { product: Product }) => {
 					<img className="object-cover size-full" src={product.imageUrl} alt={product.productName} />
 					<CartButtonComponent
 						productId={product.id}
+						productName={product.productName}
 						quantity={quantity}
 						className="absolute -top-2 -right-2 opacity-0 transition-all pointer-events-none aspect-square size-6 bg-skin-button text-skin-text group-hover:pointer-events-auto group-hover:opacity-100 hover:bg-skin-button-2 hover:text-skin-text"
 					>

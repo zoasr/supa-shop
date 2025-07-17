@@ -1,8 +1,8 @@
 import { Toggle } from '$/components/ui/toggle';
 import type * as TogglePrimitive from '@radix-ui/react-toggle';
 import { useQuery } from '@tanstack/react-query';
-import { useLoaderData, useRouter } from '@tanstack/react-router';
-import { memo, useCallback, useMemo } from 'react';
+import { useRouter } from '@tanstack/react-router';
+import { memo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { useIsProductInWishlist, useWishlistActions } from '@/store/wishlist';
@@ -10,28 +10,21 @@ import { isLoggedIn } from '@/utils/supabase';
 
 const MemoizedToggle = memo(Toggle);
 
-export const WishlistButton = memo(
-	({
-		productId,
-		children,
-		...props
-	}: React.ComponentProps<typeof TogglePrimitive.Root> & {
-		productId: number;
-		children: React.ReactNode;
-	}) => {
+type WishlistButtonProps = React.ComponentProps<typeof TogglePrimitive.Root> & {
+	productId: number;
+	productName: string;
+};
+
+export const WishlistButton: React.FC<WishlistButtonProps> = memo(
+	({ productId, productName, children, ...props }) => {
 		const { data: loggedIn } = useQuery({
 			queryKey: ['loggedIn'],
 			queryFn: isLoggedIn
 		});
-		const { products } = useLoaderData({ from: '__root__' });
 		const { t } = useTranslation();
 		const router = useRouter();
 		const isWhishlisted = useIsProductInWishlist(productId);
 		const { incrementCount, decrementCount, addToWishList, removeFromWishList } = useWishlistActions();
-		const product = useMemo(() => {
-			if (products instanceof Error) return undefined;
-			return products?.find((item) => item.id === productId);
-		}, [products, productId]);
 
 		const handleToggle = useCallback(
 			async (isOn: boolean) => {
@@ -49,17 +42,15 @@ export const WishlistButton = memo(
 					return;
 				}
 
-				if (!product) return;
-
 				if (isOn) {
 					incrementCount();
 					const res = await addToWishList(productId);
 					if (res instanceof Error) {
-						toast.error(t('common.productErrorWishlist', { productName: product.productName }));
+						toast.error(t('common.productErrorWishlist', { productName: productName }));
 					} else {
 						toast.success(
 							t('common.productAddedWishlist', {
-								productName: product.productName
+								productName: productName
 							})
 						);
 					}
@@ -67,17 +58,27 @@ export const WishlistButton = memo(
 					decrementCount();
 					const res = await removeFromWishList(productId);
 					if (res instanceof Error) {
-						toast.error(t('common.productErrorWishlist', { productName: product.productName }));
+						toast.error(t('common.productErrorWishlist', { productName: productName }));
 					} else {
 						toast.success(
 							t('common.productRemovedWishlist', {
-								productName: product.productName
+								productName: productName
 							})
 						);
 					}
 				}
 			},
-			[loggedIn, product, productId, router, t, addToWishList, removeFromWishList, incrementCount, decrementCount]
+			[
+				loggedIn,
+				productName,
+				productId,
+				router,
+				t,
+				addToWishList,
+				removeFromWishList,
+				incrementCount,
+				decrementCount
+			]
 		);
 
 		return (

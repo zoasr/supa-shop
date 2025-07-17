@@ -129,6 +129,7 @@ const Productpage = () => {
 					<Button asChild className="p-0 transition-all w-fit">
 						<CartButton
 							productId={product.id}
+							productName={product.productName}
 							quantity={items}
 							className="h-12 w-[200px] bg-skin-secondary-2 py-8 text-white outline-0 transition-all duration-150 hover:bg-skin-button-hover hover:text-white focus:outline-0 focus-visible:outline-0 data-[state=on]:w-[300px]"
 						>
@@ -139,6 +140,7 @@ const Productpage = () => {
 					</Button>
 					<WishlistButton
 						productId={product.id}
+						productName={product.productName}
 						className="group h-full cursor-pointer rounded-sm px-4 py-4 font-medium border-2 border-border  transition-all duration-150 hover:bg-skin-button-hover focus:outline-skin-secondary-2 focus-visible:bg-skin-secondary-2 data-[state=on]:border-primary data-[state=on]:bg-skin-secondary-2 sm:py-0"
 					>
 						<SmallHeart className="size-6 group-hover:text-white group-focus-visible:text-white group-data-[state=on]:text-white" />

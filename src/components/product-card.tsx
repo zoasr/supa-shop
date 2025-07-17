@@ -43,6 +43,7 @@ const ProductCard = memo(
 						</button>
 						<WishlistButton
 							productId={id}
+							productName={productName}
 							className={cn('p-2 rounded-full duration-150 group', '')}
 							title="Wishlist"
 						>
@@ -55,6 +56,7 @@ const ProductCard = memo(
 					</div>
 					<CartButton
 						productId={id}
+						productName={productName}
 						className={cn(
 							'absolute bottom-0 left-0 py-2 w-full text-center transition-all translate-y-full cursor-pointer bg-skin-button text-skin-text group-hover/card:translate-y-0 hover:bg-skin-primary-1',
 							''
