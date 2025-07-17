@@ -1,10 +1,10 @@
 import { useForm } from '@tanstack/react-form';
 import { createFileRoute, Link, redirect, useLoaderData } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'sonner';
 import { z } from 'zod';
 import { FormInput } from '@/components/form-input';
 import { getProfile, getUser, isLoggedIn, updateProfile } from '@/utils/supabase';
-import { toast } from 'sonner';
 
 interface FormValues {
 	firstName: string;

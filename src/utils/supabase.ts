@@ -1,6 +1,6 @@
-import { type AuthError, createClient, PostgrestError, type User } from '@supabase/supabase-js';
-import type { CartItem, Product, ProfileForm } from './utils';
+import { type AuthError, createClient, type PostgrestError, type User } from '@supabase/supabase-js';
 import type { Database } from './database.types';
+import type { CartItem, Product, ProfileForm } from './utils';
 
 const supabaseUrl = import.meta.env.VITE_PROJECT_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
