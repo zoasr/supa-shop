@@ -259,3 +259,25 @@ export const getUser = async () => {
 	}
 	return data.user;
 };
+
+export const getProfile = async () => {
+	const { data, error } = await supabase.from('profiles').select('*').single();
+	if (error) {
+		return error;
+	}
+	return data;
+};
+
+export const updateProfile: (profile: ProfileForm) => Promise<AuthError | PostgrestError | User | null> = async (
+	profile: ProfileForm
+) => {
+	const user = await getUser();
+	if (user instanceof Error) {
+		return user;
+	}
+	const { data, error } = await supabase.from('profiles').update(profile).eq('id', user.id).single();
+	if (error) {
+		return error;
+	}
+	return data;
+};

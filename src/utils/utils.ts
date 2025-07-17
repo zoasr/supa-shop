@@ -35,6 +35,13 @@ export type WishlistItem = {
 	user_id: string;
 };
 
+export type ProfileForm = {
+	first_name: string;
+	last_name: string;
+	email: string;
+	address: string;
+};
+
 export const debounce = <F extends (...args: string[]) => void>(func: F, wait: number) => {
 	let timeout: NodeJS.Timeout | null = null;
 

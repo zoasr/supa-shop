@@ -3,7 +3,8 @@ import { createFileRoute, Link, redirect, useLoaderData } from '@tanstack/react-
 import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
 import { FormInput } from '@/components/form-input';
-import { getUser, isLoggedIn } from '@/utils/supabase';
+import { getProfile, getUser, isLoggedIn, updateProfile } from '@/utils/supabase';
+import { toast } from 'sonner';
 
 interface FormValues {
 	firstName: string;
@@ -59,27 +60,29 @@ export const Route = createFileRoute('/account/')({
 		}
 	},
 	loader: async () => {
+		const profile = await getProfile();
 		const user = await getUser();
-		if (user instanceof Error) {
+
+		if (user instanceof Error || profile instanceof Error) {
 			throw redirect({
 				to: '/login'
 			});
 		}
 		return {
-			user: user.user_metadata,
+			profile,
 			isOAuth: user instanceof Error || user.identities?.[0]?.provider !== 'email' || false
 		};
 	},
 
 	component: () => {
-		const { user, isOAuth } = useLoaderData({ from: '/account/' });
+		const { profile, isOAuth } = useLoaderData({ from: '/account/' });
 		const { t } = useTranslation();
 		const form = useForm({
 			defaultValues: {
-				firstName: (user.full_name?.split(' ')[0] || user.name || 'name') as string,
-				lastName: (user.full_name?.split(' ')[1] || '') as string,
-				email: user.email as string,
-				address: '',
+				firstName: (profile.first_name || '') as string,
+				lastName: (profile.last_name || '') as string,
+				email: profile.email as string,
+				address: profile.address as string,
 				currPass: '',
 				newPass: '',
 				confirmNewPass: ''
@@ -87,8 +90,18 @@ export const Route = createFileRoute('/account/')({
 			validators: {
 				onChange: formSchema
 			},
-			onSubmit: () => {
-				console.log('submit');
+			onSubmit: async ({ value, meta, formApi }) => {
+				console.log({ value, meta, formApi });
+				const res = await updateProfile({
+					first_name: value.firstName,
+					last_name: value.lastName,
+					email: value.email,
+					address: value.address || ''
+				});
+				if (res instanceof Error) {
+					toast.error(res.message);
+				}
+				toast.success('Profile updated successfully');
 			}
 		});
 		return (
@@ -107,31 +120,31 @@ export const Route = createFileRoute('/account/')({
 									</Link>
 								</li>
 								<li className="mb-2 ms-9 text-skin-text-2/50">
-									<a
-										href="/account/orders"
+									<Link
+										to="/account/orders"
 										className="hover:underline [&.active]:text-skin-secondary-2"
 									>
 										{t('accountNav.orders')}
-									</a>
+									</Link>
 								</li>
 								<h1 className="text-base font-medium text-start text-skin-text-2">
 									{t('accountNav.wishlist.title')}
 								</h1>
 								<li className="mb-2 ms-9 text-skin-text-2/50">
-									<a
-										href="/account/wishlist"
+									<Link
+										to="/account/wishlist"
 										className="hover:underline [&.active]:text-skin-secondary-2"
 									>
 										{t('accountNav.wishlist')}
-									</a>
+									</Link>
 								</li>
 								<li className="mb-2 ms-9 text-skin-text-2/50">
-									<a
-										href="/account/reviews"
+									<Link
+										to="/account/reviews"
 										className="hover:underline [&.active]:text-skin-secondary-2"
 									>
 										{t('accountNav.reviews')}
-									</a>
+									</Link>
 								</li>
 							</ul>
 						</nav>
@@ -141,7 +154,7 @@ export const Route = createFileRoute('/account/')({
 							{t('accountPage.profileTitle')}
 						</h2>
 
-						<form className="space-y-6">
+						<form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
 							<div className="grid grid-cols-1 gap-6 md:grid-cols-2">
 								<div className="col-span-2 md:col-span-1">
 									<form.Field name="firstName">
@@ -343,6 +356,7 @@ export const Route = createFileRoute('/account/')({
 								</button>
 								<button
 									type="submit"
+									onClick={() => form.handleSubmit({ submitAction: 'save' })}
 									className="px-12 py-3 rounded-sm border border-transparent transition-all duration-75 bg-skin-button-2 text-skin-text hover:bg-skin-button-2/80 focus:ring-2 focus:ring-skin-secondary-2 focus:ring-offset-2 focus:outline-none"
 								>
 									{t('formFields.buttons.save')}
