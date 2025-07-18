@@ -26,7 +26,11 @@ const CartCard = ({
 					</span>
 				)}
 				<div className="max-[270px] flex h-[250px] items-center justify-center bg-skin-secondary">
-					<img className="w-full max-w-[140px] rounded-lg object-cover" src={imageUrl} alt={productName} />
+					<img
+						className="w-full max-w-[140px] rounded-lg object-cover"
+						src={imageUrl ? imageUrl : ''}
+						alt={productName}
+					/>
 					{quantity > 1 && (
 						<span className="absolute right-3 bottom-3 px-4 py-1 text-sm font-light rounded-md bg-skin-secondary-2 text-skin-text">
 							{quantity}

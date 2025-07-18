@@ -28,6 +28,7 @@ export const Route = createFileRoute('/account/wishlist')({
 		const products = [];
 		if (Array.isArray(wishlist)) {
 			for (const item of wishlist) {
+				if (!item.product_id) continue;
 				const product = await getProduct(item.product_id);
 				product instanceof Error ? null : products.push(product);
 			}

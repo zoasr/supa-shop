@@ -1,11 +1,11 @@
 import { useCallback } from 'react';
 import { create } from 'zustand';
 import { addToWishList, getWishList, removeFromWishList } from '@/utils/supabase';
-import type { WishlistItem } from '@/utils/utils';
+import type { WishlistItemClient } from '@/utils/utils';
 
 interface WishlistActions {
 	refreshWishlist: () => Promise<void>;
-	setWishlist: (wishlist: Omit<WishlistItem, 'user_id'>[]) => void;
+	setWishlist: (wishlist: WishlistItemClient[]) => void;
 	setCount: (count: number) => void;
 	incrementCount: () => void;
 	decrementCount: () => void;
@@ -15,7 +15,7 @@ interface WishlistActions {
 
 interface WishlistStore {
 	count: number;
-	wishlist: Omit<WishlistItem, 'user_id'>[] | null;
+	wishlist: WishlistItemClient[] | null;
 	actions: WishlistActions;
 }
 
@@ -30,7 +30,7 @@ const useWishlistStore = create<WishlistStore>((set, get) => ({
 			}
 			set({ count: wishlist?.length || 0, wishlist: wishlist || [] });
 		},
-		setWishlist: (wishlist: Omit<WishlistItem, 'user_id'>[]) => {
+		setWishlist: (wishlist: WishlistItemClient[]) => {
 			set({ wishlist: wishlist });
 		},
 		setCount: (count: number) => {
@@ -50,7 +50,7 @@ const useWishlistStore = create<WishlistStore>((set, get) => ({
 			if (res instanceof Error) {
 				set({
 					wishlist: (get().wishlist || []).filter(
-						(item: { product_id: number }) => item.product_id !== productId
+						(item: { product_id: number | null }) => item.product_id !== productId
 					)
 				});
 			}
@@ -58,7 +58,9 @@ const useWishlistStore = create<WishlistStore>((set, get) => ({
 		},
 		removeFromWishList: async (productId: number) => {
 			set({
-				wishlist: (get().wishlist || []).filter((item: { product_id: number }) => item.product_id !== productId)
+				wishlist: (get().wishlist || []).filter(
+					(item: { product_id: number | null }) => item.product_id !== productId
+				)
 			});
 			const res = await removeFromWishList(productId);
 			if (res instanceof Error) {
@@ -80,7 +82,7 @@ export const useIsProductInWishlist = (productId: number) =>
 	useStore(
 		useCallback(
 			(state: WishlistStore) =>
-				state.wishlist?.some((item: Omit<WishlistItem, 'user_id'>) => item.product_id === productId) ?? false,
+				state.wishlist?.some((item: WishlistItemClient) => item.product_id === productId) ?? false,
 			[productId]
 		)
 	);

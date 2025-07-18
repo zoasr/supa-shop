@@ -1,6 +1,6 @@
 import { type AuthError, createClient, type PostgrestError, type User } from '@supabase/supabase-js';
 import type { Database } from './database.types';
-import type { CartItem, Product, ProfileForm } from './utils';
+import type { CartItem, ProfileForm } from './utils';
 
 const supabaseUrl = import.meta.env.VITE_PROJECT_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
@@ -31,7 +31,7 @@ export const getProducts = async (limit?: number) => {
 			return response.data;
 		}
 	}
-	const response: { data: Product[] | null; error: Error | null } = await supabase.from('products').select('*');
+	const response = await supabase.from('products').select('*');
 
 	if (response.error) {
 		return response.error;
@@ -42,11 +42,7 @@ export const getProducts = async (limit?: number) => {
 	return null;
 };
 export const getProduct = async (id: number) => {
-	const response: { data: Product | null; error: Error | null } = await supabase
-		.from('products')
-		.select('*')
-		.eq('id', id)
-		.single();
+	const response = await supabase.from('products').select('*').eq('id', id).single();
 
 	if (response.error) {
 		return response.error;
@@ -58,11 +54,7 @@ export const getProduct = async (id: number) => {
 };
 
 export const getProductBySlug = async (slug: string) => {
-	const response: { data: Product | null; error: Error | null } = await supabase
-		.from('products')
-		.select('*')
-		.eq('product', slug)
-		.single();
+	const response = await supabase.from('products').select('*').eq('product', slug).single();
 
 	if (response.error) {
 		return response.error;

@@ -1,4 +1,6 @@
-import type { getCartItem, getProduct, getProducts } from './supabase';
+import type { getCartItem, getProduct, getProducts, getWishList } from './supabase';
+
+type ArrayElement<ArrayType extends readonly unknown[]> = ArrayType[number];
 
 export type Timer = {
 	days: number;
@@ -12,12 +14,18 @@ export type Label = {
 	key: keyof Timer;
 };
 
-export type Product = Awaited<ReturnType<typeof getProduct>>;
-export type Products = Awaited<ReturnType<typeof getProducts>>;
-
-export type CartItem = Awaited<ReturnType<typeof getCartItem>>;
-
-export type WishlistItem = Awaited<ReturnType<typeof getCartItem>>;
+export type Product = Exclude<Awaited<ReturnType<typeof getProduct>>, Error | null>;
+export type Products = Exclude<Awaited<ReturnType<typeof getProducts>>, Error | null>;
+export type CartItem = Exclude<Awaited<ReturnType<typeof getCartItem>>, Error | null>;
+export type CartItemClient = Omit<
+	Exclude<Awaited<ReturnType<typeof getCartItem>>, Error | null>,
+	'created_at' | 'updated_at' | 'user_id' | 'id'
+>;
+export type WishlistItem = ArrayElement<Exclude<Awaited<ReturnType<typeof getWishList>>, Error | null>>;
+export type WishlistItemClient = Omit<
+	ArrayElement<Exclude<Awaited<ReturnType<typeof getWishList>>, Error | null>>,
+	'created_at' | 'updated_at' | 'user_id' | 'id'
+>;
 
 export type ProfileForm = {
 	first_name: string;

@@ -24,6 +24,7 @@ export const Route = createFileRoute('/account/cart')({
 		const products = [];
 		if (Array.isArray(cart)) {
 			for (const item of cart) {
+				if (!item.product_id) continue;
 				const product = await getProduct(item.product_id);
 				product instanceof Error ? null : products.push(product);
 			}
@@ -59,7 +60,7 @@ const CartCardDetailed = ({ product }: { product: Product }) => {
 		<div className="flex w-full flex-col items-center justify-between gap-4 rounded-md bg-skin-secondary px-16 py-7 text-center font-bold shadow-[0_0_10px_0_rgba(0,0,0,0.1)] sm:flex-row dark:shadow-[0_0_10px_0_rgba(255,255,255,0.1)]">
 			<div className="flex flex-col flex-1 gap-4 justify-center items-center basis-1/4 sm:flex-row">
 				<div className="relative group size-auto">
-					<img className="object-cover size-full" src={product.imageUrl} alt={product.productName} />
+					<img className="object-cover size-full" src={product.imageUrl || ''} alt={product.productName} />
 					<CartButtonComponent
 						productId={product.id}
 						productName={product.productName}

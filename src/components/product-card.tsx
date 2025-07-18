@@ -29,7 +29,7 @@ const ProductCard = memo(
 					>
 						<img
 							className="w-full max-w-[140px] rounded-lg object-cover"
-							src={imageUrl}
+							src={imageUrl ? imageUrl : ''}
 							alt={productName}
 						/>
 					</div>
@@ -91,7 +91,7 @@ const ProductCard = memo(
 							{[...Array(rating)].map((_, i) => (
 								<img key={i} src={filledStar} alt="star" className="w-4 h-4" />
 							))}
-							{[...Array(5 - rating)].map((_, i) => (
+							{[...Array(5 - (rating || 0))].map((_, i) => (
 								<img key={i} src={emptyStar} alt="empty star" className="w-4 h-4" />
 							))}
 						</div>

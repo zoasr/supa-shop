@@ -1,11 +1,11 @@
 import { useCallback } from 'react';
 import { create } from 'zustand';
 import { addToCart, getCart, modifyCart, removeFromCart } from '@/utils/supabase';
-import type { CartItem } from '@/utils/utils';
+import type { CartItemClient } from '@/utils/utils';
 
 interface CartActions {
 	refreshCart: () => Promise<void>;
-	setCart: (cart: Omit<CartItem, 'user_id'>[]) => void;
+	setCart: (cart: CartItemClient[]) => void;
 	setCount: (count: number) => void;
 	incrementCount: () => void;
 	decrementCount: () => void;
@@ -16,7 +16,7 @@ interface CartActions {
 
 interface CartStore {
 	count: number;
-	cart: Omit<CartItem, 'user_id'>[] | null;
+	cart: CartItemClient[] | null;
 	actions: CartActions;
 }
 
@@ -31,7 +31,7 @@ const useCartStore = create<CartStore>((set, get) => ({
 			}
 			set({ count: cart?.length || 0, cart: cart || [] });
 		},
-		setCart: (cart: Omit<CartItem, 'user_id'>[]) => {
+		setCart: (cart: CartItemClient[]) => {
 			set({ cart: cart });
 		},
 		setCount: (count: number) => {
@@ -50,14 +50,16 @@ const useCartStore = create<CartStore>((set, get) => ({
 			const res = await addToCart(productId, quantity);
 			if (res instanceof Error) {
 				set({
-					cart: (get().cart || []).filter((item: { product_id: number }) => item.product_id !== productId)
+					cart: (get().cart || []).filter(
+						(item: { product_id: number | null }) => item.product_id !== productId
+					)
 				});
 			}
 			return res;
 		},
 		removeFromCart: async (productId: number) => {
 			set({
-				cart: (get().cart || []).filter((item: { product_id: number }) => item.product_id !== productId)
+				cart: (get().cart || []).filter((item: { product_id: number | null }) => item.product_id !== productId)
 			});
 			const res = await removeFromCart(productId);
 			if (res instanceof Error) {
@@ -96,8 +98,7 @@ export const useCartActions = () => useStore(useCallback((state: CartStore) => s
 export const useIsProductInCart = (productId: number) =>
 	useStore(
 		useCallback(
-			(state: CartStore) =>
-				state.cart?.some((item: Omit<CartItem, 'user_id'>) => item.product_id === productId) ?? false,
+			(state: CartStore) => state.cart?.some((item: CartItemClient) => item.product_id === productId) ?? false,
 			[productId]
 		)
 	);

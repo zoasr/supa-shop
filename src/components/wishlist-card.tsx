@@ -24,7 +24,11 @@ const WishlistCard = ({ id, product, imageUrl, productName, price, discount }: P
 						viewTimelineName: `product-picture-${id}`
 					}}
 				>
-					<img className="w-full max-w-[140px] rounded-lg object-cover" src={imageUrl} alt={productName} />
+					<img
+						className="w-full max-w-[140px] rounded-lg object-cover"
+						src={imageUrl ? imageUrl : ''}
+						alt={productName}
+					/>
 				</div>
 				<div className="flex absolute top-0 right-0 flex-col gap-2 p-3">
 					<button

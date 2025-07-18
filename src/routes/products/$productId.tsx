@@ -75,16 +75,16 @@ const Productpage = () => {
 					viewTransitionName: `product-${product.id}-picture`
 				}}
 			>
-				<img src={product.imageUrl} alt="" className="size-full lg:size-1/2" />
+				<img src={product.imageUrl ? product.imageUrl : ''} alt="" className="size-full lg:size-1/2" />
 			</div>
 			<div className="flex flex-col gap-4 justify-center items-center sm:items-start">
 				<h1 className="text-3xl font-semibold">{product.productName}</h1>
 				<div className="flex flex-wrap gap-4 items-center">
 					<div className="flex gap-1">
-						{[...Array.from({ length: product.rating })].map((_, i) => (
+						{[...Array.from({ length: product.rating || 0 })].map((_, i) => (
 							<img key={i} src={filledStar} alt="star" className="w-4 h-4" />
 						))}
-						{[...Array.from({ length: 5 - product.rating })].map((_, i) => (
+						{[...Array.from({ length: 5 - (product.rating || 0) })].map((_, i) => (
 							<img key={i} src={emptyStar} alt="empty star" className="w-4 h-4" />
 						))}
 					</div>
