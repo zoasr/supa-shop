@@ -1,3 +1,5 @@
+import type { getCartItem, getProduct, getProducts } from './supabase';
+
 export type Timer = {
 	days: number;
 	hours: number;
@@ -10,30 +12,12 @@ export type Label = {
 	key: keyof Timer;
 };
 
-export type Product = {
-	id: number;
-	imageUrl: string;
-	productName: string;
-	product: string;
-	price?: number;
-	rating: number;
-	reviews?: number;
-	discount?: number;
-	isNew?: boolean;
-	colors?: string[];
-	productDescription?: string;
-};
+export type Product = Awaited<ReturnType<typeof getProduct>>;
+export type Products = Awaited<ReturnType<typeof getProducts>>;
 
-export type CartItem = {
-	product_id: number;
-	user_id: string;
-	quantity: number;
-};
+export type CartItem = Awaited<ReturnType<typeof getCartItem>>;
 
-export type WishlistItem = {
-	product_id: number;
-	user_id: string;
-};
+export type WishlistItem = Awaited<ReturnType<typeof getCartItem>>;
 
 export type ProfileForm = {
 	first_name: string;
