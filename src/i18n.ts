@@ -570,6 +570,59 @@ const signupPageTranslation = {
 	}
 };
 
+const contactPageTranslation = {
+	en: {
+		translation: {
+			contactPage: {
+				aside: {
+					callus: 'Call us',
+					details: 'We are available 24/7, 7 days a week.',
+					phone: 'Phone: +8801611112222',
+					writeus: 'Write To Us',
+					writeusdetails: 'Fill out our form and we will contact you within 24 hours.',
+					emails: 'Emails: customer@exclusive.com, support@exclusive.com'
+				},
+				main: {
+					form: {
+						name: 'Your Name',
+						email: 'Your Email',
+						phone: 'Your Phone',
+						message: 'Your Message',
+						buttons: {
+							send: 'Send Message'
+						}
+					}
+				}
+			}
+		}
+	},
+	ar: {
+		translation: {
+			contactPage: {
+				aside: {
+					callus: 'اتصل بنا',
+					details: 'نحن متاحين 24/7، 7 ايام في الاسبوع.',
+					phone: 'الهاتف: +8801611112222',
+					writeus: 'ارسل لنا',
+					writeusdetails: 'املأ نموذجنا وسوف نتصل بك خلال 24 ساعة.',
+					emails: 'البريد الالكتروني: customer@exclusive.com, support@exclusive.com'
+				},
+				main: {
+					form: {
+						name: 'الاسم',
+						email: 'البريد الالكتروني',
+						phone: 'الهاتف',
+						message: 'الرسالة',
+						buttons: {
+							send: 'ارسل الرسالة'
+						}
+					}
+				}
+			}
+		}
+	}
+};
+
 const commonTranslation = {
 	en: {
 		translation: {
@@ -620,7 +673,8 @@ export const resources = {
 			...cartTranslation.en.translation,
 			...accountPageTranslation.en.translation,
 			...loginPageTranslation.en.translation,
-			...signupPageTranslation.en.translation
+			...signupPageTranslation.en.translation,
+			...contactPageTranslation.en.translation
 		}
 	},
 	ar: {
@@ -643,7 +697,8 @@ export const resources = {
 			...cartTranslation.ar.translation,
 			...accountPageTranslation.ar.translation,
 			...loginPageTranslation.ar.translation,
-			...signupPageTranslation.ar.translation
+			...signupPageTranslation.ar.translation,
+			...contactPageTranslation.ar.translation
 		}
 	}
 };
