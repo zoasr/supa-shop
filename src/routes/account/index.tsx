@@ -278,7 +278,7 @@ export const Route = createFileRoute('/account/')({
 															<FormInput
 																type="password"
 																id={field.name}
-																placeholder={t('formFields.password')}
+																placeholder={t('formFields.currPass')}
 																value={field.state.value}
 																onChange={(e) => field.handleChange(e.target.value)}
 																className={
@@ -304,7 +304,7 @@ export const Route = createFileRoute('/account/')({
 														<FormInput
 															type="password"
 															id={field.name}
-															placeholder={t('formFields.newPassword')}
+															placeholder={t('formFields.newPass')}
 															value={field.state.value}
 															onChange={(e) => field.handleChange(e.target.value)}
 															className={!field.state.meta.isValid ? 'bg-red-500/20' : ''}
@@ -327,7 +327,7 @@ export const Route = createFileRoute('/account/')({
 														<FormInput
 															type="password"
 															id={field.name}
-															placeholder={t('formFields.confirmPassword')}
+															placeholder={t('formFields.confirmNewPass')}
 															value={field.state.value}
 															onChange={(e) => field.handleChange(e.target.value)}
 															className={!field.state.meta.isValid ? 'bg-red-500/20' : ''}

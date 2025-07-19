@@ -105,6 +105,7 @@ const Breadcrumbs = () => {
 											types: ['scale-up']
 										}}
 									>
+										{/* @ts-expect-error */}
 										{t(`breadcrumbs.${translationKey}`)}
 									</Link>
 								)}
