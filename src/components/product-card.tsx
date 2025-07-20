@@ -3,8 +3,8 @@ import { Link } from '@tanstack/react-router';
 import { memo, useState } from 'react';
 import eyeIcon from '@/assets/fill-eye.svg';
 import heartIcon from '@/assets/fill-heart.svg';
-import emptyStar from '@/assets/star-empty.svg';
-import filledStar from '@/assets/star-filled.svg';
+import EmptyStar from '@/assets/star-empty.svg?react';
+import FilledStar from '@/assets/star-filled.svg?react';
 import type { Product } from '@/utils/utils';
 import CartButton from './cart-button';
 import { WishlistButton } from './wishlist-button';
@@ -17,11 +17,11 @@ const ProductCard = memo(
 			<div className="group/card w-[300px] min-w-[300px]">
 				<div className="relative overflow-clip rounded-lg">
 					{discount && (
-						<span className="absolute top-3 left-3 px-4 py-1 text-sm font-light rounded-sm text-skin-white bg-skin-secondary-2">
+						<span className="absolute top-3 left-3 z-10 px-4 py-1 text-sm font-light text-white rounded-sm bg-skin-secondary-2">
 							-{discount}%
 						</span>
 					)}
-					<div
+					<figure
 						className="max-[270px] flex h-[250px] items-center justify-center bg-skin-secondary"
 						style={{
 							viewTransitionName: `product-${id}-picture`
@@ -32,8 +32,8 @@ const ProductCard = memo(
 							src={imageUrl ? imageUrl : ''}
 							alt={productName}
 						/>
-					</div>
-					<div className="flex absolute top-0 right-0 flex-col gap-2 p-3">
+					</figure>
+					<div className="flex absolute top-0 right-0 flex-col gap-2 items-center p-3">
 						<button type="button" title="Watch" className={cn('p-2 rounded-full duration-150 group')}>
 							<img
 								src={eyeIcon}
@@ -44,7 +44,7 @@ const ProductCard = memo(
 						<WishlistButton
 							productId={id}
 							productName={productName}
-							className={cn('p-2 rounded-full duration-150 group', '')}
+							className={cn('block p-0 rounded-full duration-150 group aspect-square', '')}
 							title="Wishlist"
 						>
 							<img
@@ -72,7 +72,7 @@ const ProductCard = memo(
 						types: ['scale-up']
 					}}
 				>
-					<h2 className="text-lg font-medium">{productName}</h2>
+					<h2 className="mt-2 text-lg font-medium">{productName}</h2>
 					<p className="font-medium text-skin-secondary-2">
 						{price ? (
 							discount ? (
@@ -83,16 +83,17 @@ const ProductCard = memo(
 							) : (
 								<span>${price}</span>
 							)
-						) : null}
-						{}
+						) : (
+							<span>Unavailable</span>
+						)}
 					</p>
 					<div className="flex gap-2 justify-start items-center">
 						<div className="flex gap-1">
 							{[...Array(rating)].map((_, i) => (
-								<img key={i} src={filledStar} alt="star" className="w-4 h-4" />
+								<FilledStar key={i} className="w-4 h-4" />
 							))}
 							{[...Array(5 - (rating || 0))].map((_, i) => (
-								<img key={i} src={emptyStar} alt="empty star" className="w-4 h-4" />
+								<EmptyStar key={i} className="w-4 h-4 fill-skin-secondary" />
 							))}
 						</div>
 						{reviews && <span className="text-skin-text-2">({reviews})</span>}
