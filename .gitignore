@@ -8,3 +8,8 @@ count.txt
 .tanstack
 .cursor
 tailwind.config.*
+
+# wrangler files
+
+.wrangler
+.dev.vars*

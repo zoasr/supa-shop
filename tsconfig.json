@@ -1,11 +1,21 @@
 {
-	"include": ["**/*.ts", "**/*.tsx"],
+	"include": [
+		"**/*.ts",
+		"**/*.tsx"
+	],
 	"compilerOptions": {
 		"target": "ES2022",
 		"jsx": "react-jsx",
 		"module": "ESNext",
-		"lib": ["ES2022", "DOM", "DOM.Iterable"],
-		"types": ["vite/client"],
+		"lib": [
+			"ES2022",
+			"DOM",
+			"DOM.Iterable"
+		],
+		"types": [
+			"vite/client",
+			"./worker-configuration.d.ts"
+		],
 		/* Bundler mode */
 		"moduleResolution": "bundler",
 		"allowImportingTsExtensions": true,
@@ -20,11 +30,21 @@
 		"noUncheckedSideEffectImports": true,
 		"baseUrl": ".",
 		"paths": {
-			"@/*": ["src/*"],
-			"@/components/*": ["src/components/*"],
-			"@/routes/*": ["src/routes/*"],
-			"@/assets/*": ["src/assets/*"],
-			"$/*": ["$/*"]
+			"@/*": [
+				"src/*"
+			],
+			"@/components/*": [
+				"src/components/*"
+			],
+			"@/routes/*": [
+				"src/routes/*"
+			],
+			"@/assets/*": [
+				"src/assets/*"
+			],
+			"$/*": [
+				"$/*"
+			]
 		}
 	}
 }
