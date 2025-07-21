@@ -14,7 +14,7 @@ const Products = () => {
 	if (products instanceof Error || categories instanceof Error) return null;
 	return (
 		<>
-			<ul className="flex overflow-auto gap-4 px-8 py-4 mb-8 w-full scrollable mask-[linear-gradient(90deg,transparent_1%,black_5%,black,black,black_95%,transparent)]">
+			<ul className="flex overflow-auto gap-4 px-16 py-4 mb-8 w-full scrollable mask-[linear-gradient(90deg,transparent_1%,black_5%,black,black,black_95%,transparent)]">
 				{categories?.map((c: string | null) => (
 					<li key={c}>
 						<Link
@@ -37,7 +37,7 @@ const Products = () => {
 };
 
 const SearchSchema = z.object({
-	category: z.string()
+	category: z.string().optional()
 });
 
 export const Route = createFileRoute('/products/')({

@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import CategoryCamera from '@/assets/Category-Camera.svg?react';
@@ -12,7 +13,7 @@ import SectionLabel from './section-label';
 
 const Category = ({ label, component: Component }: { label: string; component: React.ElementType }) => {
 	return (
-		<div className="group flex cursor-pointer flex-col items-center gap-4 rounded-lg bg-transparent px-14 py-4 text-center ring-2 ring-black/30 transition-all duration-75 hover:bg-skin-secondary-2 hover:text-skin-text hover:ring-0">
+		<div className="flex flex-col gap-4 items-center px-14 py-4 text-center bg-transparent rounded-lg ring-2 transition-all duration-75 cursor-pointer group ring-black/30 hover:bg-skin-secondary-2 hover:text-skin-text hover:ring-0">
 			<Component />
 			<p className="text-xl font-medium">{label}</p>
 		</div>
@@ -24,26 +25,32 @@ const Categories = () => {
 	const categories = [
 		{
 			label: t('categories.phones'),
+			category: 'Phones',
 			component: CategoryCellPhone
 		},
 		{
 			label: t('categories.gaming'),
+			category: 'Gaming',
 			component: CategoryGamepad
 		},
 		{
 			label: t('categories.camera'),
+			category: 'Camera',
 			component: CategoryCamera
 		},
 		{
 			label: t('categories.computers'),
+			category: 'Computers',
 			component: CategoryComputer
 		},
 		{
 			label: t('categories.headphones'),
+			category: 'Headphones',
 			component: CategoryHeadphone
 		},
 		{
 			label: t('categories.watches'),
+			category: 'Watches',
 			component: CategorySmartWatch
 		}
 	];
@@ -51,11 +58,11 @@ const Categories = () => {
 		<section className="my-10 border-b-2 border-solid border-skin-secondary" dir={t('dir')}>
 			<div className="container mx-auto">
 				<SectionLabel title={t('categories.label')} />
-				<div className="flex w-full flex-col items-center justify-between gap-4 md:flex-row">
+				<div className="flex flex-col gap-4 justify-between items-center w-full md:flex-row">
 					<h1 className="text-5xl font-medium">{t('categories.title')}</h1>
 					<div className="flex gap-2" dir={'ltr'}>
 						<button
-							className="rounded-full bg-skin-secondary p-4"
+							className="p-4 rounded-full bg-skin-secondary"
 							onClick={() => {
 								carouselRef.current?.scrollBy({
 									left: -200,
@@ -66,7 +73,7 @@ const Categories = () => {
 							<ArrowLeft />
 						</button>
 						<button
-							className="rounded-full bg-skin-secondary p-4"
+							className="p-4 rounded-full bg-skin-secondary"
 							onClick={() => {
 								carouselRef.current?.scrollBy({
 									left: 200,
@@ -78,9 +85,11 @@ const Categories = () => {
 						</button>
 					</div>
 				</div>
-				<div ref={carouselRef} className="my-8 flex gap-4 overflow-x-auto overflow-y-visible p-4">
+				<div ref={carouselRef} className="flex overflow-x-auto overflow-y-visible gap-4 p-4 my-8">
 					{categories.map((category) => (
-						<Category key={category.label} {...category} />
+						<Link key={category.category} to="/products" search={{ category: category.category }}>
+							<Category {...category} />
+						</Link>
 					))}
 				</div>
 			</div>
