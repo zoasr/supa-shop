@@ -1,6 +1,6 @@
 import { type AuthError, createClient, type PostgrestError, type User } from '@supabase/supabase-js';
 import type { Database } from './database.types';
-import type { CartItem, ProfileForm } from './utils';
+import type { CartItem, Product, ProfileForm } from './utils';
 
 const supabaseUrl = import.meta.env.VITE_PROJECT_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
@@ -44,6 +44,40 @@ export const getProducts = async (limit?: number) => {
 export const getProduct = async (id: number) => {
 	const response = await supabase.from('products').select('*').eq('id', id).single();
 
+	if (response.error) {
+		return response.error;
+	}
+	if (response.data) {
+		return response.data;
+	}
+	return null;
+};
+
+export const getAllCategories = async () => {
+	const response = await supabase.from('products').select('category');
+	if (response.error) {
+		return response.error;
+	}
+	if (response.data) {
+		const distinctCategories = [
+			...new Set(response.data.map((product: Pick<Product, 'category'>) => product?.category))
+		];
+		return distinctCategories;
+	}
+	return null;
+};
+
+export const getProductsByCategory = async (category: string = 'all') => {
+	if (category === 'all') {
+		const response = await supabase.from('products').select('*');
+		if (response.error) {
+			return response.error;
+		}
+		if (response.data) {
+			return response.data;
+		}
+	}
+	const response = await supabase.from('products').select('*').eq('category', category);
 	if (response.error) {
 		return response.error;
 	}
