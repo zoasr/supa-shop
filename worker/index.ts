@@ -1,12 +1,25 @@
+export interface Env {
+	VITE_PROJECT_URL: string;
+	VITE_SUPABASE_KEY: string;
+}
 export default {
-  fetch(request) {
-    const url = new URL(request.url);
+	async fetch(_, env) {
+		// const url = new URL(request.url);
+        const response = await fetch(
+            `${env.VITE_PROJECT_URL}/rest/v1/products?select=category`,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    apikey: env.VITE_SUPABASE_KEY,
+                },
+            }
+        );
+        if (response.ok) {
+            console.log(`hit the supabase ${env.VITE_PROJECT_URL} database successfully`);
+        }
 
-    if (url.pathname.startsWith("/api/")) {
-      return Response.json({
-        name: "Cloudflare",
-      });
-    }
-	return new Response(null, { status: 404 });
-  },
+        return Response.json({
+            message: `hit the supabase ${env.VITE_PROJECT_URL} database successfully`,
+        });
+	},
 } satisfies ExportedHandler<Env>;

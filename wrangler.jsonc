@@ -8,10 +8,18 @@
 	"main": "worker/index.ts",
 	"compatibility_date": "2025-07-19",
 	"assets": {
-		"not_found_handling": "single-page-application"
+		"not_found_handling": "single-page-application",
+		"run_worker_first": [
+			"/cron/*"
+		]
 	},
 	"observability": {
 		"enabled": true
+	},
+	"triggers": {
+		"crons": [
+			"0 0 * * SUN"
+		]
 	},
 	/**
 	 * Smart Placement
