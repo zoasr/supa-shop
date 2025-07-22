@@ -7,6 +7,8 @@ import ReactDOM from 'react-dom/client';
 import { routeTree } from './routeTree.gen';
 
 import './styles.css';
+import ErrorComponent from './components/error-component.tsx';
+import NotFound from './components/not-found.tsx';
 import reportWebVitals from './reportWebVitals.ts';
 
 // Create a new router instance
@@ -17,7 +19,9 @@ const router = createRouter({
 	scrollRestoration: true,
 	defaultStructuralSharing: true,
 	defaultPreloadStaleTime: 30_000,
-	defaultStaleTime: 30_000
+	defaultStaleTime: 30_000,
+	defaultNotFoundComponent: NotFound,
+	defaultErrorComponent: (props) => <ErrorComponent {...props} />
 });
 
 // Register the router instance for type safety
