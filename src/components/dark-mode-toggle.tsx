@@ -1,3 +1,4 @@
+import { Button } from '$/components/ui/button';
 import { Moon, Sun } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useThemeStore } from '@/store/theme';
@@ -8,10 +9,10 @@ const DarkModeToggle = () => {
 	const setIsDarkMode = useThemeStore((selector) => selector.toggleDarkMode);
 
 	return (
-		<button onClick={setIsDarkMode} className="flex gap-2 justify-between p-2 rounded-sm">
-			{isDarkMode ? <Moon className="text-foreground" /> : <Sun className="text-foreground" />}
+		<Button variant="ghost" onClick={setIsDarkMode} className="flex gap-2 justify-between p-2 !text-lg rounded-sm">
+			{isDarkMode ? <Moon className="text-foreground size-6" /> : <Sun className="text-foreground size-6" />}
 			{isDarkMode ? t('header.theme.dark') : t('header.theme.light')}
-		</button>
+		</Button>
 	);
 };
 
