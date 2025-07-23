@@ -142,7 +142,7 @@ function Page() {
 						<h1 className="text-3xl font-semibold">{t('wishlist.justForYou')}</h1>
 					</div>
 					<div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] place-items-center gap-4">
-						{isError && <ErrorComponent error={error} />}
+						{isError && <ErrorComponent error={error} reset={() => router.invalidate()} />}
 						{isPending && <Loader className="animate-spin size-20" />}
 						{Array.isArray(products) &&
 							!isError &&

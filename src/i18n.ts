@@ -127,7 +127,11 @@ const headerTranslation = {
 			'header.navbar.about': 'About',
 			'header.navbar.contact': 'Contact',
 			'header.navbar.signup': 'Sign Up',
-			'header.search.placeholder': 'What are you looking for?'
+			'header.search.placeholder': 'What are you looking for?',
+			'header.dropdown.account': 'Manage My Account',
+			'header.dropdown.logout': 'Logout',
+			'header.dropdown.orders': 'My Orders',
+			'header.dropdown.reviews': 'My reviews'
 		}
 	},
 	ar: {
@@ -140,7 +144,11 @@ const headerTranslation = {
 			'header.navbar.about': 'عنا',
 			'header.navbar.contact': 'اتصل بنا',
 			'header.navbar.signup': 'سجل',
-			'header.search.placeholder': 'ما الذي تبحث عنه؟'
+			'header.search.placeholder': 'ما الذي تبحث عنه؟',
+			'header.dropdown.account': 'ادارة حسابي',
+			'header.dropdown.logout': 'تسجيل خروج',
+			'header.dropdown.orders': 'طلباتي',
+			'header.dropdown.reviews': 'مراجعاتي'
 		}
 	}
 };
@@ -628,6 +636,13 @@ const commonTranslation = {
 		translation: {
 			common: {
 				processing: 'Processing...',
+				error: {
+					'404': '404 not found',
+					errorTitle: 'Error',
+					notFound: 'Your visited page not found. You may go home page.',
+					error: 'Something went wrong!',
+					back: 'Back to home page'
+				},
 				productAddedCart: 'Product {{productName}} added to cart',
 				productRemovedCart: 'Product {{productName}} removed from cart',
 				productErrorCart: 'Failed to add {{productName}} to cart',
@@ -641,6 +656,13 @@ const commonTranslation = {
 		translation: {
 			common: {
 				processing: 'جاري التحميل...',
+				error: {
+					'404': '404 غير موجود',
+					errorTitle: 'خطأ',
+					notFound: 'الصفحة التي تم طلبها غير موجودة. يمكنك الذهاب للصفحة الرئيسية.',
+					error: 'حدث خطأ!',
+					back: 'العودة للصفحة الرئيسية'
+				},
 				productAddedCart: 'تمت إضافة {{productName}} إلى السلة',
 				productRemovedCart: 'تم حذف {{productName}} من السلة',
 				productErrorCart: 'فشل إضافة {{productName}} إلى السلة',

@@ -7,6 +7,7 @@ import {
 import { cn } from '$/lib/utils';
 import { Link, useLoaderData, useRouter } from '@tanstack/react-router';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import logoutIcon from '@/assets/Icon-logout.svg';
 import reviewsIcon from '@/assets/Icon-Reviews.svg';
 import orderIcon from '@/assets/icon-mallbag.svg';
@@ -15,6 +16,7 @@ import { supabase } from '@/utils/supabase';
 
 const UserDropdown = () => {
 	const router = useRouter();
+	const { t } = useTranslation();
 	const [open, setOpen] = useState(false);
 	const handleChange = (open: boolean) => {
 		setOpen(open);
@@ -53,19 +55,19 @@ const UserDropdown = () => {
 				<Link to="/account">
 					<DropdownMenuItem className="flex gap-2 cursor-pointer focus:bg-skin-secondary-2 focus:text-white">
 						<UserIcon className="text-white size-8" />
-						Manage My Account
+						{t('header.dropdown.account')}
 					</DropdownMenuItem>
 				</Link>
 				<Link to="/account/orders">
 					<DropdownMenuItem className="flex gap-2 cursor-pointer focus:bg-skin-secondary-2 focus:text-white">
 						<img className="invert" src={orderIcon} alt="" />
-						My orders
+						{t('header.dropdown.orders')}
 					</DropdownMenuItem>
 				</Link>
 				<Link to="/account/reviews">
 					<DropdownMenuItem className="flex gap-2 cursor-pointer focus:bg-skin-secondary-2 focus:text-white">
 						<img className="invert" src={reviewsIcon} alt="" />
-						My reviews
+						{t('header.dropdown.reviews')}
 					</DropdownMenuItem>
 				</Link>
 				<button
@@ -77,7 +79,7 @@ const UserDropdown = () => {
 				>
 					<DropdownMenuItem className="flex gap-2 cursor-pointer focus:bg-skin-secondary-2 focus:text-white">
 						<img className="invert" src={logoutIcon} alt="" />
-						Logout
+						{t('header.dropdown.logout')}
 					</DropdownMenuItem>
 				</button>
 			</DropdownMenuContent>
