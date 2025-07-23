@@ -17,10 +17,10 @@ const TopCallout = () => {
 					</Link>
 				</span>
 				<LanguageChanger />
-				<button className="absolute top-2 right-2 text-xl" onClick={() => setOpen((p) => !p)}>
-					x
-				</button>
 			</div>
+			<button className="absolute top-2 right-2 text-xl" onClick={() => setOpen((p) => !p)}>
+				x
+			</button>
 		</div>
 	);
 };

@@ -1,16 +1,18 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '$/components/ui/select';
 import { useTranslation } from 'react-i18next';
-import i18n from '@/i18n';
+import type { Langs } from '@/i18n';
+import { useLangStore } from '@/store/lang';
 
-const items = ['en', 'ar'].map((lang) => ({
+const items: { label: string; value: Langs }[] = (['en', 'ar'] as const).map((lang) => ({
 	label: lang === 'en' ? 'English' : 'العربية',
 	value: lang
 }));
 const LanguageChanger = () => {
 	const { t } = useTranslation();
+	const toggleLang = useLangStore((state) => state.toggleLang);
 
 	return (
-		<Select onValueChange={(i) => i18n.changeLanguage(i)}>
+		<Select onValueChange={(i: Langs) => toggleLang(i)}>
 			<SelectTrigger className="w-[180px] !text-white border-white focus-visible:ring-white/50 focus-visible:border-border ">
 				<SelectValue placeholder={t('language')} />
 			</SelectTrigger>

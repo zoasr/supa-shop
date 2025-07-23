@@ -19,7 +19,9 @@ import { useTranslation } from 'react-i18next';
 import { Toaster } from 'sonner';
 import Footer from '@/components/footer';
 import Header from '@/components/Header';
+import i18n, { type Langs } from '@/i18n';
 import { usePlainCart } from '@/store/cart';
+import { useLangStore } from '@/store/lang';
 import { useThemeStore } from '@/store/theme';
 import { usePlainWishlist } from '@/store/wishlist';
 import { getProducts, getUserImage } from '@/utils/supabase';
@@ -58,7 +60,10 @@ export const Route = createRootRoute({
 		usePlainWishlist().actions.refreshWishlist();
 		usePlainCart().actions.refreshCart();
 		const localTheme = localStorage.getItem('theme') ?? 'light';
+		const localLang = (localStorage.getItem('lang') ?? 'en') as Langs;
+		useLangStore.setState(() => ({ lang: localLang }));
 		useThemeStore.setState(() => ({ isDarkMode: localTheme === 'dark' }));
+		i18n.changeLanguage(localLang);
 		if (localTheme === 'dark') {
 			document.documentElement.classList.add('dark');
 		}

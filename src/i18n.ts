@@ -1,4 +1,4 @@
-import i18n from 'i18next';
+import i18n, { type CustomTypeOptions } from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
 // the translations
@@ -733,5 +733,5 @@ i18n.use(initReactI18next) // passes i18n down to react-i18next
 		resources,
 		fallbackLng: 'en'
 	});
-
+export type Langs = keyof CustomTypeOptions['resources'];
 export default i18n;
