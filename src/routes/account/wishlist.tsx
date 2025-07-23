@@ -135,7 +135,7 @@ function Page() {
 								types: ['slide-left']
 							}}
 						>
-							{t('wishlist.seeAll')}
+							<Button variant="outline">{t('wishlist.seeAll')}</Button>
 						</Link>
 					</div>
 					<div className="flex flex-col gap-4 justify-between items-center w-full md:flex-row">

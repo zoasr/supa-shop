@@ -105,21 +105,21 @@ export const Route = createFileRoute('/account/')({
 			}
 		});
 		return (
-			<div className="container p-4 mx-auto">
+			<div className="container mx-auto">
 				<h1 className="mb-6 text-3xl font-bold">{t('accountPage.title')}</h1>
 				<div className="flex flex-col gap-6 md:flex-row">
-					<aside dir={t('dir')} className="w-full md:w-1/4">
+					<aside dir={t('dir')} className="w-full text-center md:w-1/4 sm:text-start">
 						<nav>
-							<ul>
-								<h1 className="text-base font-medium text-start text-skin-text-2">
+							<ul className="space-y-4">
+								<h1 className="text-base font-medium text-center sm:text-start text-skin-text-2">
 									{t('accountNav.title')}
 								</h1>
-								<li className="mb-2 ms-9 text-skin-text-2/50">
+								<li className="m-0 mb-2 sm:ms-9 text-skin-text-2/50">
 									<Link to="/account" className="hover:underline [&.active]:text-skin-secondary-2">
 										{t('accountNav.profile')}
 									</Link>
 								</li>
-								<li className="mb-2 ms-9 text-skin-text-2/50">
+								<li className="m-0 mb-2 sm:ms-9 text-skin-text-2/50">
 									<Link
 										to="/account/orders"
 										className="hover:underline [&.active]:text-skin-secondary-2"
@@ -127,10 +127,10 @@ export const Route = createFileRoute('/account/')({
 										{t('accountNav.orders')}
 									</Link>
 								</li>
-								<h1 className="text-base font-medium text-start text-skin-text-2">
+								<h1 className="text-base font-medium text-center sm:text-start text-skin-text-2">
 									{t('accountNav.wishlist.title')}
 								</h1>
-								<li className="mb-2 ms-9 text-skin-text-2/50">
+								<li className="m-0 mb-2 sm:ms-9 text-skin-text-2/50">
 									<Link
 										to="/account/wishlist"
 										className="hover:underline [&.active]:text-skin-secondary-2"
@@ -138,7 +138,7 @@ export const Route = createFileRoute('/account/')({
 										{t('accountNav.wishlist')}
 									</Link>
 								</li>
-								<li className="mb-2 ms-9 text-skin-text-2/50">
+								<li className="m-0 mb-2 sm:ms-9 text-skin-text-2/50">
 									<Link
 										to="/account/reviews"
 										className="hover:underline [&.active]:text-skin-secondary-2"
@@ -347,7 +347,7 @@ export const Route = createFileRoute('/account/')({
 								</div>
 							)}
 
-							<div className="flex justify-end pt-6 space-x-4">
+							<div className="flex flex-col-reverse justify-end pt-6 space-x-4 sm:flex-row">
 								<button
 									type="button"
 									className="px-6 py-3 rounded-sm text-skin-text-2 hover:bg-skin-button-2/20 focus:ring-2 focus:ring-skin-secondary-2 focus:ring-offset-2 focus:outline-none"

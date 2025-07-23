@@ -50,30 +50,36 @@ const UserDropdown = () => {
 				)}
 			</DropdownMenuTrigger>
 			<DropdownMenuContent className="text-white border-none filter backdrop-blur-xl bg-black/50">
-				<DropdownMenuItem className="flex gap-2 focus:bg-skin-secondary-2">
-					<UserIcon className="text-white size-8" />
-					{/* <img className="invert" src={userIcon} alt="" /> */}
-					<Link to="/account">Manage My Account</Link>
-				</DropdownMenuItem>
-				<DropdownMenuItem className="flex gap-2 focus:bg-skin-secondary-2">
-					<img className="invert" src={orderIcon} alt="" />
-					<Link to="/account/orders">My orders</Link>
-				</DropdownMenuItem>
-				<DropdownMenuItem className="flex gap-2 focus:bg-skin-secondary-2">
-					<img className="invert" src={reviewsIcon} alt="" />
-					<Link to="/account/reviews">My reviews</Link>
-				</DropdownMenuItem>
-				<DropdownMenuItem className="flex gap-2 focus:bg-skin-secondary-2">
-					<img className="invert" src={logoutIcon} alt="" />
-					<button
-						onClick={() => {
-							supabase.auth.signOut();
-							router.invalidate();
-						}}
-					>
+				<Link to="/account">
+					<DropdownMenuItem className="flex gap-2 cursor-pointer focus:bg-skin-secondary-2 focus:text-white">
+						<UserIcon className="text-white size-8" />
+						Manage My Account
+					</DropdownMenuItem>
+				</Link>
+				<Link to="/account/orders">
+					<DropdownMenuItem className="flex gap-2 cursor-pointer focus:bg-skin-secondary-2 focus:text-white">
+						<img className="invert" src={orderIcon} alt="" />
+						My orders
+					</DropdownMenuItem>
+				</Link>
+				<Link to="/account/reviews">
+					<DropdownMenuItem className="flex gap-2 cursor-pointer focus:bg-skin-secondary-2 focus:text-white">
+						<img className="invert" src={reviewsIcon} alt="" />
+						My reviews
+					</DropdownMenuItem>
+				</Link>
+				<button
+					onClick={() => {
+						supabase.auth.signOut();
+						router.invalidate();
+					}}
+					className="w-full"
+				>
+					<DropdownMenuItem className="flex gap-2 cursor-pointer focus:bg-skin-secondary-2 focus:text-white">
+						<img className="invert" src={logoutIcon} alt="" />
 						Logout
-					</button>
-				</DropdownMenuItem>
+					</DropdownMenuItem>
+				</button>
 			</DropdownMenuContent>
 		</DropdownMenu>
 	);

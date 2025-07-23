@@ -39,12 +39,17 @@ const Login = () => {
 		}
 	};
 	return (
-		<main className="my-10 flex max-w-[1400px] flex-col-reverse justify-between gap-4 px-8 lg:flex-row">
+		<section
+			aria-labelledby="login-title"
+			className="my-10 flex max-w-[1400px] flex-col-reverse justify-between gap-4  lg:flex-row"
+		>
 			<div className="h-[100%] w-full lg:w-1/2">
 				<img src={sideImage} alt="side-image" className="h-[100%] w-[100%] object-cover" />
 			</div>
-			<form className="flex flex-col gap-4 justify-center px-8 w-full lg:w-1/2" onSubmit={handleSubmit}>
-				<h1 className="text-4xl font-medium">{t('loginPage.title')}</h1>
+			<form className="flex flex-col gap-4 justify-center w-full lg:w-1/2" onSubmit={handleSubmit}>
+				<h1 id="login-title" className="text-4xl font-medium">
+					{t('loginPage.title')}
+				</h1>
 				<p>{t('loginPage.details')}</p>
 				<input
 					className="py-4 rounded-b-md border-b-2 transition-all duration-75 outline-none focus-visible:border-b-4"
@@ -73,7 +78,7 @@ const Login = () => {
 					</Link>{' '}
 				</p>
 			</form>
-		</main>
+		</section>
 	);
 };
 

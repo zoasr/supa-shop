@@ -11,7 +11,7 @@ const LanguageChanger = () => {
 
 	return (
 		<Select onValueChange={(i) => i18n.changeLanguage(i)}>
-			<SelectTrigger className="w-[180px] bg-transparent text-skin-primary border-skin-primary">
+			<SelectTrigger className="w-[180px] !text-white border-white focus-visible:ring-white/50 focus-visible:border-border ">
 				<SelectValue placeholder={t('language')} />
 			</SelectTrigger>
 			<SelectContent>

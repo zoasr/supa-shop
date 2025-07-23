@@ -10,7 +10,7 @@ const Page = () => {
 	const { t } = useTranslation();
 	return (
 		<div className="container mx-auto grid gap-4 grid-cols-1 md:grid-cols-[repeat(auto-fit,340px_minmax(340px,auto))]">
-			<aside className="grid gap-8 h-min p-10 text-skin-text-2 shadow-[0_0_10px_0_rgba(0,0,0,0.1)] rounded-sm">
+			<aside className="grid gap-8 h-min sm:p-10 text-skin-text-2 shadow-[0_0_10px_0_rgba(0,0,0,0.1)] rounded-sm">
 				<section className="space-y-4">
 					<h1 className="flex gap-4 items-center text-lg font-semibold">
 						<span className="p-2 text-white rounded-full bg-skin-secondary-2">
@@ -33,7 +33,7 @@ const Page = () => {
 					<p>{t('contactPage.aside.emails')}</p>
 				</section>
 			</aside>
-			<main className="@container p-10 text-skin-text-2 shadow-[0_0_10px_0_rgba(0,0,0,0.1)] rounded-sm">
+			<main className="@container sm:p-10 text-skin-text-2 shadow-[0_0_10px_0_rgba(0,0,0,0.1)] rounded-sm">
 				<form className="h-full grid grid-cols-3 grid-rows-[min-content_repeat(3,minmax(0,auto))_min-content] gap-8">
 					<FormInput
 						required

@@ -53,10 +53,15 @@ const Signup = () => {
 		}
 	};
 	return (
-		<main className="my-10 flex max-w-[1400px] flex-col-reverse justify-between gap-8 px-8 md:flex-row">
+		<section
+			aria-labelledby="signup-title"
+			className="my-10 flex max-w-[1400px] flex-col-reverse justify-between gap-8  md:flex-row"
+		>
 			<img src={sideImage} alt="side-image" />
-			<form className="flex flex-col gap-4 justify-center px-8" onSubmit={handleSubmit}>
-				<h1 className="text-4xl font-medium">{t('signupPage.title')}</h1>
+			<form className="flex flex-col gap-4 justify-center" onSubmit={handleSubmit}>
+				<h1 id="signup-title" className="text-4xl font-medium">
+					{t('signupPage.title')}
+				</h1>
 				<p>{t('signupPage.details')}</p>
 				<input
 					className="py-4 rounded-b-md border-b-2 transition-all duration-75 outline-none focus-visible:border-b-4"
@@ -92,7 +97,7 @@ const Signup = () => {
 					</Link>{' '}
 				</p>
 			</form>
-		</main>
+		</section>
 	);
 };
 export const Route = createLazyFileRoute('/signup')({
