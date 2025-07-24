@@ -18,7 +18,7 @@ const TopCallout = () => {
 				</span>
 				<LanguageChanger />
 			</div>
-			<button className="absolute top-2 right-2 text-xl" onClick={() => setOpen((p) => !p)}>
+			<button className="absolute top-2 right-2 text-xl group-data-[open=false]:invisible group-data-[open=false]:pointer-events-none" onClick={() => setOpen((p) => !p)}>
 				x
 			</button>
 		</div>
