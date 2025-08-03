@@ -464,9 +464,9 @@ const accountPageTranslation = {
 				email: 'Email',
 				address: 'Address',
 				passwordTitle: 'Change Password',
-				currPass: 'Password',
+				currPass: 'Current Password',
 				newPass: 'New Password',
-				confirmNewPass: 'Confirm Password',
+				confirmNewPass: 'Confirm New Password',
 				buttons: {
 					save: 'Save Changes',
 					cancel: 'Cancel'
@@ -494,9 +494,9 @@ const accountPageTranslation = {
 				email: 'البريد الالكتروني',
 				address: 'العنوان',
 				passwordTitle: 'تغيير كلمة المرور',
-				currPass: 'كلمة المرور',
+				currPass: 'كلمة المرور الحالية',
 				newPass: 'كلمة المرور الجديدة',
-				confirmNewPass: 'تاكيد كلمة المرور',
+				confirmNewPass: 'تاكيد كلمة المرور الجديدة',
 				buttons: {
 					save: 'حفظ التغييرات',
 					cancel: 'الغاء'
