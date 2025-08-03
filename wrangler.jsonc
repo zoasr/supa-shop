@@ -37,7 +37,7 @@
 	 * https://developers.cloudflare.com/workers/wrangler/configuration/#environment-variables
 	 */
 	"vars": {
-		"VITE_SUPABASE_URL": "https: //vgnekzuyqfjdtmenjfbt.supabase.co",
+		"VITE_PROJECT_URL": "https://vgnekzuyqfjdtmenjfbt.supabase.co",
 		"VITE_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZnbmVrenV5cWZqZHRtZW5qZmJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk3MjMyMTcsImV4cCI6MjA2NTI5OTIxN30.PjrxUUNliGY4irCg9EaVMteAa6yrPzwIgy-JV4eceqc",
 	},
 	/**
