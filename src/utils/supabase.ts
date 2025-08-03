@@ -289,3 +289,17 @@ export const updateProfile: (profile: ProfileForm) => Promise<AuthError | Postgr
 	}
 	return data;
 };
+
+export const updateUser = async ({ password, email }: { password?: string; email?: string }) => {
+	const user = await getUser();
+	if (user instanceof Error) {
+		return user;
+	}
+
+	// return new Error('Not implemented');
+	const { data, error } = await supabase.auth.updateUser({ password, email });
+	if (error) {
+		return error;
+	}
+	return data;
+};

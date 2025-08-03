@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { FormInput } from '@/components/form-input';
-import { getProfile, getUser, isLoggedIn, updateProfile } from '@/utils/supabase';
+import { getProfile, getUser, isLoggedIn, updateProfile, updateUser } from '@/utils/supabase';
 
 interface FormValues {
 	firstName: string;
@@ -100,8 +100,22 @@ export const Route = createFileRoute('/account/')({
 				});
 				if (res instanceof Error) {
 					toast.error(res.message);
+					return;
 				}
-				toast.success('Profile updated successfully');
+				const userUpdatePromises = [];
+				if (value.currPass && value.newPass && value.confirmNewPass && value.newPass === value.confirmNewPass) {
+					userUpdatePromises.push(updateUser({ password: value.newPass }));
+				}
+				if (profile.email !== value.email) {
+					userUpdatePromises.push(updateUser({ email: value.email }));
+				}
+				const userUpdateResults = await Promise.all(userUpdatePromises);
+				const userUpdateErrors = userUpdateResults.filter((result) => result instanceof Error);
+				if (userUpdateErrors.length > 0) {
+					toast.error(userUpdateErrors.map((error) => error.message).join('\n'));
+				} else if (userUpdateResults.length > 0) {
+					toast.success('User updated successfully');
+				}
 			}
 		});
 		return (
