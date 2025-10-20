@@ -2,7 +2,7 @@ import { Input } from '$/components/ui/input';
 import { Popover, PopoverAnchor, PopoverContent } from '$/components/ui/popover';
 import { Link, useLoaderData, useNavigate } from '@tanstack/react-router';
 import Fuse from 'fuse.js';
-import { memo, useCallback, useMemo, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import SearchIcon from '@/assets/icon-search.svg?react';
 import { debounce, type Product, type Products } from '@/utils/utils';
@@ -17,8 +17,11 @@ const SearchProduct = memo<SearchProductProps>(({ product, setFoundProducts, isF
 	const navigate = useNavigate();
 	const linkRef = useRef<HTMLAnchorElement>(null);
 
+	useEffect(() => {
+		if (isFocused) linkRef.current?.focus();
+	}, [isFocused]);
+
 	if (!product || product instanceof Error) return null;
-	if (isFocused) linkRef.current?.focus();
 	return (
 		<Link
 			to="/products/$productId"
@@ -63,13 +66,16 @@ const Search = () => {
 	const { t } = useTranslation();
 	const { products } = useLoaderData({ from: '__root__' });
 	const inputRef = useRef<HTMLInputElement>(null);
-	const [focusdIndex, setFocusdIndex] = useState(-1);
+	const [focusedIndex, setFocusedIndex] = useState(-1);
 	const [foundProducts, setFoundProducts] = useState<Products>([]);
 	const fuse = useMemo(() => {
 		if (!products || products instanceof Error) {
 			return new Fuse([]);
 		}
-		return new Fuse(products, { keys: ['productName', 'productDescription'], threshold: 0.3 });
+		return new Fuse(products, {
+			keys: ['productName', 'productDescription'],
+			threshold: 0.3
+		});
 	}, [products]);
 	const searchProducts = debounce(
 		useCallback(
@@ -94,10 +100,15 @@ const Search = () => {
 			inputRef.current?.focus();
 		}
 		if (e.key === 'ArrowUp') {
-			setFocusdIndex((prev) => (prev === null ? length - 1 : (prev - 1) % length));
+			e.preventDefault();
+			setFocusedIndex((prev) => (prev === -1 ? length - 1 : (prev - 1 + length) % length));
 		}
 		if (e.key === 'ArrowDown') {
-			setFocusdIndex((prev) => (prev === null ? 0 : (prev + 1) % length));
+			e.preventDefault();
+			setFocusedIndex((prev) => (prev === -1 ? 0 : (prev + 1) % length));
+		}
+		if (e.key === 'ArrowDown') {
+			setFocusedIndex((prev) => (prev === -1 ? 0 : (prev + 1) % length));
 		}
 	};
 
@@ -138,12 +149,12 @@ const Search = () => {
 					avoidCollisions={true}
 					onKeyDown={handleKeyDown}
 				>
-					<div className="flex flex-col gap-2 border-3 !bg-background w-full max-w-[600px] h-[50vmin] overflow-y-scroll ">
+					<div className="flex flex-col gap-2 border-3 !bg-background w-[90vmin] max-w-[600px] h-[250px] overflow-y-scroll">
 						{foundProducts.map((product, idx) => (
 							<SearchProduct
 								key={product.id}
 								setFoundProducts={setFoundProducts}
-								isFocused={idx === focusdIndex}
+								isFocused={idx === focusedIndex}
 								product={product}
 							/>
 						))}
